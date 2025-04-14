@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -161,8 +161,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="view-dynamic-classes-styles-and-attributes"><a class="header" href="#view-dynamic-classes-styles-and-attributes">「view」: Dynamic Classes, Styles and Attributes</a></h1>
-<p>So far we’ve seen how to use the 「view」 macro to create event listeners and to
+                        <h1 id="view-dynamic-classes-styles-and-attributes"><a class="header" href="#view-dynamic-classes-styles-and-attributes">"view": Dynamic Classes, Styles and Attributes</a></h1>
+<p>So far we’ve seen how to use the "view" macro to create event listeners and to
 create dynamic text by passing a function (such as a signal) into the view.</p>
 <p>But of course there are other things you might want to update in your user interface.
 In this section, we’ll look at how to update classes, styles and attributes dynamically,
@@ -187,15 +187,15 @@ fn App() -&gt; impl IntoView {
 <p>So far, we’ve covered all of this in the previous chapter.</p>
 <h2 id="dynamic-classes"><a class="header" href="#dynamic-classes">Dynamic Classes</a></h2>
 <p>Now let’s say I’d like to update the list of CSS classes on this element dynamically.
-For example, let’s say I want to add the class 「red」 when the count is odd. I can
-do this using the 「class:」 syntax.</p>
+For example, let’s say I want to add the class "red" when the count is odd. I can
+do this using the "class:" syntax.</p>
 <pre><code class="language-rust">class:red=move || count.get() % 2 == 1</code></pre>
-<p>「class:」 attributes take</p>
+<p>"class:" attributes take</p>
 <ol>
-<li>the class name, following the colon (「red」)</li>
-<li>a value, which can be a 「bool」 or a function that returns a 「bool」</li>
+<li>the class name, following the colon ("red")</li>
+<li>a value, which can be a "bool」 or a function that returns a 「bool"</li>
 </ol>
-<p>When the value is 「true」, the class is added. When the value is 「false」, the class
+<p>When the value is "true」, the class is added. When the value is 「false", the class
 is removed. And if the value is a function that accesses a signal, the class will
 reactively update when the signal changes.</p>
 <p>Now every time I click the button, the text should toggle between red and black as
@@ -205,13 +205,13 @@ the number switches between even and odd.</p>
         *set_count.write() += 1;
     }
     // the class: syntax reactively updates a single class
-    // here, we'll set the 「red」 class when 「count」 is odd
+    // here, we'll set the "red」 class when 「count" is odd
     class:red=move || count.get() % 2 == 1
 &gt;
     "Click me"
 &lt;/button&gt;</code></pre>
 <blockquote>
-<p>If you’re following along, make sure you go into your 「index.html」 and add something like this:</p>
+<p>If you’re following along, make sure you go into your "index.html" and add something like this:</p>
 <pre><code class="language-html">&lt;style&gt;
   .red {
     color: red;
@@ -219,12 +219,12 @@ the number switches between even and odd.</p>
 &lt;/style&gt;
 </code></pre>
 </blockquote>
-<p>Some CSS class names can’t be directly parsed by the 「view」 macro, especially if they include a mix of dashes and numbers or other characters. In that case, you can use a tuple syntax: 「class=("name", value)」 still directly updates a single class.</p>
+<p>Some CSS class names can’t be directly parsed by the "view」 macro, especially if they include a mix of dashes and numbers or other characters. In that case, you can use a tuple syntax: 「class=("name", value)" still directly updates a single class.</p>
 <pre><code class="language-rust">class=("button-20", move || count.get() % 2 == 1)</code></pre>
 <p>The tuple syntax also allows specifying multiple classes under a single condition using an array as the first tuple element.</p>
 <pre><code class="language-rust">class=(["button-20", "rounded"], move || count.get() % 2 == 1)</code></pre>
 <h2 id="dynamic-styles"><a class="header" href="#dynamic-styles">Dynamic Styles</a></h2>
-<p>Individual CSS properties can be directly updated with a similar 「style:」 syntax.</p>
+<p>Individual CSS properties can be directly updated with a similar "style:" syntax.</p>
 <pre><code class="language-rust">let (count, set_count) = signal(0);
 
 view! {
@@ -232,9 +232,9 @@ view! {
         on:click=move |_| {
             *set_count.write() += 10;
         }
-        // set the 「style」 attribute
+        // set the "style" attribute
         style="position: absolute"
-        // and toggle individual CSS properties with 「style:」
+        // and toggle individual CSS properties with "style:"
         style:left=move || format!("{}px", count.get() + 100)
         style:background-color=move || format!("rgb({}, {}, 100)", count.get(), 100)
         style:max-width="400px"
@@ -251,17 +251,17 @@ an attribute causes it to update its value reactively. Let’s add another eleme
 to our view:</p>
 <pre><code class="language-rust">&lt;progress
     max="50"
-    // signals are functions, so 「value=count」 and 「value=move || count.get()」
+    // signals are functions, so "value=count」 and 「value=move || count.get()"
     // are interchangeable.
     value=count
 /&gt;</code></pre>
-<p>Now every time we set the count, not only will the 「class」 of the 「<button>」 be
-toggled, but the 「value」 of the 「<progress>」 bar will increase, which means that
+<p>Now every time we set the count, not only will the "class」 of the 「<button>" be
+toggled, but the "value」 of the 「<progress>" bar will increase, which means that
 our progress bar will move forward.</p>
 <h2 id="derived-signals"><a class="header" href="#derived-signals">Derived Signals</a></h2>
 <p>Let’s go one layer deeper, just for fun.</p>
 <p>You already know that we create reactive interfaces just by passing functions into
-the 「view」. This means that we can easily change our progress bar. For example,
+the "view". This means that we can easily change our progress bar. For example,
 suppose we want it to move twice as fast:</p>
 <pre><code class="language-rust">&lt;progress
     max="50"
@@ -285,13 +285,13 @@ using a <strong>derived signal</strong>: a closure that accesses a signal.</p>
 <p>Derived signals let you create reactive computed values that can be used in multiple
 places in your application with minimal overhead.</p>
 <p>Note: Using a derived signal like this means that the calculation runs once per
-signal change (when 「count()」 changes) and once per place we access 「double_count」;
+signal change (when "count()」 changes) and once per place we access 「double_count";
 in other words, twice. This is a very cheap calculation, so that’s fine.
 We’ll look at memos in a later chapter, which were designed to solve this problem
 for expensive calculations.</p>
 <blockquote>
 <h4 id="advanced-topic-injecting-raw-html"><a class="header" href="#advanced-topic-injecting-raw-html">Advanced Topic: Injecting Raw HTML</a></h4>
-<p>The 「view」 macro provides support for an additional attribute, 「inner_html」, which
+<p>The "view」 macro provides support for an additional attribute, 「inner_html", which
 can be used to directly set the HTML contents of any element, wiping out any other
 children you’ve given it. Note that this does <em>not</em> escape the HTML you provide. You
 should make sure that it only contains trusted input or that any HTML entities are
@@ -300,7 +300,7 @@ escaped, to prevent cross-site scripting (XSS) attacks.</p>
 view! {
   &lt;div inner_html=html/&gt;
 }</code></pre>
-<p><a href="https://docs.rs/leptos/latest/leptos/macro.view.html">Click here for the full 「view」 macros docs</a>.</p>
+<p><a href="https://docs.rs/leptos/latest/leptos/macro.view.html">Click here for the full "view" macros docs</a>.</p>
 </blockquote>
 <details id="admonition-live-example" class="admonition admonish-sandbox" role="note" aria-labelledby="admonition-live-example-title">
 <summary class="admonition-title">
@@ -338,7 +338,7 @@ fn App() -&gt; impl IntoView {
                 *set_count.write() += 1;
             }
             // the class: syntax reactively updates a single class
-            // here, we'll set the 「red」 class when 「count」 is odd
+            // here, we'll set the "red」 class when 「count" is odd
             class:red=move || count.get() % 2 == 1
             class=("button-20", move || count.get() % 2 == 1)
         &gt;
@@ -347,21 +347,21 @@ fn App() -&gt; impl IntoView {
         // NOTE: self-closing tags like &lt;br&gt; need an explicit /
         &lt;br/&gt;
 
-        // We'll update this progress bar every time 「count」 changes
+        // We'll update this progress bar every time "count" changes
         &lt;progress
             // static attributes work as in HTML
             max="50"
 
             // passing a function to an attribute
             // reactively sets that attribute
-            // signals are functions, so 「value=count」 and 「value=move || count.get()」
+            // signals are functions, so "value=count」 and 「value=move || count.get()"
             // are interchangeable.
             value=count
         &gt;
         &lt;/progress&gt;
         &lt;br/&gt;
 
-        // This progress bar will use 「double_count」
+        // This progress bar will use "double_count"
         // so it should move twice as fast!
         &lt;progress
             max="50"
@@ -444,6 +444,8 @@ fn main() {
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

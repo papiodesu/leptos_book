@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -162,11 +162,11 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="error-handling"><a class="header" href="#error-handling">Error Handling</a></h1>
-<p><a href="./06_control_flow.html">In the last chapter</a>, we saw that you can render 「Option<T>」:
-in the 「None」 case, it will render nothing, and in the 「Some(T)」 case, it will render 「T」
-(that is, if 「T」 implements 「IntoView」). You can actually do something very similar
-with a 「Result&lt;T, E&gt;」. In the 「Err(_)」 case, it will render nothing. In the 「Ok(T)」
-case, it will render the 「T」.</p>
+<p><a href="./06_control_flow.html">In the last chapter</a>, we saw that you can render "Option<T>":
+in the "None」 case, it will render nothing, and in the 「Some(T)」 case, it will render 「T"
+(that is, if "T」 implements 「IntoView"). You can actually do something very similar
+with a "Result&lt;T, E&gt;」. In the 「Err(_)」 case, it will render nothing. In the 「Ok(T)"
+case, it will render the "T".</p>
 <p>Let’s start with a simple component to capture a number input.</p>
 <pre><code class="language-rust">#[component]
 fn NumericInput() -&gt; impl IntoView {
@@ -186,17 +186,17 @@ fn NumericInput() -&gt; impl IntoView {
         &lt;/label&gt;
     }
 }</code></pre>
-<p>Every time you change the input, 「on_input」 will attempt to parse its value into a 32-bit
-integer (「i32」), and store it in our 「value」 signal, which is a 「Result&lt;i32, _&gt;」. If you
-type the number 「42」, the UI will display</p>
+<p>Every time you change the input, "on_input" will attempt to parse its value into a 32-bit
+integer ("i32」), and store it in our 「value」 signal, which is a 「Result&lt;i32, _&gt;". If you
+type the number "42", the UI will display</p>
 <pre><code>You entered 42
 </code></pre>
-<p>But if you type the string 「foo」, it will display</p>
+<p>But if you type the string "foo", it will display</p>
 <pre><code>You entered
 </code></pre>
-<p>This is not great. It saves us using 「.unwrap_or_default()」 or something, but it would be
+<p>This is not great. It saves us using ".unwrap_or_default()" or something, but it would be
 much nicer if we could catch the error and do something with it.</p>
-<p>You can do that, with the <a href="https://docs.rs/leptos/latest/leptos/error/fn.ErrorBoundary.html">「<ErrorBoundary/>」</a>
+<p>You can do that, with the <a href="https://docs.rs/leptos/latest/leptos/error/fn.ErrorBoundary.html">"<ErrorBoundary/>"</a>
 component.</p>
 <div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
 <div class="admonition-title">
@@ -206,20 +206,20 @@ component.</p>
 <a class="admonition-anchor-link" href="#admonition-note"></a>
 </div>
 <div>
-<p>People often try to point out that 「<input type="number">」 prevents you from typing a string
-like 「foo」, or anything else that's not a number. This is true in some browsers, but not in all!
+<p>People often try to point out that "<input type="number">" prevents you from typing a string
+like "foo", or anything else that's not a number. This is true in some browsers, but not in all!
 Moreover, there are a variety of things that can be typed into a plain number input that are not an
-「i32」: a floating-point number, a larger-than-32-bit number, the letter 「e」, and so on. The browser
+"i32」: a floating-point number, a larger-than-32-bit number, the letter 「e", and so on. The browser
 can be told to uphold some of these invariants, but browser behavior still varies: Parsing for yourself
 is important!</p>
 </div>
 </div>
-<h2 id=""><a class="header" href="#">「<ErrorBoundary/>」</a></h2>
-<p>An 「<ErrorBoundary/>」 is a little like the 「<Show/>」 component we saw in the last chapter.
-If everything’s okay—which is to say, if everything is 「Ok(<em>)」—it renders its children.
-But if there’s an 「Err(</em>)」 rendered among those children, it will trigger the
-「<ErrorBoundary/>」’s 「fallback」.</p>
-<p>Let’s add an 「<ErrorBoundary/>」 to this example.</p>
+<h2 id=""><a class="header" href="#">"<ErrorBoundary/>"</a></h2>
+<p>An "<ErrorBoundary/>」 is a little like the 「<Show/>" component we saw in the last chapter.
+If everything’s okay—which is to say, if everything is "Ok(<em>)"—it renders its children.
+But if there’s an "Err(</em>)" rendered among those children, it will trigger the
+"<ErrorBoundary/>」’s 「fallback".</p>
+<p>Let’s add an "<ErrorBoundary/>" to this example.</p>
 <pre><code class="language-rust">#[component]
 fn NumericInput() -&gt; impl IntoView {
         let (value, set_value) = signal(Ok(0));
@@ -254,27 +254,27 @@ fn NumericInput() -&gt; impl IntoView {
             &gt;
                 &lt;p&gt;
                     "You entered "
-                    // because 「value」 is 「Result&lt;i32, _&gt;」,
-                    // it will render the 「i32」 if it is 「Ok」,
+                    // because "value」 is 「Result&lt;i32, _&gt;",
+                    // it will render the "i32」 if it is 「Ok",
                     // and render nothing and trigger the error boundary
-                    // if it is 「Err」. It's a signal, so this will dynamically
-                    // update when 「value」 changes
+                    // if it is "Err". It's a signal, so this will dynamically
+                    // update when "value" changes
                     &lt;strong&gt;{value}&lt;/strong&gt;
                 &lt;/p&gt;
             &lt;/ErrorBoundary&gt;
         &lt;/label&gt;
     }
 }</code></pre>
-<p>Now, if you type 「42」, 「value」 is 「Ok(42)」 and you’ll see</p>
+<p>Now, if you type "42」, 「value」 is 「Ok(42)" and you’ll see</p>
 <pre><code>You entered 42
 </code></pre>
-<p>If you type 「foo」, value is 「Err(_)」 and the 「fallback」 will render. We’ve chosen to render
-the list of errors as a 「String」, so you’ll see something like</p>
+<p>If you type "foo」, value is 「Err(_)」 and the 「fallback" will render. We’ve chosen to render
+the list of errors as a "String", so you’ll see something like</p>
 <pre><code>Not a number! Errors:
 - cannot parse integer from empty string
 </code></pre>
 <p>If you fix the error, the error message will disappear and the content you’re wrapping in
-an 「<ErrorBoundary/>」 will appear again.</p>
+an "<ErrorBoundary/>" will appear again.</p>
 <details id="admonition-live-example" class="admonition admonish-sandbox" role="note" aria-labelledby="admonition-live-example-title">
 <summary class="admonition-title">
 <div id="admonition-live-example-title">
@@ -330,11 +330,11 @@ fn App() -&gt; impl IntoView {
             &gt;
                 &lt;p&gt;
                     "You entered "
-                    // because 「value」 is 「Result&lt;i32, _&gt;」,
-                    // it will render the 「i32」 if it is 「Ok」,
+                    // because "value」 is 「Result&lt;i32, _&gt;",
+                    // it will render the "i32」 if it is 「Ok",
                     // and render nothing and trigger the error boundary
-                    // if it is 「Err」. It's a signal, so this will dynamically
-                    // update when 「value」 changes
+                    // if it is "Err". It's a signal, so this will dynamically
+                    // update when "value" changes
                     &lt;strong&gt;{value}&lt;/strong&gt;
                 &lt;/p&gt;
             &lt;/ErrorBoundary&gt;
@@ -411,6 +411,8 @@ fn main() {
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

@@ -1,10 +1,10 @@
-# 「<Transition/>」
+# "<Transition/>"
 
-You’ll notice in the 「<Suspense/>」 example that if you keep reloading the data, it keeps flickering back to 「"Loading..."」. Sometimes this is fine. For other times, there’s [「<Transition/>」](https://docs.rs/leptos/latest/leptos/suspense/fn.Transition.html).
+You’ll notice in the "<Suspense/>」 example that if you keep reloading the data, it keeps flickering back to 「"Loading..."」. Sometimes this is fine. For other times, there’s [「<Transition/>"](https://docs.rs/leptos/latest/leptos/suspense/fn.Transition.html).
 
-「<Transition/>」 behaves exactly the same as 「<Suspense/>」, but instead of falling back every time, it only shows the fallback the first time. On all subsequent loads, it continues showing the old data until the new data are ready. This can be really handy to prevent the flickering effect, and to allow users to continue interacting with your application.
+"<Transition/>」 behaves exactly the same as 「<Suspense/>", but instead of falling back every time, it only shows the fallback the first time. On all subsequent loads, it continues showing the old data until the new data are ready. This can be really handy to prevent the flickering effect, and to allow users to continue interacting with your application.
 
-This example shows how you can create a simple tabbed contact list with 「<Transition/>」. When you select a new tab, it continues showing the current contact until the new data loads. This can be a much better user experience than constantly falling back to a loading message.
+This example shows how you can create a simple tabbed contact list with "<Transition/>". When you select a new tab, it continues showing the current contact until the new data loads. This can be a much better user experience than constantly falling back to a loading message.
 
 ```admonish sandbox title="Live example" collapsible=true
 
@@ -43,7 +43,7 @@ fn App() -> impl IntoView {
     let (tab, set_tab) = signal(0);
     let (pending, set_pending) = signal(false);
 
-    // this will reload every time 「tab」 changes
+    // this will reload every time "tab" changes
     let user_data = LocalResource::new(move || important_api_call(tab.get()));
 
     view! {
@@ -79,7 +79,7 @@ fn App() -> impl IntoView {
             // on subsequent reloads, the current child will
             // continue showing
             fallback=move || view! { <p>"Loading initial data..."</p> }
-            // this will be set to 「true」 whenever the transition is ongoing
+            // this will be set to "true" whenever the transition is ongoing
             set_pending
         >
             <p>

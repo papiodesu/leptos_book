@@ -8,19 +8,19 @@ or **uncontrolled** inputs.
 ## Controlled Inputs
 
 In a "controlled input," the framework controls the state of the input
-element. On every 「input」 event, it updates a local signal that holds the current
-state, which in turn updates the 「value」 prop of the input.
+element. On every "input" event, it updates a local signal that holds the current
+state, which in turn updates the "value" prop of the input.
 
 There are two important things to remember:
 
-1. The 「input」 event fires on (almost) every change to the element, while the
-   「change」 event fires (more or less) when you unfocus the input. You probably
-   want 「on:input」, but we give you the freedom to choose.
-2. The 「value」 _attribute_ only sets the initial value of the input, i.e., it
-   only updates the input up to the point that you begin typing. The 「value」
+1. The "input" event fires on (almost) every change to the element, while the
+   "change" event fires (more or less) when you unfocus the input. You probably
+   want "on:input", but we give you the freedom to choose.
+2. The "value" _attribute_ only sets the initial value of the input, i.e., it
+   only updates the input up to the point that you begin typing. The "value"
    _property_ continues updating the input after that. You usually want to set
-   「prop:value」 for this reason. (The same is true for 「checked」 and 「prop:checked」
-   on an 「<input type="checkbox">」.)
+   "prop:value」 for this reason. (The same is true for 「checked」 and 「prop:checked"
+   on an "<input type="checkbox">".)
 
 ```rust
 let (name, set_name) = signal("Controlled".to_string());
@@ -34,7 +34,7 @@ view! {
             set_name.set(ev.target().value());
         }
 
-        // the 「prop:」 syntax lets you update a DOM property,
+        // the "prop:" syntax lets you update a DOM property,
         // rather than an attribute.
         prop:value=name
     />
@@ -42,13 +42,13 @@ view! {
 }
 ```
 
-> #### Why do you need 「prop:value」?
+> #### Why do you need "prop:value"?
 >
 > Web browsers are the most ubiquitous and stable platform for rendering graphical user interfaces in existence. They have also maintained an incredible backwards compatibility over their three decades of existence. Inevitably, this means there are some quirks.
 >
-> One odd quirk is that there is a distinction between HTML attributes and DOM element properties, i.e., between something called an “attribute” which is parsed from HTML and can be set on a DOM element with 「.setAttribute()」, and something called a “property” which is a field of the JavaScript class representation of that parsed HTML element.
+> One odd quirk is that there is a distinction between HTML attributes and DOM element properties, i.e., between something called an “attribute” which is parsed from HTML and can be set on a DOM element with ".setAttribute()", and something called a “property” which is a field of the JavaScript class representation of that parsed HTML element.
 >
-> In the case of an 「<input value=...>」, setting the 「value」 _attribute_ is defined as setting the initial value for the input, and setting 「value」 _property_ sets its current value. It may be easier to understand this by opening 「about:blank」 and running the following JavaScript in the browser console, line by line:
+> In the case of an "<input value=...>」, setting the 「value」 _attribute_ is defined as setting the initial value for the input, and setting 「value」 _property_ sets its current value. It may be easier to understand this by opening 「about:blank" and running the following JavaScript in the browser console, line by line:
 >
 > ```js
 > // create an input and append it to the DOM
@@ -69,12 +69,12 @@ view! {
 >
 > Many other frontend frameworks conflate attributes and properties, or create a special case for inputs that sets the value correctly. Maybe Leptos should do this too; but for now, I prefer giving users the maximum amount of control over whether they’re setting an attribute or a property, and doing my best to educate people about the actual underlying browser behavior rather than obscuring it.
 
-### Simplifying Controlled Inputs with 「bind:」
+### Simplifying Controlled Inputs with "bind:"
 
 Adherence to Web standards and a clear division between “reading from a signal” and ”writing to a signal” are good, but creating
 controlled inputs in this way can sometimes seem like more boilerplate than is really necessary.
 
-Leptos also includes a special 「bind:」 syntax for inputs that allows you to automatically bind signals to inputs. They do exactly the same thing as the “controlled input” pattern above: create an event listener that updates the signal, and a dynamic property that reads from the signal. You can use 「bind:value」 for text inputs, and 「bind:checked」 for checkboxes.
+Leptos also includes a special "bind:」 syntax for inputs that allows you to automatically bind signals to inputs. They do exactly the same thing as the “controlled input” pattern above: create an event listener that updates the signal, and a dynamic property that reads from the signal. You can use 「bind:value」 for text inputs, and 「bind:checked" for checkboxes.
 
 ```rust
 let (name, set_name) = signal("Controlled".to_string());
@@ -106,11 +106,11 @@ view! {
 
 In an "uncontrolled input," the browser controls the state of the input element.
 Rather than continuously updating a signal to hold its value, we use a
-[「NodeRef」](https://docs.rs/leptos/latest/leptos/tachys/reactive_graph/node_ref/struct.NodeRef.html) to access
+["NodeRef"](https://docs.rs/leptos/latest/leptos/tachys/reactive_graph/node_ref/struct.NodeRef.html) to access
 the input when we want to get its value.
 
-In this example, we only notify the framework when the 「<form>」 fires a 「submit」 event.
-Note the use of the [「leptos::html」](https://docs.rs/leptos/latest/leptos/html/index.html) module, which provides a bunch of types for every HTML element.
+In this example, we only notify the framework when the "<form>」 fires a 「submit" event.
+Note the use of the ["leptos::html"](https://docs.rs/leptos/latest/leptos/html/index.html) module, which provides a bunch of types for every HTML element.
 
 ```rust
 let (name, set_name) = signal("Uncontrolled".to_string());
@@ -131,13 +131,13 @@ view! {
 
 The view should be pretty self-explanatory by now. Note two things:
 
-1. Unlike in the controlled input example, we use 「value」 (not 「prop:value」).
+1. Unlike in the controlled input example, we use "value」 (not 「prop:value").
    This is because we’re just setting the initial value of the input, and letting
-   the browser control its state. (We could use 「prop:value」 instead.)
-2. We use 「node_ref=...」 to fill the 「NodeRef」. (Older examples sometimes use 「_ref」.
-   They are the same thing, but 「node_ref」 has better rust-analyzer support.)
+   the browser control its state. (We could use "prop:value" instead.)
+2. We use "node_ref=...」 to fill the 「NodeRef」. (Older examples sometimes use 「_ref".
+   They are the same thing, but "node_ref" has better rust-analyzer support.)
 
-「NodeRef」 is a kind of reactive smart pointer: we can use it to access the
+"NodeRef" is a kind of reactive smart pointer: we can use it to access the
 underlying DOM node. Its value will be set when the element is rendered.
 
 ```rust
@@ -149,45 +149,45 @@ let on_submit = move |ev: SubmitEvent| {
     let value = input_element
         .get()
         // event handlers can only fire after the view
-        // is mounted to the DOM, so the 「NodeRef」 will be 「Some」
+        // is mounted to the DOM, so the "NodeRef」 will be 「Some"
         .expect("<input> should be mounted")
-        // 「leptos::HtmlElement<html::Input>」 implements 「Deref」
-        // to a 「web_sys::HtmlInputElement」.
-        // this means we can call「HtmlInputElement::value()」
+        // "leptos::HtmlElement<html::Input>」 implements 「Deref"
+        // to a "web_sys::HtmlInputElement".
+        // this means we can call"HtmlInputElement::value()"
         // to get the current value of the input
         .value();
     set_name.set(value);
 };
 ```
 
-Our 「on_submit」 handler will access the input’s value and use it to call 「set_name」.
-To access the DOM node stored in the 「NodeRef」, we can simply call it as a function
-(or using 「.get()」). This will return 「Option<leptos::HtmlElement<html::Input>>」, but we
+Our "on_submit」 handler will access the input’s value and use it to call 「set_name".
+To access the DOM node stored in the "NodeRef", we can simply call it as a function
+(or using ".get()」). This will return 「Option<leptos::HtmlElement<html::Input>>", but we
 know that the element has already been mounted (how else did you fire this event!), so
 it's safe to unwrap here.
 
-We can then call 「.value()」 to get the value out of the input, because 「NodeRef」
+We can then call ".value()」 to get the value out of the input, because 「NodeRef"
 gives us access to a correctly-typed HTML element.
 
-Take a look at [「web_sys」 and 「HtmlElement」](../web_sys.md) to learn more about using a 「leptos::HtmlElement」.
+Take a look at ["web_sys」 and 「HtmlElement」](../web_sys.md) to learn more about using a 「leptos::HtmlElement".
 Also see the full CodeSandbox example at the end of this page.
 
-## Special Cases: 「<textarea>」 and 「<select>」
+## Special Cases: "<textarea>」 and 「<select>"
 
 Two form elements tend to cause some confusion, in different ways.
 
-### 「<textarea>」
+### "<textarea>"
 
-Unlike 「<input>」, the 「<textarea>」 element does not support a 「value」 attribute.
+Unlike "<input>」, the 「<textarea>」 element does not support a 「value" attribute.
 Instead, it receives its value as a plain text node in its HTML children.
 
 In the current version of Leptos (in fact in Leptos 0.1-0.6), creating a dynamic child
-inserts a comment marker node. This can cause incorrect 「<textarea>」 rendering (and issues
+inserts a comment marker node. This can cause incorrect "<textarea>" rendering (and issues
 during hydration) if you try to use it to show dynamic content.
 
-Instead, you can pass a non-reactive initial value as a child, and use 「prop:value」 to
-set its current value. (「<textarea>」 doesn’t support the 「value」 **attribute**, but _does_
-support the 「value」 **property**...)
+Instead, you can pass a non-reactive initial value as a child, and use "prop:value" to
+set its current value. ("<textarea>」 doesn’t support the 「value" **attribute**, but _does_
+support the "value" **property**...)
 
 ```rust
 view! {
@@ -201,10 +201,10 @@ view! {
 }
 ```
 
-### 「<select>」
+### "<select>"
 
-The 「<select>」 element can likewise be controlled via a 「value」 property on the 「<select>」 itself,
-which will select whichever 「<option>」 has that value.
+The "<select>」 element can likewise be controlled via a 「value」 property on the 「<select>" itself,
+which will select whichever "<option>" has that value.
 
 ```rust
 let (value, set_value) = signal(0i32);
@@ -277,12 +277,12 @@ fn ControlledComponent() -> impl IntoView {
                 set_name.set(ev.target().value());
             }
 
-            // the 「prop:」 syntax lets you update a DOM property,
+            // the "prop:" syntax lets you update a DOM property,
             // rather than an attribute.
             //
-            // IMPORTANT: the 「value」 *attribute* only sets the
+            // IMPORTANT: the "value" *attribute* only sets the
             // initial value, until you have made a change.
-            // The 「value」 *property* sets the current value.
+            // The "value" *property* sets the current value.
             // This is a quirk of the DOM; I didn't invent it.
             // Other frameworks gloss this over; I think it's
             // more important to give you access to the browser
@@ -306,7 +306,7 @@ fn UncontrolledComponent() -> impl IntoView {
     // this will be filled when the element is created
     let input_element: NodeRef<Input> = NodeRef::new();
 
-    // fires when the form 「submit」 event happens
+    // fires when the form "submit" event happens
     // this will store the value of the <input> in our signal
     let on_submit = move |ev: SubmitEvent| {
         // stop the page from reloading!
@@ -315,10 +315,10 @@ fn UncontrolledComponent() -> impl IntoView {
         // here, we'll extract the value from the input
         let value = input_element.get()
             // event handlers can only fire after the view
-            // is mounted to the DOM, so the 「NodeRef」 will be 「Some」
+            // is mounted to the DOM, so the "NodeRef」 will be 「Some"
             .expect("<input> to exist")
-            // 「NodeRef」 implements 「Deref」 for the DOM element type
-            // this means we can call「HtmlInputElement::value()」
+            // "NodeRef」 implements 「Deref" for the DOM element type
+            // this means we can call"HtmlInputElement::value()"
             // to get the current value of the input
             .value();
         set_name.set(value);
@@ -327,12 +327,12 @@ fn UncontrolledComponent() -> impl IntoView {
     view! {
         <form on:submit=on_submit>
             <input type="text"
-                // here, we use the 「value」 *attribute* to set only
+                // here, we use the "value" *attribute* to set only
                 // the initial value, letting the browser maintain
                 // the state after that
                 value=name
 
-                // store a reference to this input in 「input_element」
+                // store a reference to this input in "input_element"
                 node_ref=input_element
             />
             <input type="submit" value="Submit"/>
@@ -341,9 +341,9 @@ fn UncontrolledComponent() -> impl IntoView {
     }
 }
 
-// This 「main」 function is the entry point into the app
+// This "main" function is the entry point into the app
 // It just mounts our component to the <body>
-// Because we defined it as 「fn App」, we can now use it in a
+// Because we defined it as "fn App", we can now use it in a
 // template as <App/>
 fn main() {
     leptos::mount::mount_to_body(App)

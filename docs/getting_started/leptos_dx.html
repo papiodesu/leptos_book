@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -163,21 +163,21 @@
                     <main>
                         <h1 id="leptos-developer-experience-improvements"><a class="header" href="#leptos-developer-experience-improvements">Leptos Developer Experience Improvements</a></h1>
 <p>There are a couple of things you can do to improve your experience of developing websites and apps with Leptos. You may want to take a few minutes and set up your environment to optimize your development experience, especially if you want to code along with the examples in this book.</p>
-<h2 id="1-set-up-console_error_panic_hook"><a class="header" href="#1-set-up-console_error_panic_hook">1) Set up 「console_error_panic_hook」</a></h2>
-<p>By default, panics that happen while running your WASM code in the browser just throw an error in the browser with an unhelpful message like 「Unreachable executed」 and a stack trace that points into your WASM binary.</p>
-<p>With 「console_error_panic_hook」, you get an actual Rust stack trace that includes a line in your Rust source code.</p>
+<h2 id="1-set-up-console_error_panic_hook"><a class="header" href="#1-set-up-console_error_panic_hook">1) Set up "console_error_panic_hook"</a></h2>
+<p>By default, panics that happen while running your WASM code in the browser just throw an error in the browser with an unhelpful message like "Unreachable executed" and a stack trace that points into your WASM binary.</p>
+<p>With "console_error_panic_hook", you get an actual Rust stack trace that includes a line in your Rust source code.</p>
 <p>It's very easy to set up:</p>
 <ol>
-<li>Run 「cargo add console_error_panic_hook」 in your project</li>
-<li>In your main function, add 「console_error_panic_hook::set_once();」</li>
+<li>Run "cargo add console_error_panic_hook" in your project</li>
+<li>In your main function, add "console_error_panic_hook::set_once();"</li>
 </ol>
 <blockquote>
 <p>If this is unclear, <a href="https://github.com/leptos-rs/leptos/blob/main/examples/counter/src/main.rs#L6">click here for an example</a>.</p>
 </blockquote>
 <p>Now you should have much better panic messages in the browser console!</p>
-<h2 id="2-editor-autocompletion-inside-component-and-server"><a class="header" href="#2-editor-autocompletion-inside-component-and-server">2) Editor Autocompletion inside 「#[component]」 and 「#[server]」</a></h2>
+<h2 id="2-editor-autocompletion-inside-component-and-server"><a class="header" href="#2-editor-autocompletion-inside-component-and-server">2) Editor Autocompletion inside "#[component]」 and 「#[server]"</a></h2>
 <p>Because of the nature of macros (they can expand from anything to anything, but only if the input is exactly correct at that instant) it can be hard for rust-analyzer to do proper autocompletion and other support.</p>
-<p>If you run into issues using these macros in your editor, you can explicitly tell rust-analyzer to ignore certain proc macros. For the 「#[server]」 macro especially, which annotates function bodies but doesn't actually transform anything inside the body of your function, this can be really helpful.</p>
+<p>If you run into issues using these macros in your editor, you can explicitly tell rust-analyzer to ignore certain proc macros. For the "#[server]" macro especially, which annotates function bodies but doesn't actually transform anything inside the body of your function, this can be really helpful.</p>
 <div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
 <div class="admonition-title">
 <div id="admonition-note-title">
@@ -186,11 +186,11 @@
 <a class="admonition-anchor-link" href="#admonition-note"></a>
 </div>
 <div>
-<p>Starting in Leptos version 0.5.3, rust-analyzer support was added for the 「#[component]」 macro, but if you run into issues, you may want to add 「#[component]」 to the macro ignore list as well (see below).
+<p>Starting in Leptos version 0.5.3, rust-analyzer support was added for the "#[component]」 macro, but if you run into issues, you may want to add 「#[component]" to the macro ignore list as well (see below).
 Note that this means that rust-analyzer doesn't know about your component props, which may generate its own set of errors or warnings in the IDE.</p>
 </div>
 </div>
-<p>VSCode 「settings.json」:</p>
+<p>VSCode "settings.json":</p>
 <pre><code class="language-json">"rust-analyzer.procMacro.ignored": {
 	"leptos_macro": [
         // optional:
@@ -199,7 +199,7 @@ Note that this means that rust-analyzer doesn't know about your component props,
 	],
 }
 </code></pre>
-<p>VSCode with cargo-leptos 「settings.json」:</p>
+<p>VSCode with cargo-leptos "settings.json":</p>
 <pre><code class="language-json">"rust-analyzer.procMacro.ignored": {
 	"leptos_macro": [
         // optional:
@@ -207,10 +207,10 @@ Note that this means that rust-analyzer doesn't know about your component props,
 		"server"
 	],
 },
-// if code that is cfg-gated for the 「ssr」 feature is shown as inactive,
-// you may want to tell rust-analyzer to enable the 「ssr」 feature by default
+// if code that is cfg-gated for the "ssr" feature is shown as inactive,
+// you may want to tell rust-analyzer to enable the "ssr" feature by default
 //
-// you can also use 「rust-analyzer.cargo.allFeatures」 to enable all features
+// you can also use "rust-analyzer.cargo.allFeatures" to enable all features
 "rust-analyzer.cargo.features": ["ssr"]
 </code></pre>
 <p>neovim with lspconfig:</p>
@@ -232,7 +232,7 @@ Note that this means that rust-analyzer doesn't know about your component props,
   }
 }
 </code></pre>
-<p>Helix, in 「.helix/languages.toml」:</p>
+<p>Helix, in ".helix/languages.toml":</p>
 <pre><code class="language-toml">[[language]]
 name = "rust"
 
@@ -243,7 +243,7 @@ config = { procMacro = { ignored = { leptos_macro = [
 	"server"
 ] } } }
 </code></pre>
-<p>Zed, in 「settings.json」:</p>
+<p>Zed, in "settings.json":</p>
 <pre><code class="language-json">{
   -- Other Settings ...
   "lsp": {
@@ -259,7 +259,7 @@ config = { procMacro = { ignored = { leptos_macro = [
   }
 }
 </code></pre>
-<p>SublimeText 3, under 「LSP-rust-analyzer.sublime-settings」 in 「Goto Anything...」 menu:</p>
+<p>SublimeText 3, under "LSP-rust-analyzer.sublime-settings」 in 「Goto Anything..." menu:</p>
 <pre><code class="language-json">// Settings in here override those in "LSP-rust-analyzer/LSP-rust-analyzer.sublime-settings"
 {
   "rust-analyzer.procMacro.ignored": {
@@ -271,15 +271,15 @@ config = { procMacro = { ignored = { leptos_macro = [
   },
 }
 </code></pre>
-<h2 id="3-set-up-leptosfmt-with-rust-analyzer-optional"><a class="header" href="#3-set-up-leptosfmt-with-rust-analyzer-optional">3) Set up 「leptosfmt」 With Rust Analyzer (optional)</a></h2>
-<p>「leptosfmt」 is a formatter for the Leptos 「view!」 macro (inside of which you'll typically write your UI code). Because the 「view!」 macro enables an 'RSX' (like JSX) style of writing your UI's, cargo-fmt has a harder time auto-formatting your code that's inside the 「view!」 macro. 「leptosfmt」 is a crate that solves your formatting issues and keeps your RSX-style UI code looking nice and tidy!</p>
-<p>「leptosfmt」 can be installed and used via the command line or from within your code editor:</p>
-<p>First, install the tool with 「cargo install leptosfmt」.</p>
-<p>If you just want to use the default options from the command line, just run 「leptosfmt ./**/*.rs」 from the root of your project to format all the rust files using 「leptosfmt」.</p>
-<p>If you wish to set up your editor to work with 「leptosfmt」, or if you wish to customize your 「leptosfmt」 experience, please see the instructions available on the <a href="https://github.com/bram209/leptosfmt">「leptosfmt」 github repo's README.md page</a>.</p>
-<p>Just note that it's recommended to set up your editor with 「leptosfmt」 on a per-workspace basis for best results.</p>
-<h2 id="4-use---cfgerase_components-during-development"><a class="header" href="#4-use---cfgerase_components-during-development">4) Use 「--cfg=erase_components」 during development</a></h2>
-<p>Leptos 0.7 made a number of changes to the renderer that relied more heavily on the type system. For larger projects, this can lead to slower compile times. Most of the slowdown in compile times can be alleviated by using the custom configuration flag 「--cfg=erase_components」 during development. (This erases some of that type information to reduce the amount of work done and debug info emitted by the compiler, at the expense of additional binary size and runtime cost, so it’s best not to use it in release mode.) You can set this easily in the command line (「RUSTFLAGS="--cfg erase_components" trunk serve」 or 「RUSTFLAGS="--cfg erase_components" cargo leptos watch」), or in your 「.cargo/config.toml」:</p>
+<h2 id="3-set-up-leptosfmt-with-rust-analyzer-optional"><a class="header" href="#3-set-up-leptosfmt-with-rust-analyzer-optional">3) Set up "leptosfmt" With Rust Analyzer (optional)</a></h2>
+<p>"leptosfmt」 is a formatter for the Leptos 「view!」 macro (inside of which you'll typically write your UI code). Because the 「view!」 macro enables an 'RSX' (like JSX) style of writing your UI's, cargo-fmt has a harder time auto-formatting your code that's inside the 「view!」 macro. 「leptosfmt" is a crate that solves your formatting issues and keeps your RSX-style UI code looking nice and tidy!</p>
+<p>"leptosfmt" can be installed and used via the command line or from within your code editor:</p>
+<p>First, install the tool with "cargo install leptosfmt".</p>
+<p>If you just want to use the default options from the command line, just run "leptosfmt ./**/*.rs」 from the root of your project to format all the rust files using 「leptosfmt".</p>
+<p>If you wish to set up your editor to work with "leptosfmt」, or if you wish to customize your 「leptosfmt」 experience, please see the instructions available on the <a href="https://github.com/bram209/leptosfmt">「leptosfmt" github repo's README.md page</a>.</p>
+<p>Just note that it's recommended to set up your editor with "leptosfmt" on a per-workspace basis for best results.</p>
+<h2 id="4-use---cfgerase_components-during-development"><a class="header" href="#4-use---cfgerase_components-during-development">4) Use "--cfg=erase_components" during development</a></h2>
+<p>Leptos 0.7 made a number of changes to the renderer that relied more heavily on the type system. For larger projects, this can lead to slower compile times. Most of the slowdown in compile times can be alleviated by using the custom configuration flag "--cfg=erase_components」 during development. (This erases some of that type information to reduce the amount of work done and debug info emitted by the compiler, at the expense of additional binary size and runtime cost, so it’s best not to use it in release mode.) You can set this easily in the command line (「RUSTFLAGS="--cfg erase_components" trunk serve」 or 「RUSTFLAGS="--cfg erase_components" cargo leptos watch」), or in your 「.cargo/config.toml":</p>
 <pre><code class="language-toml"># use your own native target
 [target.aarch64-apple-darwin]
 rustflags = [
@@ -357,6 +357,8 @@ rustflags = [
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

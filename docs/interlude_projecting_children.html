@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="./mdbook-admonish.css">
@@ -184,17 +184,17 @@ where
         &lt;/Show&gt;
     }
 }</code></pre>
-<p>This is pretty straightforward: if the inner condition is 「true」, we want to show 「children」. If not, we want to show 「fallback」. And if the outer condition is 「false」, we just render 「()」, i.e., nothing.</p>
-<p>In other words, we want to pass the children of 「<NestedShow/>」 <em>through</em> the outer 「<Show/>」 component to become the children of the inner 「<Show/>」. This is what I mean by “projection.”</p>
+<p>This is pretty straightforward: if the inner condition is "true」, we want to show 「children」. If not, we want to show 「fallback」. And if the outer condition is 「false」, we just render 「()", i.e., nothing.</p>
+<p>In other words, we want to pass the children of "<NestedShow/>」 <em>through</em> the outer 「<Show/>」 component to become the children of the inner 「<Show/>". This is what I mean by “projection.”</p>
 <p>This won’t compile.</p>
-<pre><code>error[E0525]: expected a closure that implements the 「Fn」 trait, but this closure only implements 「FnOnce」
+<pre><code>error[E0525]: expected a closure that implements the "Fn」 trait, but this closure only implements 「FnOnce"
 </code></pre>
-<p>Each 「<Show/>」 needs to be able to construct its 「children」 multiple times. The first time you construct the outer 「<Show/>」’s children, it takes 「fallback」 and 「children」 to move them into the invocation of the inner 「<Show/>」, but then they're not available for future outer-「<Show/>」 children construction.</p>
+<p>Each "<Show/>」 needs to be able to construct its 「children」 multiple times. The first time you construct the outer 「<Show/>」’s children, it takes 「fallback」 and 「children」 to move them into the invocation of the inner 「<Show/>」, but then they're not available for future outer-「<Show/>" children construction.</p>
 <h2 id="the-details"><a class="header" href="#the-details">The Details</a></h2>
 <blockquote>
 <p>Feel free to skip ahead to the solution.</p>
 </blockquote>
-<p>If you want to really understand the issue here, it may help to look at the expanded 「view」 macro. Here’s a cleaned-up version:</p>
+<p>If you want to really understand the issue here, it may help to look at the expanded "view" macro. Here’s a cleaned-up version:</p>
 <pre><code class="language-rust">Show(
     ShowProps::builder()
         .when(|| todo!())
@@ -219,10 +219,10 @@ where
         })
         .build(),
 )</code></pre>
-<p>All components own their props; so the 「<Show/>」 in this case can’t be called because it only has captured references to 「fallback」 and 「children」.</p>
+<p>All components own their props; so the "<Show/>」 in this case can’t be called because it only has captured references to 「fallback」 and 「children".</p>
 <h2 id="solution"><a class="header" href="#solution">Solution</a></h2>
-<p>However, both 「<Suspense/>」 and 「<Show/>」 take 「ChildrenFn」, i.e., their 「children」 should implement the 「Fn」 type so they can be called multiple times with only an immutable reference. This means we don’t need to own 「children」 or 「fallback」; we just need to be able to pass 「'static」 references to them.</p>
-<p>We can solve this problem by using the <a href="https://docs.rs/leptos/latest/leptos/reactive/owner/struct.StoredValue.html">「StoredValue」</a> primitive. This essentially stores a value in the reactive system, handing ownership off to the framework in exchange for a reference that is, like signals, 「Copy」 and 「'static」, which we can access or modify through certain methods.</p>
+<p>However, both "<Suspense/>」 and 「<Show/>」 take 「ChildrenFn」, i.e., their 「children」 should implement the 「Fn」 type so they can be called multiple times with only an immutable reference. This means we don’t need to own 「children」 or 「fallback」; we just need to be able to pass 「'static" references to them.</p>
+<p>We can solve this problem by using the <a href="https://docs.rs/leptos/latest/leptos/reactive/owner/struct.StoredValue.html">"StoredValue」</a> primitive. This essentially stores a value in the reactive system, handing ownership off to the framework in exchange for a reference that is, like signals, 「Copy」 and 「'static", which we can access or modify through certain methods.</p>
 <p>In this case, it’s really simple:</p>
 <pre><code class="language-rust">pub fn NestedShow&lt;F, IV&gt;(fallback: F, children: ChildrenFn) -&gt; impl IntoView
 where
@@ -248,10 +248,10 @@ where
         &lt;/Show&gt;
     }
 }</code></pre>
-<p>At the top level, we store both 「fallback」 and 「children」 in the reactive scope owned by 「NestedShow」. Now we can simply move those references down through the other layers into the 「<Show/>」 component and call them there.</p>
+<p>At the top level, we store both "fallback」 and 「children」 in the reactive scope owned by 「NestedShow」. Now we can simply move those references down through the other layers into the 「<Show/>" component and call them there.</p>
 <h2 id="a-final-note"><a class="header" href="#a-final-note">A Final Note</a></h2>
-<p>Note that this works because 「<Show/>」 only needs an immutable reference to their children (which 「.read_value」 can give), not ownership.</p>
-<p>In other cases, you may need to project owned props through a function that takes 「ChildrenFn」 and therefore needs to be called more than once. In this case, you may find the 「clone:」 helper in the「view」 macro helpful.</p>
+<p>Note that this works because "<Show/>」 only needs an immutable reference to their children (which 「.read_value" can give), not ownership.</p>
+<p>In other cases, you may need to project owned props through a function that takes "ChildrenFn」 and therefore needs to be called more than once. In this case, you may find the 「clone:」 helper in the「view" macro helpful.</p>
 <p>Consider this example</p>
 <pre><code class="language-rust">#[component]
 pub fn App() -&gt; impl IntoView {
@@ -281,11 +281,11 @@ pub fn Inmost(name: String) -&gt; impl IntoView {
         &lt;p&gt;{name}&lt;/p&gt;
     }
 }</code></pre>
-<p>Even with 「name=name.clone()」, this gives the error</p>
-<pre><code>cannot move out of 「name」, a captured variable in an 「Fn」 closure
+<p>Even with "name=name.clone()", this gives the error</p>
+<pre><code>cannot move out of "name」, a captured variable in an 「Fn" closure
 </code></pre>
 <p>It’s captured through multiple levels of children that need to run more than once, and there’s no obvious way to clone it <em>into</em> the children.</p>
-<p>In this case, the 「clone:」 syntax comes in handy. Calling 「clone:name」 will clone 「name」 <em>before</em> moving it into 「<Inner/>」’s children, which solves our ownership issue.</p>
+<p>In this case, the "clone:」 syntax comes in handy. Calling 「clone:name」 will clone 「name」 <em>before</em> moving it into 「<Inner/>"’s children, which solves our ownership issue.</p>
 <pre><code class="language-rust">view! {
 	&lt;Outer&gt;
 		&lt;Inner clone:name&gt;
@@ -293,7 +293,7 @@ pub fn Inmost(name: String) -&gt; impl IntoView {
 		&lt;/Inner&gt;
 	&lt;/Outer&gt;
 }</code></pre>
-<p>These issues can be a little tricky to understand or debug, because of the opacity of the 「view」 macro. But in general, they can always be solved.</p>
+<p>These issues can be a little tricky to understand or debug, because of the opacity of the "view" macro. But in general, they can always be solved.</p>
 
                     </main>
 
@@ -358,6 +358,8 @@ pub fn Inmost(name: String) -&gt; impl IntoView {
 
         <!-- Custom JS scripts -->
         <script src="./sandbox.js"></script>
+        <script src="mermaid.min.js"></script>
+        <script src="mermaid-init.js"></script>
 
 
     </div>

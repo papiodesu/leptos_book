@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -162,9 +162,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="responses-and-redirects"><a class="header" href="#responses-and-redirects">Responses and Redirects</a></h1>
-<p>Extractors provide an easy way to access request data inside server functions. Leptos also provides a way to modify the HTTP response, using the 「ResponseOptions」 type (see docs for <a href="https://docs.rs/leptos_actix/latest/leptos_actix/struct.ResponseOptions.html">Actix</a> or <a href="https://docs.rs/leptos_axum/latest/leptos_axum/struct.ResponseOptions.html">Axum</a>) types and the 「redirect」 helper function (see docs for <a href="https://docs.rs/leptos_actix/latest/leptos_actix/fn.redirect.html">Actix</a> or <a href="https://docs.rs/leptos_axum/latest/leptos_axum/fn.redirect.html">Axum</a>).</p>
-<h2 id="responseoptions"><a class="header" href="#responseoptions">「ResponseOptions」</a></h2>
-<p>「ResponseOptions」 is provided via context during the initial server rendering response and during any subsequent server function call. It allows you to easily set the status code for the HTTP response, or to add headers to the HTTP response, e.g., to set cookies.</p>
+<p>Extractors provide an easy way to access request data inside server functions. Leptos also provides a way to modify the HTTP response, using the "ResponseOptions」 type (see docs for <a href="https://docs.rs/leptos_actix/latest/leptos_actix/struct.ResponseOptions.html">Actix</a> or <a href="https://docs.rs/leptos_axum/latest/leptos_axum/struct.ResponseOptions.html">Axum</a>) types and the 「redirect" helper function (see docs for <a href="https://docs.rs/leptos_actix/latest/leptos_actix/fn.redirect.html">Actix</a> or <a href="https://docs.rs/leptos_axum/latest/leptos_axum/fn.redirect.html">Axum</a>).</p>
+<h2 id="responseoptions"><a class="header" href="#responseoptions">"ResponseOptions"</a></h2>
+<p>"ResponseOptions" is provided via context during the initial server rendering response and during any subsequent server function call. It allows you to easily set the status code for the HTTP response, or to add headers to the HTTP response, e.g., to set cookies.</p>
 <pre><code class="language-rust">#[server]
 pub async fn tea_and_cookies() -&gt; Result&lt;(), ServerFnError&gt; {
     use actix_web::{
@@ -187,8 +187,8 @@ pub async fn tea_and_cookies() -&gt; Result&lt;(), ServerFnError&gt; {
     }
     Ok(())
 }</code></pre>
-<h2 id="redirect"><a class="header" href="#redirect">「redirect」</a></h2>
-<p>One common modification to an HTTP response is to redirect to another page. The Actix and Axum integrations provide a 「redirect」 function to make this easy to do.</p>
+<h2 id="redirect"><a class="header" href="#redirect">"redirect"</a></h2>
+<p>One common modification to an HTTP response is to redirect to another page. The Actix and Axum integrations provide a "redirect" function to make this easy to do.</p>
 <pre><code class="language-rust">#[server]
 pub async fn login(
     username: String,
@@ -224,7 +224,7 @@ pub async fn login(
         )),
     }
 }</code></pre>
-<p>This server function can then be used from your application. This 「redirect」 works well with the progressively-enhanced 「<ActionForm/>」 component: without JS/WASM, the server response will redirect because of the status code and header. With JS/WASM, the 「<ActionForm/>」 will detect the redirect in the server function response, and use client-side navigation to redirect to the new page.</p>
+<p>This server function can then be used from your application. This "redirect」 works well with the progressively-enhanced 「<ActionForm/>」 component: without JS/WASM, the server response will redirect because of the status code and header. With JS/WASM, the 「<ActionForm/>" will detect the redirect in the server function response, and use client-side navigation to redirect to the new page.</p>
 
                     </main>
 
@@ -289,6 +289,8 @@ pub async fn login(
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

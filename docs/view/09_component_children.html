@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -163,8 +163,8 @@
                     <main>
                         <h1 id="component-children"><a class="header" href="#component-children">Component Children</a></h1>
 <p>It’s pretty common to want to pass children into a component, just as you can pass
-children into an HTML element. For example, imagine I have a 「<FancyForm/>」 component
-that enhances an HTML 「<form>」. I need some way to pass all its inputs.</p>
+children into an HTML element. For example, imagine I have a "<FancyForm/>" component
+that enhances an HTML "<form>". I need some way to pass all its inputs.</p>
 <pre><code class="language-rust">view! {
     &lt;FancyForm&gt;
         &lt;fieldset&gt;
@@ -180,30 +180,30 @@ that enhances an HTML 「<form>」. I need some way to pass all its inputs.</p>
 other components:</p>
 <ol>
 <li><strong>render props</strong>: properties that are functions that return a view</li>
-<li>the <strong>「children」</strong> prop: a special component property that includes anything
+<li>the <strong>"children"</strong> prop: a special component property that includes anything
 you pass as a child to the component.</li>
 </ol>
-<p>In fact, you’ve already seen these both in action in the <a href="/view/06_control_flow.html#show">「<Show/>」</a> component:</p>
+<p>In fact, you’ve already seen these both in action in the <a href="/view/06_control_flow.html#show">"<Show/>"</a> component:</p>
 <pre><code class="language-rust">view! {
   &lt;Show
-    // 「when」 is a normal prop
+    // "when" is a normal prop
     when=move || value.get() &gt; 5
-    // 「fallback」 is a "render prop": a function that returns a view
+    // "fallback" is a "render prop": a function that returns a view
     fallback=|| view! { &lt;Small/&gt; }
   &gt;
-    // 「&lt;Big/&gt;」 (and anything else here)
-    // will be given to the 「children」 prop
+    // "&lt;Big/&gt;" (and anything else here)
+    // will be given to the "children" prop
     &lt;Big/&gt;
   &lt;/Show&gt;
 }</code></pre>
 <p>Let’s define a component that takes some children and a render prop.</p>
-<pre><code class="language-rust">/// Displays a 「render_prop」 and some children within markup.
+<pre><code class="language-rust">/// Displays a "render_prop" and some children within markup.
 #[component]
 pub fn TakesChildren&lt;F, IV&gt;(
     /// Takes a function (type F) that returns anything that can be
     /// converted into a View (type IV)
     render_prop: F,
-    /// 「children」 can take one of several different types, each of which
+    /// "children" can take one of several different types, each of which
     /// is a function that returns some view type
     children: Children,
 ) -&gt; impl IntoView
@@ -220,34 +220,34 @@ where
         {children()}
     }
 }</code></pre>
-<p>「render_prop」 and 「children」 are both functions, so we can call them to generate
-the appropriate views. 「children」, in particular, is an alias for
-「Box&lt;dyn FnOnce() -&gt; AnyView&gt;」. (Aren't you glad we named it 「Children」 instead?)
-The 「AnyView」 returned here is an opaque, type-erased view: you can’t do anything to
-inspect it. There are a variety of other child types: for example, 「ChildrenFragment」
-will return a 「Fragment」, which is a collection whose children can be iterated over.</p>
+<p>"render_prop」 and 「children" are both functions, so we can call them to generate
+the appropriate views. "children", in particular, is an alias for
+"Box&lt;dyn FnOnce() -&gt; AnyView&gt;」. (Aren't you glad we named it 「Children" instead?)
+The "AnyView" returned here is an opaque, type-erased view: you can’t do anything to
+inspect it. There are a variety of other child types: for example, "ChildrenFragment"
+will return a "Fragment", which is a collection whose children can be iterated over.</p>
 <blockquote>
-<p>If you need a 「Fn」 or 「FnMut」 here because you need to call 「children」 more than once,
-we also provide 「ChildrenFn」 and 「ChildrenMut」 aliases.</p>
+<p>If you need a "Fn」 or 「FnMut」 here because you need to call 「children" more than once,
+we also provide "ChildrenFn」 and 「ChildrenMut" aliases.</p>
 </blockquote>
 <p>We can use the component like this:</p>
 <pre><code class="language-rust">view! {
     &lt;TakesChildren render_prop=|| view! { &lt;p&gt;"Hi, there!"&lt;/p&gt; }&gt;
-        // these get passed to 「children」
+        // these get passed to "children"
         "Some text"
         &lt;span&gt;"A span"&lt;/span&gt;
     &lt;/TakesChildren&gt;
 }</code></pre>
 <h2 id="manipulating-children"><a class="header" href="#manipulating-children">Manipulating Children</a></h2>
-<p>The <a href="https://docs.rs/leptos/latest/leptos/tachys/view/fragment/struct.Fragment.html">「Fragment」</a> type is
-basically a way of wrapping a 「Vec<AnyView>」. You can insert it anywhere into your view.</p>
+<p>The <a href="https://docs.rs/leptos/latest/leptos/tachys/view/fragment/struct.Fragment.html">"Fragment"</a> type is
+basically a way of wrapping a "Vec<AnyView>". You can insert it anywhere into your view.</p>
 <p>But you can also access those inner views directly to manipulate them. For example, here’s
 a component that takes its children and turns them into an unordered list.</p>
-<pre><code class="language-rust">/// Wraps each child in an 「&lt;li&gt;」 and embeds them in a 「&lt;ul&gt;」.
+<pre><code class="language-rust">/// Wraps each child in an "&lt;li&gt;」 and embeds them in a 「&lt;ul&gt;".
 #[component]
 pub fn WrapsChildren(children: ChildrenFragment) -&gt; impl IntoView {
-    // children() returns a 「Fragment」, which has a
-    // 「nodes」 field that contains a Vec&lt;View&gt;
+    // children() returns a "Fragment", which has a
+    // "nodes" field that contains a Vec&lt;View&gt;
     // this means we can iterate over the children
     // to create something new!
     let children = children()
@@ -295,7 +295,7 @@ pub fn WrapsChildren(children: ChildrenFragment) -&gt; impl IntoView {
 // component. There are two basic patterns for doing this:
 // - "render props": creating a component prop that takes a function
 //   that creates a view
-// - the 「children」 prop: a special property that contains content
+// - the "children" prop: a special property that contains content
 //   passed as the children of a component in your view, not as a
 //   property
 
@@ -314,7 +314,7 @@ pub fn App() -&gt; impl IntoView {
         // embedding them in some other markup
         &lt;TakesChildren
             // for component props, you can shorthand
-            // 「render_prop=render_prop」 =&gt; 「render_prop」
+            // "render_prop=render_prop」 =&gt; 「render_prop"
             // (this doesn't work for HTML element attributes)
             render_prop
         &gt;
@@ -331,15 +331,15 @@ pub fn App() -&gt; impl IntoView {
     }
 }
 
-/// Displays a 「render_prop」 and some children within markup.
+/// Displays a "render_prop" and some children within markup.
 #[component]
 pub fn TakesChildren&lt;F, IV&gt;(
     /// Takes a function (type F) that returns anything that can be
     /// converted into a View (type IV)
     render_prop: F,
-    /// 「children」 takes the 「Children」 type
-    /// this is an alias for 「Box&lt;dyn FnOnce() -&gt; Fragment&gt;」
-    /// ... aren't you glad we named it 「Children」 instead?
+    /// "children」 takes the 「Children" type
+    /// this is an alias for "Box&lt;dyn FnOnce() -&gt; Fragment&gt;"
+    /// ... aren't you glad we named it "Children" instead?
     children: Children,
 ) -&gt; impl IntoView
 where
@@ -356,11 +356,11 @@ where
     }
 }
 
-/// Wraps each child in an 「&lt;li&gt;」 and embeds them in a 「&lt;ul&gt;」.
+/// Wraps each child in an "&lt;li&gt;」 and embeds them in a 「&lt;ul&gt;".
 #[component]
 pub fn WrapsChildren(children: ChildrenFragment) -&gt; impl IntoView {
-    // children() returns a 「Fragment」, which has a
-    // 「nodes」 field that contains a Vec&lt;View&gt;
+    // children() returns a "Fragment", which has a
+    // "nodes" field that contains a Vec&lt;View&gt;
     // this means we can iterate over the children
     // to create something new!
     let children = children()
@@ -445,6 +445,8 @@ fn main() {
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

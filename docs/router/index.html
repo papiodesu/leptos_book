@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -164,15 +164,15 @@
                         <h1 id="routing"><a class="header" href="#routing">Routing</a></h1>
 <h2 id="the-basics"><a class="header" href="#the-basics">The Basics</a></h2>
 <p>Routing drives most websites. A router is the answer to the question, “Given this URL, what should appear on the page?”</p>
-<p>A URL consists of many parts. For example, the URL 「https://my-cool-blog.com/blog/search?q=Search#results」 consists of</p>
+<p>A URL consists of many parts. For example, the URL "https://my-cool-blog.com/blog/search?q=Search#results" consists of</p>
 <ul>
-<li>a <em>scheme</em>: 「https」</li>
-<li>a <em>domain</em>: 「my-cool-blog.com」</li>
-<li>a <strong>path</strong>: 「/blog/search」</li>
-<li>a <strong>query</strong> (or <strong>search</strong>): 「?q=Search」</li>
-<li>a <em>hash</em>: 「#results」</li>
+<li>a <em>scheme</em>: "https"</li>
+<li>a <em>domain</em>: "my-cool-blog.com"</li>
+<li>a <strong>path</strong>: "/blog/search"</li>
+<li>a <strong>query</strong> (or <strong>search</strong>): "?q=Search"</li>
+<li>a <em>hash</em>: "#results"</li>
 </ul>
-<p>The Leptos Router works with the path and query (「/blog/search?q=Search」). Given this piece of the URL, what should the app render on the page?</p>
+<p>The Leptos Router works with the path and query ("/blog/search?q=Search"). Given this piece of the URL, what should the app render on the page?</p>
 <h2 id="the-philosophy"><a class="header" href="#the-philosophy">The Philosophy</a></h2>
 <p>In most cases, the path should drive what is displayed on the page. From the user’s perspective, for most applications, most major changes in the state of the app should be reflected in the URL. If you copy and paste the URL and open it in another tab, you should find yourself more or less in the same place.</p>
 <p>In this sense, the router is really at the heart of the global state management for your application. More than anything else, it drives what is displayed on the page.</p>
@@ -241,6 +241,8 @@
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

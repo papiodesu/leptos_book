@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -161,9 +161,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="introducing-cargo-leptos"><a class="header" href="#introducing-cargo-leptos">Introducing 「cargo-leptos」</a></h1>
+                        <h1 id="introducing-cargo-leptos"><a class="header" href="#introducing-cargo-leptos">Introducing "cargo-leptos"</a></h1>
 <p>So far, we’ve just been running code in the browser and using Trunk to coordinate the build process and run a local development process. If we’re going to add server-side rendering, we’ll need to run our application code on the server as well. This means we’ll need to build two separate binaries, one compiled to native code and running the server, the other compiled to WebAssembly (WASM) and running in the user’s browser. Additionally, the server needs to know how to serve this WASM version (and the JavaScript required to initialize it) to the browser.</p>
-<p>This is not an insurmountable task but it adds some complication. For convenience and an easier developer experience, we built the <a href="https://github.com/leptos-rs/cargo-leptos">「cargo-leptos」</a> build tool. 「cargo-leptos」 basically exists to coordinate the build process for your app, handling recompiling the server and client halves when you make changes, and adding some built-in support for things like Tailwind, SASS, and testing.</p>
+<p>This is not an insurmountable task but it adds some complication. For convenience and an easier developer experience, we built the <a href="https://github.com/leptos-rs/cargo-leptos">"cargo-leptos」</a> build tool. 「cargo-leptos" basically exists to coordinate the build process for your app, handling recompiling the server and client halves when you make changes, and adding some built-in support for things like Tailwind, SASS, and testing.</p>
 <p>Getting started is pretty easy. Just run</p>
 <pre><code class="language-bash">cargo install --locked cargo-leptos
 </code></pre>
@@ -178,12 +178,12 @@ cargo leptos new --git https://github.com/leptos-rs/start-axum
 <p>Make sure you've added the wasm32-unknown-unknown target so that Rust can compile your code to WebAssembly to run in the browser.</p>
 <pre><code class="language-bash">rustup target add wasm32-unknown-unknown
 </code></pre>
-<p>Now 「cd」 into the directory you’ve created and run</p>
+<p>Now "cd" into the directory you’ve created and run</p>
 <pre><code class="language-bash">cargo leptos watch
 </code></pre>
-<p>Once your app has compiled you can open up your browser to <a href="http://localhost:3000">「http://localhost:3000」</a> to see it.</p>
-<p>「cargo-leptos」 has lots of additional features and built in tools. You can learn more <a href="https://github.com/leptos-rs/cargo-leptos/blob/main/README.md">in its 「README」</a>.</p>
-<p>But what exactly is happening when you open our browser to 「localhost:3000」? Well, read on to find out.</p>
+<p>Once your app has compiled you can open up your browser to <a href="http://localhost:3000">"http://localhost:3000"</a> to see it.</p>
+<p>"cargo-leptos」 has lots of additional features and built in tools. You can learn more <a href="https://github.com/leptos-rs/cargo-leptos/blob/main/README.md">in its 「README"</a>.</p>
+<p>But what exactly is happening when you open our browser to "localhost:3000"? Well, read on to find out.</p>
 
                     </main>
 
@@ -248,6 +248,8 @@ cargo leptos new --git https://github.com/leptos-rs/start-axum
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

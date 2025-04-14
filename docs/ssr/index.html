@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -162,20 +162,6 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="part-2-server-side-rendering"><a class="header" href="#part-2-server-side-rendering">Part 2: Server Side Rendering</a></h1>
-<p>As you read in the last chapter, there are some limitations to using client-side rendered web applications. This second part of the book will discuss how to use server-side rendering to overcome these limitations and get the best performance and SEO out of your Leptos apps.</p>
-<div id="admonition-info" class="admonition admonish-info" role="note" aria-labelledby="admonition-info-title">
-<div class="admonition-title">
-<div id="admonition-info-title">
-<p>Info</p>
-</div>
-<a class="admonition-anchor-link" href="#admonition-info"></a>
-</div>
-<div>
-<p>When working with Leptos on the server side, you’re free to choose either an officially supported Actix or Axum integrations, or one of our community supported choices. The full feature set of Leptos is available with the official choices, the community ones may support less. Check their documentation for details.</p>
-<p>We have a variety of community supported choices, including WinterCG-compatible runtimes like Deno or Cloudflare and server-side WASM runtimes like Spin. Community-supported integrations for Viz and Pavex offer more traditional server choices. Writing an integration yourself isn't recommended as a beginner, but medium/advanced Rust users may wish to. Feel free to reach out if you have questions about that on our Discord or Github.</p>
-<p>I'd recommend either Axum or Actix for beginners. Both are fully functional and choosing between them is a matter of personal preference. There is no wrong choice there, but if you’re looking for a recommendation, the Leptos team currently defaults to Axum for new projects.</p>
-</div>
-</div>
 
                     </main>
 
@@ -240,6 +226,8 @@
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

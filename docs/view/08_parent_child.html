@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -166,20 +166,20 @@
 handles its own local state and manages a section of the user interface, so
 components tend to be relatively self-contained.</p>
 <p>Sometimes, though, you’ll want to communicate between a parent component and its
-child. For example, imagine you’ve defined a 「<FancyButton/>」 component that adds
-some styling, logging, or something else to a 「<button/>」. You want to use a
-「<FancyButton/>」 in your 「<App/>」 component. But how can you communicate between
+child. For example, imagine you’ve defined a "<FancyButton/>" component that adds
+some styling, logging, or something else to a "<button/>". You want to use a
+"<FancyButton/>」 in your 「<App/>" component. But how can you communicate between
 the two?</p>
 <p>It’s easy to communicate state from a parent component to a child component. We
 covered some of this in the material on <a href="./03_components.html">components and props</a>.
 Basically if you want the parent to communicate to the child, you can pass either a
-<a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html">「ReadSignal」</a> or
-<a href="https://docs.rs/leptos/latest/leptos/reactive/wrappers/read/struct.Signal.html">「Signal」</a> as a prop.</p>
+<a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html">"ReadSignal"</a> or
+<a href="https://docs.rs/leptos/latest/leptos/reactive/wrappers/read/struct.Signal.html">"Signal"</a> as a prop.</p>
 <p>But what about the other direction? How can a child send notifications about events
 or state changes back up to the parent?</p>
 <p>There are four basic patterns of parent-child communication in Leptos.</p>
-<h2 id="1-pass-a-writesignal"><a class="header" href="#1-pass-a-writesignal">1. Pass a <a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html">「WriteSignal」</a></a></h2>
-<p>One approach is simply to pass a 「WriteSignal」 from the parent down to the child, and update
+<h2 id="1-pass-a-writesignal"><a class="header" href="#1-pass-a-writesignal">1. Pass a <a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html">"WriteSignal"</a></a></h2>
+<p>One approach is simply to pass a "WriteSignal" from the parent down to the child, and update
 it in the child. This lets you manipulate the state of the parent from the child.</p>
 <pre><code class="language-rust">#[component]
 pub fn App() -&gt; impl IntoView {
@@ -200,14 +200,14 @@ pub fn ButtonA(setter: WriteSignal&lt;bool&gt;) -&gt; impl IntoView {
         &lt;/button&gt;
     }
 }</code></pre>
-<p>This pattern is simple, but you should be careful with it: passing around a 「WriteSignal」
+<p>This pattern is simple, but you should be careful with it: passing around a "WriteSignal"
 can make it hard to reason about your code. In this example, it’s pretty clear when you
-read 「<App/>」 that you are handing off the ability to mutate 「toggled」, but it’s not at
+read "<App/>」 that you are handing off the ability to mutate 「toggled", but it’s not at
 all clear when or how it will change. In this small, local example it’s easy to understand,
-but if you find yourself passing around 「WriteSignal」s like this throughout your code,
+but if you find yourself passing around "WriteSignal"s like this throughout your code,
 you should really consider whether this is making it too easy to write spaghetti code.</p>
 <h2 id="2-use-a-callback"><a class="header" href="#2-use-a-callback">2. Use a Callback</a></h2>
-<p>Another approach would be to pass a callback to the child: say, 「on_click」.</p>
+<p>Another approach would be to pass a callback to the child: say, "on_click".</p>
 <pre><code class="language-rust">#[component]
 pub fn App() -&gt; impl IntoView {
     let (toggled, set_toggled) = signal(false);
@@ -225,15 +225,15 @@ pub fn ButtonB(on_click: impl FnMut(MouseEvent) + 'static) -&gt; impl IntoView {
         &lt;/button&gt;
     }
 }</code></pre>
-<p>You’ll notice that whereas 「<ButtonA/>」 was given a 「WriteSignal」 and decided how to mutate it,
-「<ButtonB/>」 simply fires an event: the mutation happens back in 「<App/>」. This has the advantage
+<p>You’ll notice that whereas "<ButtonA/>」 was given a 「WriteSignal" and decided how to mutate it,
+"<ButtonB/>」 simply fires an event: the mutation happens back in 「<App/>". This has the advantage
 of keeping local state local, preventing the problem of spaghetti mutation. But it also means
-the logic to mutate that signal needs to exist up in 「<App/>」, not down in 「<ButtonB/>」. These
+the logic to mutate that signal needs to exist up in "<App/>」, not down in 「<ButtonB/>". These
 are real trade-offs, not a simple right-or-wrong choice.</p>
 <h2 id="3-use-an-event-listener"><a class="header" href="#3-use-an-event-listener">3. Use an Event Listener</a></h2>
 <p>You can actually write Option 2 in a slightly different way. If the callback maps directly onto
-a native DOM event, you can add an 「on:」 listener directly to the place you use the component
-in your 「view」 macro in 「<App/>」.</p>
+a native DOM event, you can add an "on:" listener directly to the place you use the component
+in your "view」 macro in 「<App/>".</p>
 <pre><code class="language-rust">#[component]
 pub fn App() -&gt; impl IntoView {
     let (toggled, set_toggled) = signal(false);
@@ -251,14 +251,14 @@ pub fn ButtonC() -&gt; impl IntoView {
         &lt;button&gt;"Toggle"&lt;/button&gt;
     }
 }</code></pre>
-<p>This lets you write way less code in 「<ButtonC/>」 than you did for 「<ButtonB/>」,
+<p>This lets you write way less code in "<ButtonC/>」 than you did for 「<ButtonB/>",
 and still gives a correctly-typed event to the listener. This works by adding an
-「on:」 event listener to each element that 「<ButtonC/>」 returns: in this case, just
-the one 「<button>」.</p>
+"on:」 event listener to each element that 「<ButtonC/>" returns: in this case, just
+the one "<button>".</p>
 <p>Of course, this only works for actual DOM events that you’re passing directly through
 to the elements you’re rendering in the component. For more complex logic that
-doesn’t map directly onto an element (say you create 「<ValidatedForm/>」 and want an
-「on_valid_form_submit」 callback) you should use Option 2.</p>
+doesn’t map directly onto an element (say you create "<ValidatedForm/>" and want an
+"on_valid_form_submit" callback) you should use Option 2.</p>
 <h2 id="4-providing-a-context"><a class="header" href="#4-providing-a-context">4. Providing a Context</a></h2>
 <p>This version is actually a variant on Option 1. Say you have a deeply-nested component
 tree:</p>
@@ -297,8 +297,8 @@ pub fn ButtonD() -&gt; impl IntoView {
     todo!()
 }
 </code></pre>
-<p>Now 「<ButtonD/>」 is no longer a direct child of 「<App/>」, so you can’t simply
-pass your 「WriteSignal」 to its props. You could do what’s sometimes called
+<p>Now "<ButtonD/>」 is no longer a direct child of 「<App/>", so you can’t simply
+pass your "WriteSignal" to its props. You could do what’s sometimes called
 “prop drilling,” adding a prop to each layer between the two:</p>
 <pre><code class="language-rust">#[component]
 pub fn App() -&gt; impl IntoView {
@@ -334,24 +334,24 @@ pub fn Content(set_toggled: WriteSignal&lt;bool&gt;) -&gt; impl IntoView {
 pub fn ButtonD(set_toggled: WriteSignal&lt;bool&gt;) -&gt; impl IntoView {
     todo!()
 }</code></pre>
-<p>This is a mess. 「<Layout/>」 and 「<Content/>」 don’t need 「set_toggled」; they just
-pass it through to 「<ButtonD/>」. But I need to declare the prop in triplicate.
+<p>This is a mess. "<Layout/>」 and 「<Content/>」 don’t need 「set_toggled"; they just
+pass it through to "<ButtonD/>". But I need to declare the prop in triplicate.
 This is not only annoying but hard to maintain: imagine we add a “half-toggled”
-option and the type of 「set_toggled」 needs to change to an 「enum」. We have to change
+option and the type of "set_toggled」 needs to change to an 「enum". We have to change
 it in three places!</p>
 <p>Isn’t there some way to skip levels?</p>
 <p>There is!</p>
 <h3 id="41-the-context-api"><a class="header" href="#41-the-context-api">4.1 The Context API</a></h3>
-<p>You can provide data that skips levels by using <a href="https://docs.rs/leptos/latest/leptos/context/fn.provide_context.html">「provide_context」</a>
-and <a href="https://docs.rs/leptos/latest/leptos/context/fn.use_context.html">「use_context」</a>. Contexts are identified
-by the type of the data you provide (in this example, 「WriteSignal<bool>」), and they exist in a top-down
+<p>You can provide data that skips levels by using <a href="https://docs.rs/leptos/latest/leptos/context/fn.provide_context.html">"provide_context"</a>
+and <a href="https://docs.rs/leptos/latest/leptos/context/fn.use_context.html">"use_context"</a>. Contexts are identified
+by the type of the data you provide (in this example, "WriteSignal<bool>"), and they exist in a top-down
 tree that follows the contours of your UI tree. In this example, we can use context to skip the
 unnecessary prop drilling.</p>
 <pre><code class="language-rust">#[component]
 pub fn App() -&gt; impl IntoView {
     let (toggled, set_toggled) = signal(false);
 
-    // share 「set_toggled」 with all children of this component
+    // share "set_toggled" with all children of this component
     provide_context(set_toggled);
 
     view! {
@@ -361,12 +361,12 @@ pub fn App() -&gt; impl IntoView {
 }
 
 // &lt;Layout/&gt; and &lt;Content/&gt; omitted
-// To work in this version, drop the 「set_toggled」 parameter on each
+// To work in this version, drop the "set_toggled" parameter on each
 
 #[component]
 pub fn ButtonD() -&gt; impl IntoView {
     // use_context searches up the context tree, hoping to
-    // find a 「WriteSignal&lt;bool&gt;」
+    // find a "WriteSignal&lt;bool&gt;"
     // in this case, I .expect() because I know I provided it
     let setter = use_context::&lt;WriteSignal&lt;bool&gt;&gt;().expect("to have found the setter provided");
 
@@ -379,7 +379,7 @@ pub fn ButtonD() -&gt; impl IntoView {
     }
 }
 </code></pre>
-<p>The same caveats apply to this as to 「<ButtonA/>」: passing a 「WriteSignal」
+<p>The same caveats apply to this as to "<ButtonA/>」: passing a 「WriteSignal"
 around should be done with caution, as it allows you to mutate state from
 arbitrary parts of your code. But when done carefully, this can be one of
 the most effective techniques for global state management in Leptos: simply
@@ -387,15 +387,15 @@ provide the state at the highest level you’ll need it, and use it wherever
 you need it lower down.</p>
 <p>Note that there are no performance downsides to this approach. Because you
 are passing a fine-grained reactive signal, <em>nothing happens</em> in the intervening
-components (「<Layout/>」 and 「<Content/>」) when you update it. You are communicating
-directly between 「<ButtonD/>」 and 「<App/>」. In fact—and this is the power of
+components ("<Layout/>」 and 「<Content/>") when you update it. You are communicating
+directly between "<ButtonD/>」 and 「<App/>". In fact—and this is the power of
 fine-grained reactivity—you are communicating directly between a button click
-in 「<ButtonD/>」 and a single text node in 「<App/>」. It’s as if the components
+in "<ButtonD/>」 and a single text node in 「<App/>". It’s as if the components
 themselves don’t exist at all. And, well... at runtime, they don’t. It’s just
 signals and effects, all the way down.</p>
 <p>Note that this approach makes an important tradeoff: You don't have type-safety
-anymore between 「provide_context」 and 「use_context」. Receiving the right context
-in the child component is a runtime check (see 「use_context.expect(...)」). The
+anymore between "provide_context」 and 「use_context". Receiving the right context
+in the child component is a runtime check (see "use_context.expect(...)"). The
 compiler won't guide you during a refactoring, as it does with the earlier approaches.</p>
 <details id="admonition-live-example" class="admonition admonish-sandbox" role="note" aria-labelledby="admonition-live-example-title">
 <summary class="admonition-title">
@@ -424,7 +424,7 @@ compiler won't guide you during a refactoring, as it does with the earlier appro
 //    for the child component to write into and the parent to read
 // 2) &lt;ButtonB/&gt;: passing a closure as one of the child component props, for
 //    the child component to call
-// 3) &lt;ButtonC/&gt;: adding an 「on:」 event listener to a component
+// 3) &lt;ButtonC/&gt;: adding an "on:" event listener to a component
 // 4) &lt;ButtonD/&gt;: providing a context that is used in the component (rather than prop drilling)
 
 #[derive(Copy, Clone)]
@@ -439,7 +439,7 @@ pub fn App() -&gt; impl IntoView {
     let (smallcaps, set_smallcaps) = signal(false);
 
     // the newtype pattern isn't *necessary* here but is a good practice
-    // it avoids confusion with other possible future 「WriteSignal&lt;bool&gt;」 contexts
+    // it avoids confusion with other possible future "WriteSignal&lt;bool&gt;" contexts
     // and makes it easier to refer to it in ButtonD
     provide_context(SmallcapsContext(set_smallcaps));
 
@@ -598,6 +598,8 @@ fn main() {
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

@@ -1,6 +1,6 @@
 # Guide: Islands
 
-Leptos 0.5 introduced the new 「islands」 feature. This guide will walk through the islands feature and core concepts, while implementing a demo app using the islands architecture.
+Leptos 0.5 introduced the new "islands" feature. This guide will walk through the islands feature and core concepts, while implementing a demo app using the islands architecture.
 
 ## The Islands Architecture
 
@@ -25,7 +25,7 @@ The phrase “islands architecture” has emerged recently to describe the appro
 
 ## Activating Islands Mode
 
-Let’s start with a fresh 「cargo-leptos」 app:
+Let’s start with a fresh "cargo-leptos" app:
 
 ```bash
 cargo leptos new --git leptos-rs/start-axum
@@ -41,13 +41,13 @@ cargo leptos build
 
 in the background while I fire up my editor and keep writing.
 
-The first thing I’ll do is to add the 「islands」 feature in my 「Cargo.toml」. I only need to add this to the 「leptos」 crate.
+The first thing I’ll do is to add the "islands」 feature in my 「Cargo.toml」. I only need to add this to the 「leptos" crate.
 
 ```toml
 leptos = { version = "0.7", features = ["islands"] }
 ```
 
-Next I’m going to modify the 「hydrate」 function exported from 「src/lib.rs」. I’m going to remove the line that calls 「leptos::mount::mount_to_body(App)」 and replace it with
+Next I’m going to modify the "hydrate」 function exported from 「src/lib.rs」. I’m going to remove the line that calls 「leptos::mount::mount_to_body(App)" and replace it with
 
 ```rust
 leptos::mount::hydrate_islands();
@@ -55,13 +55,13 @@ leptos::mount::hydrate_islands();
 
 Rather than running the whole application and hydrating the view that it creates, this will hydrate each individual island, in order.
 
-In 「app.rs」, in the 「shell」 functions, we’ll also need to add 「islands=true」 to the 「HydrationScripts」 component:
+In "app.rs」, in the 「shell」 functions, we’ll also need to add 「islands=true」 to the 「HydrationScripts" component:
 
 ```rust
 <HydrationScripts options islands=true/>
 ```
 
-Okay, now fire up your 「cargo leptos watch」 and go to [「http://localhost:3000」](http://localhost:3000) (or wherever).
+Okay, now fire up your "cargo leptos watch」 and go to [「http://localhost:3000"](http://localhost:3000) (or wherever).
 
 Click the button, and...
 
@@ -70,9 +70,9 @@ Nothing happens!
 Perfect.
 
 ```admonish note
-The starter templates include 「use app::*;」 in their 「hydrate()」 function definitions. Once you've switched over to islands mode, you are no longer using the imported main 「App」 function, so you might think you can delete this. (And in fact, Rust lint tools might issue warnings if you don't!)
+The starter templates include "use app::*;」 in their 「hydrate()」 function definitions. Once you've switched over to islands mode, you are no longer using the imported main 「App" function, so you might think you can delete this. (And in fact, Rust lint tools might issue warnings if you don't!)
 
-However, this can cause issues if you are using a workspace setup. We use 「wasm-bindgen」 to independently export an entrypoint for each function. In my experience, if you are using a workspace setup and nothing in your 「frontend」 crate actually uses the 「app」 crate, those bindings will not be generated correctly. [See this discussion for more](https://github.com/leptos-rs/leptos/issues/2083#issuecomment-1868053733).
+However, this can cause issues if you are using a workspace setup. We use "wasm-bindgen」 to independently export an entrypoint for each function. In my experience, if you are using a workspace setup and nothing in your 「frontend」 crate actually uses the 「app" crate, those bindings will not be generated correctly. [See this discussion for more](https://github.com/leptos-rs/leptos/issues/2083#issuecomment-1868053733).
 ```
 
 ## Using Islands
@@ -85,7 +85,7 @@ When we click the button, nothing happens, because our whole page is static.
 
 So how do we make something happen?
 
-Let’s turn the 「HomePage」 component into an island!
+Let’s turn the "HomePage" component into an island!
 
 Here was the non-interactive version:
 
@@ -121,9 +121,9 @@ fn HomePage() -> impl IntoView {
 
 Now when I click the button, it works!
 
-The 「#[island]」 macro works exactly like the 「#[component]」 macro, except that in islands mode, it designates this as an interactive island. If we check the binary size again, this is 166kb uncompressed in release mode; much larger than the 24kb totally static version, but much smaller than the 355kb fully-hydrated version.
+The "#[island]」 macro works exactly like the 「#[component]" macro, except that in islands mode, it designates this as an interactive island. If we check the binary size again, this is 166kb uncompressed in release mode; much larger than the 24kb totally static version, but much smaller than the 355kb fully-hydrated version.
 
-If you open up the source for the page now, you’ll see that your 「HomePage」 island has been rendered as a special 「<leptos-island>」 HTML element which specifies which component should be used to hydrate it:
+If you open up the source for the page now, you’ll see that your "HomePage」 island has been rendered as a special 「<leptos-island>" HTML element which specifies which component should be used to hydrate it:
 
 ```html
 <leptos-island data-component="HomePage_7432294943247405892">
@@ -135,11 +135,11 @@ If you open up the source for the page now, you’ll see that your 「HomePage�
 </leptos-island>
 ```
 
-Only code for what's inside this 「<leptos-island>」 is compiled to WASM, only only that code runs when hydrating.
+Only code for what's inside this "<leptos-island>" is compiled to WASM, only only that code runs when hydrating.
 
 ## Using Islands Effectively
 
-Remember that _only_ code within an 「#[island]」 needs to be compiled to WASM and shipped to the browser. This means that islands should be as small and specific as possible. My 「HomePage」, for example, would be better broken apart into a regular component and an island:
+Remember that _only_ code within an "#[island]」 needs to be compiled to WASM and shipped to the browser. This means that islands should be as small and specific as possible. My 「HomePage", for example, would be better broken apart into a regular component and an island:
 
 ```rust
 #[component]
@@ -162,7 +162,7 @@ fn Counter() -> impl IntoView {
 }
 ```
 
-Now the 「<h1>」 doesn’t need to be included in the client bundle, or hydrated. This seems like a silly distinction now; but note that you can now add as much inert HTML content as you want to the 「HomePage」 itself, and the WASM binary size will remain exactly the same.
+Now the "<h1>」 doesn’t need to be included in the client bundle, or hydrated. This seems like a silly distinction now; but note that you can now add as much inert HTML content as you want to the 「HomePage" itself, and the WASM binary size will remain exactly the same.
 
 In regular hydration mode, your WASM binary size grows as a function of the size/complexity of your app. In islands mode, your WASM binary grows as a function of the amount of interactivity in your app. You can add as much non-interactive content as you want, outside islands, and it will not increase that binary size.
 
@@ -172,12 +172,12 @@ So, this 50% reduction in WASM binary size is nice. But really, what’s the poi
 
 The point comes when you combine two key facts:
 
-1. Code inside 「#[component]」 functions now _only_ runs on the server, unless you use it in an island.\*
+1. Code inside "#[component]" functions now _only_ runs on the server, unless you use it in an island.\*
 2. Children and props can be passed from the server to islands, without being included in the WASM binary.
 
 This means you can run server-only code directly in the body of a component, and pass it directly into the children. Certain tasks that take a complex blend of server functions and Suspense in fully-hydrated apps can be done inline in islands.
 
-> \* This “unless you use it in an island” is important. It is _not_ the case that 「#[component]」 components only run on the server. Rather, they are “shared components” that are only compiled into the WASM binary if they’re used in the body of an 「#[island]」. But if you don’t use them in an island, they won’t run in the browser.
+> \* This “unless you use it in an island” is important. It is _not_ the case that "#[component]」 components only run on the server. Rather, they are “shared components” that are only compiled into the WASM binary if they’re used in the body of an 「#[island]". But if you don’t use them in an island, they won’t run in the browser.
 
 We’re going to rely on a third fact in the rest of this demo:
 
@@ -193,7 +193,7 @@ As Dan Abramov of React put it (in the very similar context of RSCs), islands ar
 
 > In the demo code included below, I added some styles to show all server content as a light-blue “sea,” and all islands as light-green “land.” Hopefully that will help picture what I’m talking about!
 
-To continue with the demo: I’m going to create a 「Tabs」 component. Switching between tabs will require some interactivity, so of course this will be an island. Let’s start simple for now:
+To continue with the demo: I’m going to create a "Tabs" component. Switching between tabs will require some interactivity, so of course this will be an island. Let’s start simple for now:
 
 ```rust
 #[island]
@@ -213,16 +213,16 @@ fn Tabs(labels: Vec<String>) -> impl IntoView {
 Oops. This gives me an error
 
 ```
-error[E0463]: can't find crate for 「serde」
+error[E0463]: can't find crate for "serde"
   --> src/app.rs:43:1
    |
 43 | #[island]
    | ^^^^^^^^^ can't find crate
 ```
 
-Easy fix: let’s 「cargo add serde --features=derive」. The 「#[island]」 macro wants to pull in 「serde」 here because it needs to serialize and deserialize the 「labels」 prop.
+Easy fix: let’s "cargo add serde --features=derive」. The 「#[island]」 macro wants to pull in 「serde」 here because it needs to serialize and deserialize the 「labels" prop.
 
-Now let’s update the 「HomePage」 to use 「Tabs」.
+Now let’s update the "HomePage」 to use 「Tabs".
 
 ```rust
 #[component]
@@ -255,9 +255,9 @@ If you take a look in the DOM inspector, you’ll see the island is now somethin
 </leptos-island>
 ```
 
-Our 「labels」 prop is getting serialized to JSON and stored in an HTML attribute so it can be used to hydrate the island.
+Our "labels" prop is getting serialized to JSON and stored in an HTML attribute so it can be used to hydrate the island.
 
-Now let’s add some tabs. For the moment, a 「Tab」 island will be really simple:
+Now let’s add some tabs. For the moment, a "Tab" island will be really simple:
 
 ```rust
 #[island]
@@ -268,9 +268,9 @@ fn Tab(index: usize, children: Children) -> impl IntoView {
 }
 ```
 
-Each tab, for now will just be a 「<div>」 wrapping its children.
+Each tab, for now will just be a "<div>" wrapping its children.
 
-Our 「Tabs」 component will also get some children: for now, let’s just show them all.
+Our "Tabs" component will also get some children: for now, let’s just show them all.
 
 ```rust
 #[island]
@@ -288,7 +288,7 @@ fn Tabs(labels: Vec<String>, children: Children) -> impl IntoView {
 }
 ```
 
-Okay, now let’s go back into the 「HomePage」. We’re going to create the list of tabs to put into our tab box.
+Okay, now let’s go back into the "HomePage". We’re going to create the list of tabs to put into our tab box.
 
 ```rust
 #[component]
@@ -323,25 +323,25 @@ fn HomePage() -> impl IntoView {
 
 Uh... What?
 
-If you’re used to using Leptos, you know that you just can’t do this. All code in the body of components has to run on the server (to be rendered to HTML) and in the browser (to hydrate), so you can’t just call 「std::fs」; it will panic, because there’s no access to the local filesystem (and certainly not to the server filesystem!) in the browser. This would be a security nightmare!
+If you’re used to using Leptos, you know that you just can’t do this. All code in the body of components has to run on the server (to be rendered to HTML) and in the browser (to hydrate), so you can’t just call "std::fs"; it will panic, because there’s no access to the local filesystem (and certainly not to the server filesystem!) in the browser. This would be a security nightmare!
 
-Except... wait. We’re in islands mode. This 「HomePage」 component _really does_ only run on the server. So we can, in fact, just use ordinary server code like this.
+Except... wait. We’re in islands mode. This "HomePage" component _really does_ only run on the server. So we can, in fact, just use ordinary server code like this.
 
-> **Is this a dumb example?** Yes! Synchronously reading from three different local files in a 「.map()」 is not a good choice in real life. The point here is just to demonstrate that this is, definitely, server-only content.
+> **Is this a dumb example?** Yes! Synchronously reading from three different local files in a ".map()" is not a good choice in real life. The point here is just to demonstrate that this is, definitely, server-only content.
 
-Go ahead and create three files in the root of the project called 「a.txt」, 「b.txt」, and 「c.txt」, and fill them in with whatever content you’d like.
+Go ahead and create three files in the root of the project called "a.txt」, 「b.txt」, and 「c.txt", and fill them in with whatever content you’d like.
 
 Refresh the page and you should see the content in the browser. Edit the files and refresh again; it will be updated.
 
-You can pass server-only content from a 「#[component]」 into the children of an 「#[island]」, without the island needing to know anything about how to access that data or render that content.
+You can pass server-only content from a "#[component]」 into the children of an 「#[island]", without the island needing to know anything about how to access that data or render that content.
 
-**This is really important.** Passing server 「children」 to islands means that you can keep islands small. Ideally, you don’t want to slap an 「#[island]」 around a whole chunk of your page. You want to break that chunk out into an interactive piece, which can be an 「#[island]」, and a bunch of additional server content that can be passed to that island as 「children」, so that the non-interactive subsections of an interactive part of the page can be kept out of the WASM binary.
+**This is really important.** Passing server "children」 to islands means that you can keep islands small. Ideally, you don’t want to slap an 「#[island]」 around a whole chunk of your page. You want to break that chunk out into an interactive piece, which can be an 「#[island]」, and a bunch of additional server content that can be passed to that island as 「children", so that the non-interactive subsections of an interactive part of the page can be kept out of the WASM binary.
 
 ## Passing Context Between Islands
 
-These aren’t really “tabs” yet: they just show every tab, all the time. So let’s add some simple logic to our 「Tabs」 and 「Tab」 components.
+These aren’t really “tabs” yet: they just show every tab, all the time. So let’s add some simple logic to our "Tabs」 and 「Tab" components.
 
-We’ll modify 「Tabs」 to create a simple 「selected」 signal. We provide the read half via context, and set the value of the signal whenever someone clicks one of our buttons.
+We’ll modify "Tabs」 to create a simple 「selected" signal. We provide the read half via context, and set the value of the signal whenever someone clicks one of our buttons.
 
 ```rust
 #[island]
@@ -361,7 +361,7 @@ fn Tabs(labels: Vec<String>, children: Children) -> impl IntoView {
 // ...
 ```
 
-And let’s modify the 「Tab」 island to use that context to show or hide itself:
+And let’s modify the "Tab" island to use that context to show or hide itself:
 
 ```rust
 #[island]
@@ -383,36 +383,36 @@ fn Tab(index: usize, children: Children) -> impl IntoView {
 }
 ```
 
-Now the tabs behave exactly as I’d expect. 「Tabs」 passes the signal via context to each 「Tab」, which uses it to determine whether it should be open or not.
+Now the tabs behave exactly as I’d expect. "Tabs」 passes the signal via context to each 「Tab", which uses it to determine whether it should be open or not.
 
-> That’s why in 「HomePage」, I made 「let tabs = move ||」 a function, and called it like 「{tabs()}」: creating the tabs lazily this way meant that the 「Tabs」 island would already have provided the 「selected」 context by the time each 「Tab」 went looking for it.
+> That’s why in "HomePage」, I made 「let tabs = move ||」 a function, and called it like 「{tabs()}」: creating the tabs lazily this way meant that the 「Tabs」 island would already have provided the 「selected」 context by the time each 「Tab" went looking for it.
 
-Our complete tabs demo is about 200kb uncompressed: not the smallest demo in the world, but still significantly smaller than the “Hello, world” using client side routing that we started with! Just for kicks, I built the same demo without islands mode, using 「#[server]」 functions and 「Suspense」. and it was over 400kb. So again, this was about a 50% savings in binary size. And this app includes quite minimal server-only content: remember that as we add additional server-only components and pages, this 200kb will not grow.
+Our complete tabs demo is about 200kb uncompressed: not the smallest demo in the world, but still significantly smaller than the “Hello, world” using client side routing that we started with! Just for kicks, I built the same demo without islands mode, using "#[server]」 functions and 「Suspense". and it was over 400kb. So again, this was about a 50% savings in binary size. And this app includes quite minimal server-only content: remember that as we add additional server-only components and pages, this 200kb will not grow.
 
 ## Overview
 
 This demo may seem pretty basic. It is. But there are a number of immediate takeaways:
 
 - **50% WASM binary size reduction**, which means measurable improvements in time to interactivity and initial load times for clients.
-- **Reduced data serialization costs.** Creating a resource and reading it on the client means you need to serialize the data, so it can be used for hydration. If you’ve also read that data to create HTML in a 「Suspense」, you end up with “double data,” i.e., the same exact data is both rendered to HTML and serialized as JSON, increasing the size of responses, and therefore slowing them down.
-- **Easily use server-only APIs** inside a 「#[component]」 as if it were a normal, native Rust function running on the server—which, in islands mode, it is!
-- **Reduced 「#[server]」/「create_resource」/「Suspense」 boilerplate** for loading server data.
+- **Reduced data serialization costs.** Creating a resource and reading it on the client means you need to serialize the data, so it can be used for hydration. If you’ve also read that data to create HTML in a "Suspense", you end up with “double data,” i.e., the same exact data is both rendered to HTML and serialized as JSON, increasing the size of responses, and therefore slowing them down.
+- **Easily use server-only APIs** inside a "#[component]" as if it were a normal, native Rust function running on the server—which, in islands mode, it is!
+- **Reduced "#[server]」/「create_resource」/「Suspense" boilerplate** for loading server data.
 
 ## Future Exploration
 
-The 「islands」 feature reflects work at the cutting edge of what frontend web frameworks are exploring right now. As it stands, our islands approach is very similar to Astro (before its recent View Transitions support): it allows you to build a traditional server-rendered, multi-page app and pretty seamlessly integrate islands of interactivity.
+The "islands" feature reflects work at the cutting edge of what frontend web frameworks are exploring right now. As it stands, our islands approach is very similar to Astro (before its recent View Transitions support): it allows you to build a traditional server-rendered, multi-page app and pretty seamlessly integrate islands of interactivity.
 
 There are some small improvements that will be easy to add. For example, we can do something very much like Astro's View Transitions approach:
 
 - add client-side routing for islands apps by fetching subsequent navigations from the server and replacing the HTML document with the new one
 - add animated transitions between the old and new document using the View Transitions API
-- support explicit persistent islands, i.e., islands that you can mark with unique IDs (something like 「persist:searchbar」 on the component in the view), which can be copied over from the old to the new document without losing their current state
+- support explicit persistent islands, i.e., islands that you can mark with unique IDs (something like "persist:searchbar" on the component in the view), which can be copied over from the old to the new document without losing their current state
 
 There are other, larger architectural changes that I’m [not sold on yet](https://github.com/leptos-rs/leptos/issues/1830).
 
 ## Additional Information
 
-Check out the [「islands」 example](https://github.com/leptos-rs/leptos/blob/main/examples/islands/src/app.rs), [roadmap](https://github.com/leptos-rs/leptos/issues/1830), and [Hackernews demo](https://github.com/leptos-rs/leptos/tree/leptos_0.6/examples/hackernews_islands_axum) for additional discussion.
+Check out the ["islands" example](https://github.com/leptos-rs/leptos/blob/main/examples/islands/src/app.rs), [roadmap](https://github.com/leptos-rs/leptos/issues/1830), and [Hackernews demo](https://github.com/leptos-rs/leptos/tree/leptos_0.6/examples/hackernews_islands_axum) for additional discussion.
 
 ## Demo Code
 

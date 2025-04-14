@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -202,7 +202,7 @@ view! {
 <li>in fine-grained reactive frameworks like SolidJS, Sycamore, or Leptos, <em>you</em> define the functions that rerun</li>
 </ol>
 <p>That’s what all our components are doing.</p>
-<p>Take our typical 「<SimpleCounter/>」 example in its simplest form:</p>
+<p>Take our typical "<SimpleCounter/>" example in its simplest form:</p>
 <pre><code class="language-rust">#[component]
 pub fn SimpleCounter() -&gt; impl IntoView {
     let (value, set_value) = signal(0);
@@ -215,7 +215,7 @@ pub fn SimpleCounter() -&gt; impl IntoView {
         &lt;/button&gt;
     }
 }</code></pre>
-<p>The 「SimpleCounter」 function itself runs once. The 「value」 signal is created once. The framework hands off the 「increment」 function to the browser as an event listener. When you click the button, the browser calls 「increment」, which updates 「value」 via 「set_value」. And that updates the single text node represented in our view by 「{value}」.</p>
+<p>The "SimpleCounter」 function itself runs once. The 「value」 signal is created once. The framework hands off the 「increment」 function to the browser as an event listener. When you click the button, the browser calls 「increment」, which updates 「value」 via 「set_value」. And that updates the single text node represented in our view by 「{value}".</p>
 <p>Functions are key to reactivity. They provide the framework with the ability to rerun the smallest possible unit of your application in response to a change.</p>
 <p>So remember two things:</p>
 <ol>
@@ -230,9 +230,9 @@ pub fn SimpleCounter() -&gt; impl IntoView {
 <a class="admonition-anchor-link" href="#admonition-note"></a>
 </div>
 <div>
-<p>This is actually the primary difference between the stable and nightly versions of Leptos. As you may know, using the nightly compiler and the 「nightly」 feature allows you to call a signal directly, as a function: so, 「value()」 instead of 「value.get()」.</p>
-<p>But this isn’t just syntax sugar. It allows for an extremely consistent semantic model: Reactive things are functions. Signals are accessed by calling functions. To say “give me a signal as an argument” you can take anything that 「impl Fn() -&gt; T」. And this function-based interface makes no distinction between signals, memos, and derived signals: any of them can be accessed by calling them as functions.</p>
-<p>Unfortunately implementing the 「Fn」 traits on arbitrary structs like signals requires nightly Rust, although this particular feature has mostly just languished and is not likely to change (or be stabilized) any time soon. Many people avoid nightly, for one reason or another. So, over time we’ve moved the defaults for things like documentation toward stable. Unfortunately, this makes the simple mental model of “signals are functions” a bit less straightforward.</p>
+<p>This is actually the primary difference between the stable and nightly versions of Leptos. As you may know, using the nightly compiler and the "nightly」 feature allows you to call a signal directly, as a function: so, 「value()」 instead of 「value.get()".</p>
+<p>But this isn’t just syntax sugar. It allows for an extremely consistent semantic model: Reactive things are functions. Signals are accessed by calling functions. To say “give me a signal as an argument” you can take anything that "impl Fn() -&gt; T". And this function-based interface makes no distinction between signals, memos, and derived signals: any of them can be accessed by calling them as functions.</p>
+<p>Unfortunately implementing the "Fn" traits on arbitrary structs like signals requires nightly Rust, although this particular feature has mostly just languished and is not likely to change (or be stabilized) any time soon. Many people avoid nightly, for one reason or another. So, over time we’ve moved the defaults for things like documentation toward stable. Unfortunately, this makes the simple mental model of “signals are functions” a bit less straightforward.</p>
 </div>
 </div>
 
@@ -299,6 +299,8 @@ pub fn SimpleCounter() -&gt; impl IntoView {
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

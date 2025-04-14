@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -176,12 +176,12 @@ build a snappy synchronous website that's rendered in the browser and which you 
 <p>To get the most out of this book, we encourage you to code along with the examples provided.
 In the <a href="https://book.leptos.dev/getting_started/">Getting Started</a> and <a href="https://book.leptos.dev/getting_started/leptos_dx.html">Leptos DX</a> chapters, we showed you how to set up a basic project with Leptos and Trunk, including WASM error handling in the browser.
 That basic setup is enough to get you started developing with Leptos.</p>
-<p>If you'd prefer to get started using a more full-featured template which demonstrates how to set up a few of the basics you'd see in a real Leptos project, such as routing, (covered later in the book), injecting 「<Title>」 and 「<Meta>」 tags into the page head, and a few other niceties, then feel free to utilize <a href="https://github.com/leptos-rs/start-trunk">the leptos-rs 「start-trunk」</a> template repo to get up and running.</p>
-<p>The 「start-trunk」 template requires that you have 「Trunk」 and 「cargo-generate」 installed, which you can get by running 「cargo install trunk」 and 「cargo install cargo-generate」.</p>
+<p>If you'd prefer to get started using a more full-featured template which demonstrates how to set up a few of the basics you'd see in a real Leptos project, such as routing, (covered later in the book), injecting "<Title>」 and 「<Meta>」 tags into the page head, and a few other niceties, then feel free to utilize <a href="https://github.com/leptos-rs/start-trunk">the leptos-rs 「start-trunk"</a> template repo to get up and running.</p>
+<p>The "start-trunk」 template requires that you have 「Trunk」 and 「cargo-generate」 installed, which you can get by running 「cargo install trunk」 and 「cargo install cargo-generate".</p>
 <p>To use the template to set up your project, just run</p>
-<p>「cargo generate --git https://github.com/leptos-community/start-csr」</p>
+<p>"cargo generate --git https://github.com/leptos-community/start-csr"</p>
 <p>then run</p>
-<p>「trunk serve --port 3000 --open」</p>
+<p>"trunk serve --port 3000 --open"</p>
 <p>in the newly created app's directory to start developing your app.
 The Trunk server will reload your app on file changes, making development relatively seamless.</p>
 </div>
@@ -249,6 +249,8 @@ The Trunk server will reload your app on file changes, making development relati
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

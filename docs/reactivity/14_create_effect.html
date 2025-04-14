@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -165,16 +165,16 @@
 <p>We’ve made it this far without having mentioned half of the reactive system: effects.</p>
 <p>Reactivity works in two halves: updating individual reactive values (“signals”) notifies the pieces of code that depend on them (“effects”) that they need to run again. These two halves of the reactive system are inter-dependent. Without effects, signals can change within the reactive system but never be observed in a way that interacts with the outside world. Without signals, effects run once but never again, as there’s no observable value to subscribe to. Effects are quite literally “side effects” of the reactive system: they exist to synchronize the reactive system with the non-reactive world outside it.</p>
 <p>The renderer uses effects to update parts of the DOM in response to changes in signals. You can create your own effects to synchronize the reactive system with the outside world in other ways.</p>
-<p><a href="https://docs.rs/leptos/latest/leptos/reactive/effect/struct.Effect.html">「Effect::new」</a> takes a function as its argument. It runs this function on the next “tick” of the reactive system. (So for example, if you use it in a component, it will run just <em>after</em> that component has been rendered.) If you access any reactive signal inside that function, it registers the fact that the effect depends on that signal. Whenever one of the signals that the effect depends on changes, the effect runs again.</p>
+<p><a href="https://docs.rs/leptos/latest/leptos/reactive/effect/struct.Effect.html">"Effect::new"</a> takes a function as its argument. It runs this function on the next “tick” of the reactive system. (So for example, if you use it in a component, it will run just <em>after</em> that component has been rendered.) If you access any reactive signal inside that function, it registers the fact that the effect depends on that signal. Whenever one of the signals that the effect depends on changes, the effect runs again.</p>
 <pre><code class="language-rust">let (a, set_a) = signal(0);
 let (b, set_b) = signal(0);
 
 Effect::new(move |_| {
-  // immediately prints "Value: 0" and subscribes to 「a」
+  // immediately prints "Value: 0" and subscribes to "a"
   logging::log!("Value: {}", a.get());
 });</code></pre>
-<p>The effect function is called with an argument containing whatever value it returned the last time it ran. On the initial run, this is 「None」.</p>
-<p>By default, effects <strong>do not run on the server</strong>. This means you can call browser-specific APIs within the effect function without causing issues. If you need an effect to run on the server, use <a href="https://docs.rs/leptos/latest/leptos/reactive/effect/struct.Effect.html#method.new_isomorphic">「Effect::new_isomorphic」</a>.</p>
+<p>The effect function is called with an argument containing whatever value it returned the last time it ran. On the initial run, this is "None".</p>
+<p>By default, effects <strong>do not run on the server</strong>. This means you can call browser-specific APIs within the effect function without causing issues. If you need an effect to run on the server, use <a href="https://docs.rs/leptos/latest/leptos/reactive/effect/struct.Effect.html#method.new_isomorphic">"Effect::new_isomorphic"</a>.</p>
 <h2 id="auto-tracking-and-dynamic-dependencies"><a class="header" href="#auto-tracking-and-dynamic-dependencies">Auto-tracking and Dynamic Dependencies</a></h2>
 <p>If you’re familiar with a framework like React, you might notice one key difference. React and similar frameworks typically require you to pass a “dependency array,” an explicit set of variables that determine when the effect should rerun.</p>
 <p>Because Leptos comes from the tradition of synchronous reactive programming, we don’t need this explicit dependency list. Instead, we automatically track dependencies depending on which signals are accessed within the effect.</p>
@@ -204,10 +204,10 @@ Effect::new(move |_| {
         },
     )
 });</code></pre>
-<p>If 「use_last」 is 「true」, effect should rerun whenever 「first」, 「last」, or 「use_last」 changes. But if I toggle 「use_last」 to 「false」, a change in 「last」 will never cause the full name to change. In fact, 「last」 will be removed from the dependency list until 「use_last」 toggles again. This saves us from sending multiple unnecessary requests to the API if I change 「last」 multiple times while 「use_last」 is still 「false」.</p>
+<p>If "use_last」 is 「true」, effect should rerun whenever 「first」, 「last」, or 「use_last」 changes. But if I toggle 「use_last」 to 「false」, a change in 「last」 will never cause the full name to change. In fact, 「last」 will be removed from the dependency list until 「use_last」 toggles again. This saves us from sending multiple unnecessary requests to the API if I change 「last」 multiple times while 「use_last」 is still 「false".</p>
 <h2 id="to-create-an-effect-or-not-to-create-an-effect"><a class="header" href="#to-create-an-effect-or-not-to-create-an-effect">To create an effect, or not to create an effect?</a></h2>
 <p>Effects are intended to synchronize the reactive system with the non-reactive world outside, not to synchronize between different reactive values. In other words: using an effect to read a value from one signal and set it in another is always sub-optimal.</p>
-<p>If you need to define a signal that depends on the value of other signals, use a derived signal or a <a href="https://docs.rs/leptos/latest/leptos/reactive/computed/struct.Memo.html">「Memo」</a>. Writing to a signal inside an effect isn’t the end of the world, and it won’t cause your computer to light on fire, but a derived signal or memo is always better—not only because the dataflow is clear, but because the performance is better.</p>
+<p>If you need to define a signal that depends on the value of other signals, use a derived signal or a <a href="https://docs.rs/leptos/latest/leptos/reactive/computed/struct.Memo.html">"Memo"</a>. Writing to a signal inside an effect isn’t the end of the world, and it won’t cause your computer to light on fire, but a derived signal or memo is always better—not only because the dataflow is clear, but because the performance is better.</p>
 <pre><code class="language-rust">let (a, set_a) = signal(0);
 
 // ⚠️ not great
@@ -218,12 +218,12 @@ Effect::new(move |_| {
 
 // ✅ woo-hoo!
 let b = move || a.get() * 2;</code></pre>
-<p>If you need to synchronize some reactive value with the non-reactive world outside—like a web API, the console, the filesystem, or the DOM—writing to a signal in an effect is a fine way to do that. In many cases, though, you’ll find that you’re really writing to a signal inside an event listener or something else, not inside an effect. In these cases, you should check out <a href="https://leptos-use.rs/">「leptos-use」</a> to see if it already provides a reactive wrapping primitive to do that!</p>
+<p>If you need to synchronize some reactive value with the non-reactive world outside—like a web API, the console, the filesystem, or the DOM—writing to a signal in an effect is a fine way to do that. In many cases, though, you’ll find that you’re really writing to a signal inside an event listener or something else, not inside an effect. In these cases, you should check out <a href="https://leptos-use.rs/">"leptos-use"</a> to see if it already provides a reactive wrapping primitive to do that!</p>
 <blockquote>
-<p>If you’re curious for more information about when you should and shouldn’t use 「create_effect」, <a href="https://www.youtube.com/watch?v=aQOFJQ2JkvQ">check out this video</a> for a more in-depth consideration!</p>
+<p>If you’re curious for more information about when you should and shouldn’t use "create_effect", <a href="https://www.youtube.com/watch?v=aQOFJQ2JkvQ">check out this video</a> for a more in-depth consideration!</p>
 </blockquote>
 <h2 id="effects-and-rendering"><a class="header" href="#effects-and-rendering">Effects and Rendering</a></h2>
-<p>We’ve managed to get this far without mentioning effects because they’re built into the Leptos DOM renderer. We’ve seen that you can create a signal and pass it into the 「view」 macro, and it will update the relevant DOM node whenever the signal changes:</p>
+<p>We’ve managed to get this far without mentioning effects because they’re built into the Leptos DOM renderer. We’ve seen that you can create a signal and pass it into the "view" macro, and it will update the relevant DOM node whenever the signal changes:</p>
 <pre><code class="language-rust">let (count, set_count) = signal(0);
 
 view! {
@@ -249,10 +249,10 @@ Effect::new(move |prev_value| {
     // return this value so we can memoize the next update
     text
 });</code></pre>
-<p>Every time 「count」 is updated, this effect will rerun. This is what allows reactive, fine-grained updates to the DOM.</p>
-<h2 id="explicit-tracking-with-effectwatch"><a class="header" href="#explicit-tracking-with-effectwatch">Explicit Tracking with 「Effect::watch()」</a></h2>
-<p>In addition to 「Effect::new()」, Leptos provides an <a href="https://docs.rs/leptos/latest/leptos/reactive/effect/struct.Effect.html#method.watch">「Effect::watch()」</a> function, which can be used to separate tracking and responding to changes by explicitly passing in a set of values to track.</p>
-<p>「watch」 takes three arguments. The 「deps」 argument is reactively tracked while 「callback」 and 「immediate」 are not. Whenever 「deps」 is changed, 「callback」 is run. If 「immediate」 is false, the callback will run only after the first change is detected of any signal that is accessed in deps. 「watch」 returns an 「Effect」, which can be called with 「.stop()」 to stop tracking the dependencies.</p>
+<p>Every time "count" is updated, this effect will rerun. This is what allows reactive, fine-grained updates to the DOM.</p>
+<h2 id="explicit-tracking-with-effectwatch"><a class="header" href="#explicit-tracking-with-effectwatch">Explicit Tracking with "Effect::watch()"</a></h2>
+<p>In addition to "Effect::new()」, Leptos provides an <a href="https://docs.rs/leptos/latest/leptos/reactive/effect/struct.Effect.html#method.watch">「Effect::watch()"</a> function, which can be used to separate tracking and responding to changes by explicitly passing in a set of values to track.</p>
+<p>"watch」 takes three arguments. The 「deps」 argument is reactively tracked while 「callback」 and 「immediate」 are not. Whenever 「deps」 is changed, 「callback」 is run. If 「immediate」 is false, the callback will run only after the first change is detected of any signal that is accessed in deps. 「watch」 returns an 「Effect」, which can be called with 「.stop()" to stop tracking the dependencies.</p>
 <pre><code class="language-rust">let (num, set_num) = signal(0);
 
 let effect = Effect::watch(
@@ -301,7 +301,7 @@ fn App() -&gt; impl IntoView {
     let logged = move || log.get().join("\n");
 
     // the newtype pattern isn't *necessary* here but is a good practice
-    // it avoids confusion with other possible future 「RwSignal&lt;Vec&lt;String&gt;&gt;」 contexts
+    // it avoids confusion with other possible future "RwSignal&lt;Vec&lt;String&gt;&gt;" contexts
     // and makes it easier to refer to it
     provide_context(LogContext(log));
 
@@ -476,6 +476,8 @@ fn main() {
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

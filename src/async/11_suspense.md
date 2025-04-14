@@ -1,4 +1,4 @@
-# 「<Suspense/>」
+# "<Suspense/>"
 
 In the previous chapter, we showed how you can create a simple loading screen to show some fallback while a resource is loading.
 
@@ -37,7 +37,7 @@ view! {
 
 That’s not _so_ bad, but it’s kind of annoying. What if we could invert the flow of control?
 
-The [「<Suspense/>」](https://docs.rs/leptos/latest/leptos/suspense/fn.Suspense.html) component lets us do exactly that. You give it a 「fallback」 prop and children, one or more of which usually involves reading from a resource. Reading from a resource “under” a 「<Suspense/>」 (i.e., in one of its children) registers that resource with the 「<Suspense/>」. If it’s still waiting for resources to load, it shows the 「fallback」. When they’ve all loaded, it shows the children.
+The ["<Suspense/>」](https://docs.rs/leptos/latest/leptos/suspense/fn.Suspense.html) component lets us do exactly that. You give it a 「fallback」 prop and children, one or more of which usually involves reading from a resource. Reading from a resource “under” a 「<Suspense/>」 (i.e., in one of its children) registers that resource with the 「<Suspense/>」. If it’s still waiting for resources to load, it shows the 「fallback". When they’ve all loaded, it shows the children.
 
 ```rust
 let (count, set_count) = signal(0);
@@ -65,11 +65,11 @@ view! {
 }
 ```
 
-Every time one of the resources is reloading, the 「"Loading..."」 fallback will show again.
+Every time one of the resources is reloading, the ""Loading..."" fallback will show again.
 
 This inversion of the flow of control makes it easier to add or remove individual resources, as you don’t need to handle the matching yourself. It also unlocks some massive performance improvements during server-side rendering, which we’ll talk about during a later chapter.
 
-Using 「<Suspense/>」 also gives us access to a useful way to directly 「.await」 resources, allowing us to remove a level of nesting, above. The 「Suspend」 type lets us create a renderable 「Future」 which can be used in the view:
+Using "<Suspense/>」 also gives us access to a useful way to directly 「.await」 resources, allowing us to remove a level of nesting, above. The 「Suspend」 type lets us create a renderable 「Future" which can be used in the view:
 
 ```rust
 view! {
@@ -92,17 +92,17 @@ view! {
 }
 ```
 
-「Suspend」 allows us to avoid null-checking each resource, and removes some additional complexity from the code.
+"Suspend" allows us to avoid null-checking each resource, and removes some additional complexity from the code.
 
-## 「<Await/>」
+## "<Await/>"
 
-If you’re simply trying to wait for some 「Future」 to resolve before rendering, you may find the 「<Await/>」 component helpful in reducing boilerplate. 「<Await/>」 essentially combines a 「OnceResource」 with a 「<Suspense/>」 with no fallback.
+If you’re simply trying to wait for some "Future」 to resolve before rendering, you may find the 「<Await/>」 component helpful in reducing boilerplate. 「<Await/>」 essentially combines a 「OnceResource」 with a 「<Suspense/>" with no fallback.
 
 In other words:
 
-1. It only polls the 「Future」 once, and does not respond to any reactive changes.
-2. It does not render anything until the 「Future」 resolves.
-3. After the 「Future」 resolves, it binds its data to whatever variable name you choose and then renders its children with that variable in scope.
+1. It only polls the "Future" once, and does not respond to any reactive changes.
+2. It does not render anything until the "Future" resolves.
+3. After the "Future" resolves, it binds its data to whatever variable name you choose and then renders its children with that variable in scope.
 
 ```rust
 async fn fetch_monkeys(monkey: i32) -> i32 {
@@ -111,7 +111,7 @@ async fn fetch_monkeys(monkey: i32) -> i32 {
 }
 view! {
     <Await
-        // 「future」 provides the 「Future」 to be resolved
+        // "future」 provides the 「Future" to be resolved
         future=fetch_monkeys(3)
         // the data is bound to whatever variable name you provide
         let:data
@@ -152,7 +152,7 @@ async fn important_api_call(name: String) -> String {
 pub fn App() -> impl IntoView {
     let (name, set_name) = signal("Bill".to_string());
 
-    // this will reload every time 「name」 changes
+    // this will reload every time "name" changes
     let async_data = LocalResource::new(move || important_api_call(name.get()));
 
     view! {

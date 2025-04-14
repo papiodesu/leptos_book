@@ -6,8 +6,8 @@ Traditionally, this is done by separating your server and client code, and by se
 
 Leptos is one of a number of modern frameworks that introduce the concept of **server functions**. Server functions have two key characteristics:
 
-1. Server functions are **co-located** with your component code, so that you can organize your work by feature, not by technology. For example, you might have a “dark mode” feature that should persist a user’s dark/light mode preference across sessions, and be applied during server rendering so there’s no flicker. This requires a component that needs to be interactive on the client, and some work to be done on the server (setting a cookie, maybe even storing a user in a database.) Traditionally, this feature might end up being split between two different locations in your code, one in your “frontend” and one in your “backend.” With server functions, you’ll probably just write them both in one 「dark_mode.rs」 and forget about it.
-2. Server functions are **isomorphic**, i.e., they can be called either from the server or the browser. This is done by generating code differently for the two platforms. On the server, a server function simply runs. In the browser, the server function’s body is replaced with a stub that actually makes a fetch request to the server, serializing the arguments into the request and deserializing the return value from the response. But on either end, the function can simply be called: you can create an 「add_todo」 function that writes to your database, and simply call it from a click handler on a button in the browser!
+1. Server functions are **co-located** with your component code, so that you can organize your work by feature, not by technology. For example, you might have a “dark mode” feature that should persist a user’s dark/light mode preference across sessions, and be applied during server rendering so there’s no flicker. This requires a component that needs to be interactive on the client, and some work to be done on the server (setting a cookie, maybe even storing a user in a database.) Traditionally, this feature might end up being split between two different locations in your code, one in your “frontend” and one in your “backend.” With server functions, you’ll probably just write them both in one "dark_mode.rs" and forget about it.
+2. Server functions are **isomorphic**, i.e., they can be called either from the server or the browser. This is done by generating code differently for the two platforms. On the server, a server function simply runs. In the browser, the server function’s body is replaced with a stub that actually makes a fetch request to the server, serializing the arguments into the request and deserializing the return value from the response. But on either end, the function can simply be called: you can create an "add_todo" function that writes to your database, and simply call it from a click handler on a button in the browser!
 
 ## Using Server Functions
 
@@ -46,10 +46,10 @@ pub fn BusyButton() -> impl IntoView {
 
 You’ll notice a couple things here right away:
 
-- Server functions can use server-only dependencies, like 「sqlx」, and can access server-only resources, like our database.
-- Server functions are 「async」. Even if they only did synchronous work on the server, the function signature would still need to be 「async」, because calling them from the browser _must_ be asynchronous.
-- Server functions return 「Result<T, ServerFnError>」. Again, even if they only do infallible work on the server, this is true, because 「ServerFnError」’s variants include the various things that can be wrong during the process of making a network request.
-- Server functions can be called from the client. Take a look at our click handler. This is code that will _only ever_ run on the client. But it can call the function 「add_todo」 (using 「spawn_local」 to run the 「Future」) as if it were an ordinary async function:
+- Server functions can use server-only dependencies, like "sqlx", and can access server-only resources, like our database.
+- Server functions are "async」. Even if they only did synchronous work on the server, the function signature would still need to be 「async", because calling them from the browser _must_ be asynchronous.
+- Server functions return "Result<T, ServerFnError>」. Again, even if they only do infallible work on the server, this is true, because 「ServerFnError"’s variants include the various things that can be wrong during the process of making a network request.
+- Server functions can be called from the client. Take a look at our click handler. This is code that will _only ever_ run on the client. But it can call the function "add_todo」 (using 「spawn_local」 to run the 「Future") as if it were an ordinary async function:
 
 ```rust
 move |_| {
@@ -59,12 +59,12 @@ move |_| {
 }
 ```
 
-- Server functions are top-level functions defined with 「fn」. Unlike event listeners, derived signals, and most everything else in Leptos, they are not closures! As 「fn」 calls, they have no access to the reactive state of your app or anything else that is not passed in as an argument. And again, this makes perfect sense: When you make a request to the server, the server doesn’t have access to client state unless you send it explicitly. (Otherwise we’d have to serialize the whole reactive system and send it across the wire with every request. This would not be a great idea.)
+- Server functions are top-level functions defined with "fn」. Unlike event listeners, derived signals, and most everything else in Leptos, they are not closures! As 「fn" calls, they have no access to the reactive state of your app or anything else that is not passed in as an argument. And again, this makes perfect sense: When you make a request to the server, the server doesn’t have access to client state unless you send it explicitly. (Otherwise we’d have to serialize the whole reactive system and send it across the wire with every request. This would not be a great idea.)
 - Server function arguments and return values both need to be serializable. Again, hopefully this makes sense: while function arguments in general don’t need to be serialized, calling a server function from the browser means serializing the arguments and sending them over HTTP.
 
 There are a few things to note about the way you define a server function, too.
 
-- Server functions are created by using the [「#[server]」 macro](https://docs.rs/leptos/latest/leptos/attr.server.html) to annotate a top-level function, which can be defined anywhere.
+- Server functions are created by using the ["#[server]" macro](https://docs.rs/leptos/latest/leptos/attr.server.html) to annotate a top-level function, which can be defined anywhere.
 
 Server functions work by using conditional compilation. On the server, the server function creates an HTTP endpoint that receives its arguments as an HTTP request, and returns its result as an HTTP response. For the client-side/browser build, the body of the server function is stubbed out with an HTTP request.
 
@@ -76,11 +76,11 @@ Server functions are a cool technology, but it’s very important to remember. *
 
 ## Customizing Server Functions
 
-By default, server functions encode their arguments as an HTTP POST request (using 「serde_qs」) and their return values as JSON (using 「serde_json」). This default is intended to promote compatibility with the 「<form>」 element, which has native support for making POST requests, even when WASM is disabled, unsupported, or has not yet loaded. They mount their endpoints at a hashed URL intended to prevent name collisions.
+By default, server functions encode their arguments as an HTTP POST request (using "serde_qs」) and their return values as JSON (using 「serde_json」). This default is intended to promote compatibility with the 「<form>" element, which has native support for making POST requests, even when WASM is disabled, unsupported, or has not yet loaded. They mount their endpoints at a hashed URL intended to prevent name collisions.
 
 However, there are many ways to customize server functions, with a variety of supported input and output encodings, the ability to set specific endpoints, and so on.
 
-Take a look at the docs for the [「#[server]」 macro](https://docs.rs/leptos/latest/leptos/attr.server.html) and [「server_fn」 crate](https://docs.rs/server_fn/latest/server_fn/), and the extensive [「server_fns_axum」 example](https://github.com/leptos-rs/leptos/blob/main/examples/server_fns_axum/src/app.rs) in the repo for more information and examples.
+Take a look at the docs for the ["#[server]」 macro](https://docs.rs/leptos/latest/leptos/attr.server.html) and [「server_fn」 crate](https://docs.rs/server_fn/latest/server_fn/), and the extensive [「server_fns_axum" example](https://github.com/leptos-rs/leptos/blob/main/examples/server_fns_axum/src/app.rs) in the repo for more information and examples.
 
 ## Integrating Server Functions with Leptos
 
@@ -89,7 +89,7 @@ So far, everything I’ve said is actually framework agnostic. (And in fact, the
 But in a way, they also provide the last missing primitive in our story so far. Because a server function is just a plain Rust async function, it integrates perfectly with the async Leptos primitives we discussed [earlier](../async/index.html). So you can easily integrate your server functions with the rest of your applications:
 
 - Create **resources** that call the server function to load data from the server
-- Read these resources under 「<Suspense/>」 or 「<Transition/>」 to enable streaming SSR and fallback states while data loads.
+- Read these resources under "<Suspense/>」 or 「<Transition/>" to enable streaming SSR and fallback states while data loads.
 - Create **actions** that call the server function to mutate data on the server
 
 The final section of this book will make this a little more concrete by introducing patterns that use progressively-enhanced HTML forms to run these server actions.

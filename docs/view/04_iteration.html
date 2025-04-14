@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -168,14 +168,14 @@ the differences between changing sets of items can also be one of the trickiest
 tasks for a framework to handle well.</p>
 <p>Leptos supports two different patterns for iterating over items:</p>
 <ol>
-<li>For static views: 「Vec&lt;_&gt;」</li>
-<li>For dynamic lists: 「<For/>」</li>
+<li>For static views: "Vec&lt;_&gt;"</li>
+<li>For dynamic lists: "<For/>"</li>
 </ol>
-<h2 id="static-views-with-vec_"><a class="header" href="#static-views-with-vec_">Static Views with 「Vec&lt;_&gt;」</a></h2>
+<h2 id="static-views-with-vec_"><a class="header" href="#static-views-with-vec_">Static Views with "Vec&lt;_&gt;"</a></h2>
 <p>Sometimes you need to show an item repeatedly, but the list you’re drawing from
 does not often change. In this case, it’s important to know that you can insert
-any 「Vec<IV> where IV: IntoView」 into your view. In other words, if you can render
-「T」, you can render 「Vec<T>」.</p>
+any "Vec<IV> where IV: IntoView" into your view. In other words, if you can render
+"T」, you can render 「Vec<T>".</p>
 <pre><code class="language-rust">let values = vec![0, 1, 2];
 view! {
     // this will just render "012"
@@ -187,7 +187,7 @@ view! {
             .collect::&lt;Vec&lt;_&gt;&gt;()}
     &lt;/ul&gt;
 }</code></pre>
-<p>Leptos also provides a 「.collect_view()」 helper function that allows you to collect any iterator of 「T: IntoView」 into 「Vec<View>」.</p>
+<p>Leptos also provides a ".collect_view()」 helper function that allows you to collect any iterator of 「T: IntoView」 into 「Vec<View>".</p>
 <pre><code class="language-rust">let values = vec![0, 1, 2];
 view! {
     // this will just render "012"
@@ -204,8 +204,8 @@ You can render dynamic items as part of a static list.</p>
 <pre><code class="language-rust">// create a list of 5 signals
 let length = 5;
 let counters = (1..=length).map(|idx| RwSignal::new(idx));</code></pre>
-<p>Note here that instead of calling 「signal()」 to get a tuple with a reader and a writer,
-here we use 「RwSignal::new()」 to get a single, read-write signal. This is just more convenient
+<p>Note here that instead of calling "signal()" to get a tuple with a reader and a writer,
+here we use "RwSignal::new()" to get a single, read-write signal. This is just more convenient
 for a situation where we’d otherwise be passing the tuples around.</p>
 <pre><code>// each item manages a reactive view
 // but the list itself will never change
@@ -227,34 +227,34 @@ view! {
     &lt;ul&gt;{counter_buttons}&lt;/ul&gt;
 }
 </code></pre>
-<p>You <em>can</em> render a 「Fn() -&gt; Vec&lt;<em>&gt;」 reactively as well. But note that this is an unkeyed
+<p>You <em>can</em> render a "Fn() -&gt; Vec&lt;<em>&gt;" reactively as well. But note that this is an unkeyed
 list update: it will reuse the existing DOM elements, and update them with the new values,
-according to their order in the new 「Vec&lt;</em>&gt;」. If you’re just adding and removing items at the
+according to their order in the new "Vec&lt;</em>&gt;". If you’re just adding and removing items at the
 end of the list, this works well, but if you are moving items around or inserting items into
 the middle of the list, this will cause the browser to do more work than it needs to, and may
 have surprising effects on things like input state and CSS animations. (For more on the “keyed”
 vs. “unkeyed” distinction, and some practical examples, you can read
 <a href="https://www.stefankrause.net/wp/?p=342">this article</a>.)</p>
 <p>Luckily, there’s an efficient way to do keyed list iteration, as well.</p>
-<h2 id="dynamic-rendering-with-the--component"><a class="header" href="#dynamic-rendering-with-the--component">Dynamic Rendering with the 「<For/>」 Component</a></h2>
-<p>The <a href="https://docs.rs/leptos/latest/leptos/control_flow/fn.For.html">「<For/>」</a> component is a
+<h2 id="dynamic-rendering-with-the--component"><a class="header" href="#dynamic-rendering-with-the--component">Dynamic Rendering with the "<For/>" Component</a></h2>
+<p>The <a href="https://docs.rs/leptos/latest/leptos/control_flow/fn.For.html">"<For/>"</a> component is a
 keyed dynamic list. It takes three props:</p>
 <ul>
-<li>「each」: a reactive function that returns the items 「T」 to be iterated over</li>
-<li>「key」: a key function that takes 「&amp;T」 and returns a stable, unique key or ID</li>
-<li>「children」: renders each 「T」 into a view</li>
+<li>"each」: a reactive function that returns the items 「T" to be iterated over</li>
+<li>"key」: a key function that takes 「&amp;T" and returns a stable, unique key or ID</li>
+<li>"children」: renders each 「T" into a view</li>
 </ul>
-<p>「key」 is, well, the key. You can add, remove, and move items within the list. As
+<p>"key" is, well, the key. You can add, remove, and move items within the list. As
 long as each item’s key is stable over time, the framework does not need to rerender
 any of the items, unless they are new additions, and it can very efficiently add,
 remove, and move items as they change. This allows for extremely efficient updates
 to the list as it changes, with minimal additional work.</p>
-<p>Creating a good 「key」 can be a little tricky. You generally do <em>not</em> want to use
+<p>Creating a good "key" can be a little tricky. You generally do <em>not</em> want to use
 an index for this purpose, as it is not stable—if you remove or move items, their
 indices change.</p>
 <p>But it’s a great idea to do something like generating a unique ID for each row as
 it is generated, and using that as an ID for the key function.</p>
-<p>Check out the 「<DynamicList/>」 component below for an example.</p>
+<p>Check out the "<DynamicList/>" component below for an example.</p>
 <details id="admonition-live-example" class="admonition admonish-sandbox" role="note" aria-labelledby="admonition-live-example-title">
 <summary class="admonition-title">
 <div id="admonition-live-example-title">
@@ -322,7 +322,7 @@ fn StaticList(
         })
         .collect::&lt;Vec&lt;_&gt;&gt;();
 
-    // Note that if 「counter_buttons」 were a reactive list
+    // Note that if "counter_buttons" were a reactive list
     // and its value changed, this would be very inefficient:
     // it would rerender every row every time the list changed.
     view! {
@@ -343,7 +343,7 @@ fn DynamicList(
     // will not be re-rendered. When the list changes, only
     // the minimum number of changes will be made to the DOM.
 
-    // 「next_counter_id」 will let us generate unique IDs
+    // "next_counter_id" will let us generate unique IDs
     // we do this by simply incrementing the ID by one
     // each time we create a counter
     let mut next_counter_id = initial_length;
@@ -370,8 +370,8 @@ fn DynamicList(
         let sig = ArcRwSignal::new(next_counter_id + 1);
         // add this counter to the list of counters
         set_counters.update(move |counters| {
-            // since 「.update()」 gives us 「&amp;mut T」
-            // we can just use normal Vec methods like 「push」
+            // since ".update()」 gives us 「&amp;mut T"
+            // we can just use normal Vec methods like "push"
             counters.push((next_counter_id, sig))
         });
         // increment the ID so it's always unique
@@ -387,7 +387,7 @@ fn DynamicList(
                 // The &lt;For/&gt; component is central here
                 // This allows for efficient, key list rendering
                 &lt;For
-                    // 「each」 takes any function that returns an iterator
+                    // "each" takes any function that returns an iterator
                     // this should usually be a signal or derived signal
                     // if it's not reactive, just render a Vec&lt;_&gt; instead of &lt;For/&gt;
                     each=move || counters.get()
@@ -396,7 +396,7 @@ fn DynamicList(
                     // can only grow, because moving items around inside the list
                     // means their indices will change and they will all rerender
                     key=|counter| counter.0
-                    // 「children」 receives each item from your 「each」 iterator
+                    // "children」 receives each item from your 「each" iterator
                     // and returns a view
                     children=move |(id, count)| {
                         // we can convert our ArcRwSignal to a Copy-able RwSignal
@@ -498,6 +498,8 @@ fn main() {
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

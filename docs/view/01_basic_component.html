@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -164,19 +164,19 @@
                         <h1 id="a-basic-component"><a class="header" href="#a-basic-component">A Basic Component</a></h1>
 <p>That “Hello, world!” was a <em>very</em> simple example. Let’s move on to something a
 little more like an ordinary app.</p>
-<p>First, let’s edit the 「main」 function so that, instead of rendering the whole
-app, it just renders an 「<App/>」 component. Components are the basic unit of
+<p>First, let’s edit the "main" function so that, instead of rendering the whole
+app, it just renders an "<App/>" component. Components are the basic unit of
 composition and design in most web frameworks, and Leptos is no exception.
 Conceptually, they are similar to HTML elements: they represent a section of the
 DOM, with self-contained, defined behavior. Unlike HTML elements, they are in
-「PascalCase」, so most Leptos applications will start with something like an
-「<App/>」 component.</p>
+"PascalCase", so most Leptos applications will start with something like an
+"<App/>" component.</p>
 <pre><code class="language-rust">use leptos::mount::mount_to_body;
 
 fn main() {
     mount_to_body(App);
 }</code></pre>
-<p>Now let’s define our 「App」 component itself. Because it’s relatively simple,
+<p>Now let’s define our "App" component itself. Because it’s relatively simple,
 I’ll give you the whole thing up front, then walk through it line by line.</p>
 <pre><code class="language-rust">use leptos::prelude::*;
 
@@ -204,19 +204,19 @@ If you'd prefer to use individual imports, feel free to do that; the compiler
 will provide helpful recommendations for each import.</p>
 <h2 id="the-component-signature"><a class="header" href="#the-component-signature">The Component Signature</a></h2>
 <pre><code class="language-rust">#[component]</code></pre>
-<p>Like all component definitions, this begins with the <a href="https://docs.rs/leptos/latest/leptos/attr.component.html">「#[component]」</a> macro. 「#[component]」 annotates a function so it can be
+<p>Like all component definitions, this begins with the <a href="https://docs.rs/leptos/latest/leptos/attr.component.html">"#[component]」</a> macro. 「#[component]" annotates a function so it can be
 used as a component in your Leptos application. We’ll see some of the other features of
 this macro in a couple chapters.</p>
 <pre><code class="language-rust">fn App() -&gt; impl IntoView</code></pre>
 <p>Every component is a function with the following characteristics</p>
 <ol>
 <li>It takes zero or more arguments of any type.</li>
-<li>It returns 「impl IntoView」, which is an opaque type that includes
-anything you could return from a Leptos 「view」.</li>
+<li>It returns "impl IntoView", which is an opaque type that includes
+anything you could return from a Leptos "view".</li>
 </ol>
 <blockquote>
 <p>Component function arguments are gathered together into a single props struct
-which is built by the 「view」 macro as needed.</p>
+which is built by the "view" macro as needed.</p>
 </blockquote>
 <h2 id="the-component-body"><a class="header" href="#the-component-body">The Component Body</a></h2>
 <p>The body of the component function is a set-up function that runs once, not a
@@ -224,16 +224,16 @@ render function that reruns multiple times. You’ll typically use it to create 
 few reactive variables, define any side effects that run in response to those values
 changing, and describe the user interface.</p>
 <pre><code class="language-rust">let (count, set_count) = signal(0);</code></pre>
-<p><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/fn.signal.html">「signal」</a>
+<p><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/fn.signal.html">"signal"</a>
 creates a signal, the basic unit of reactive change and state management in Leptos.
-This returns a 「(getter, setter)」 tuple. To access the current value, you’ll
-use 「count.get()」 (or, on 「nightly」 Rust, the shorthand 「count()」). To set the
-current value, you’ll call 「set_count.set(...)」 (or, on nightly, 「set_count(...)」).</p>
+This returns a "(getter, setter)" tuple. To access the current value, you’ll
+use "count.get()」 (or, on 「nightly」 Rust, the shorthand 「count()"). To set the
+current value, you’ll call "set_count.set(...)」 (or, on nightly, 「set_count(...)").</p>
 <blockquote>
-<p>「.get()」 clones the value and 「.set()」 overwrites it. In many cases, it’s more efficient to use 「.with()」 or 「.update()」; check out the docs for <a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html">「ReadSignal」</a> and <a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html">「WriteSignal」</a> if you’d like to learn more about those trade-offs at this point.</p>
+<p>".get()」 clones the value and 「.set()」 overwrites it. In many cases, it’s more efficient to use 「.with()」 or 「.update()」; check out the docs for <a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html">「ReadSignal」</a> and <a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html">「WriteSignal"</a> if you’d like to learn more about those trade-offs at this point.</p>
 </blockquote>
 <h2 id="the-view"><a class="header" href="#the-view">The View</a></h2>
-<p>Leptos defines user interfaces using a JSX-like format via the <a href="https://docs.rs/leptos/latest/leptos/macro.view.html">「view」</a> macro.</p>
+<p>Leptos defines user interfaces using a JSX-like format via the <a href="https://docs.rs/leptos/latest/leptos/macro.view.html">"view"</a> macro.</p>
 <pre><code class="language-rust">view! {
     &lt;button
         // define an event listener with on:
@@ -252,8 +252,8 @@ current value, you’ll call 「set_count.set(...)」 (or, on nightly, 「set_co
     &lt;/p&gt;
 }</code></pre>
 <p>This should mostly be easy to understand: it looks like HTML, with a special
-「on:click」 to define a 「click」 event listener, a few text nodes that look like
-Rust strings, and then two values in braces: one, 「{count}」, seems pretty easy
+"on:click」 to define a 「click" event listener, a few text nodes that look like
+Rust strings, and then two values in braces: one, "{count}", seems pretty easy
 to understand (it's just the value of our signal), and then...</p>
 <pre><code class="language-rust">{move || count.get() * 2}</code></pre>
 <p>whatever that is.</p>
@@ -261,26 +261,26 @@ to understand (it's just the value of our signal), and then...</p>
 than they’ve ever used in their lives. And fair enough.</p>
 <p>Passing a function into the view tells the framework: “Hey, this is something
 that might change.”</p>
-<p>When we click the button and call 「set_count」, the 「count」 signal is updated. This
-「move || count.get() * 2」 closure, whose value depends on the value of 「count」, reruns,
+<p>When we click the button and call "set_count」, the 「count" signal is updated. This
+"move || count.get() * 2」 closure, whose value depends on the value of 「count", reruns,
 and the framework makes a targeted update to that specific text node, touching
 nothing else in your application. This is what allows for extremely efficient updates
 to the DOM.</p>
 <p>Remember—and this is <em>very important</em>—only signals and functions are treated as reactive
 values in the view.</p>
-<p>This means that 「{count}」 and 「{count.get()}」 do very different things in your view.
-「{count}」 passes in a signal, telling the framework to update the view every time 「count」 changes.
-「{count.get()}」 accesses the value of 「count」 once, and passes an 「i32」 into the view,
+<p>This means that "{count}」 and 「{count.get()}" do very different things in your view.
+"{count}」 passes in a signal, telling the framework to update the view every time 「count" changes.
+"{count.get()}」 accesses the value of 「count」 once, and passes an 「i32" into the view,
 rendering it once, unreactively.</p>
-<p>In the same way, 「{move || count.get() * 2}」 and 「{count.get() * 2}」 behave differently.
+<p>In the same way, "{move || count.get() * 2}」 and 「{count.get() * 2}" behave differently.
 The first one is a function, so it's rendered reactively. The second is a value, so it's
-just rendered once, and won't update when 「count」 changes.</p>
+just rendered once, and won't update when "count" changes.</p>
 <p>You can see the difference in the CodeSandbox below!</p>
-<p>Let’s make one final change. 「set_count.set(3)」 is a pretty useless thing for a click handler to do. Let’s replace “set this value to 3” with “increment this value by 1”:</p>
+<p>Let’s make one final change. "set_count.set(3)" is a pretty useless thing for a click handler to do. Let’s replace “set this value to 3” with “increment this value by 1”:</p>
 <pre><code class="language-rust">move |_| {
     *set_count.write() += 1;
 }</code></pre>
-<p>You can see here that while 「set_count」 just sets the value, 「set_count.write()」 gives us a mutable reference and mutates the value in place. Either one will trigger a reactive update in our UI.</p>
+<p>You can see here that while "set_count」 just sets the value, 「set_count.write()" gives us a mutable reference and mutates the value in place. Either one will trigger a reactive update in our UI.</p>
 <blockquote>
 <p>Throughout this tutorial, we’ll use CodeSandbox to show interactive examples.
 Hover over any of the variables to show Rust-Analyzer details
@@ -321,14 +321,14 @@ fn App() -&gt; impl IntoView {
     // we'll talk more about them later
     let (count, set_count) = signal(0);
 
-    // the 「view」 macro is how we define the user interface
+    // the "view" macro is how we define the user interface
     // it uses an HTML-like format that can accept certain Rust values
     view! {
         &lt;button
-            // on:click will run whenever the 「click」 event fires
-            // every event handler is defined as 「on:{eventname}」
+            // on:click will run whenever the "click" event fires
+            // every event handler is defined as "on:{eventname}"
 
-            // we're able to move 「set_count」 into the closure
+            // we're able to move "set_count" into the closure
             // because signals are Copy and 'static
 
             on:click=move |_| *set_count.write() += 1
@@ -360,9 +360,9 @@ fn App() -&gt; impl IntoView {
     }
 }
 
-// This 「main」 function is the entry point into the app
+// This "main" function is the entry point into the app
 // It just mounts our component to the &lt;body&gt;
-// Because we defined it as 「fn App」, we can now use it in a
+// Because we defined it as "fn App", we can now use it in a
 // template as &lt;App/&gt;
 fn main() {
     leptos::mount::mount_to_body(App)
@@ -432,6 +432,8 @@ fn main() {
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

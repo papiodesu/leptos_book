@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="./mdbook-admonish.css">
@@ -166,9 +166,9 @@
 <ol>
 <li>the URL of your Leptos app, which has been compiled to WebAssembly (WASM)</li>
 <li>the URL of the JavaScript used to initialize this WASM blob</li>
-<li>an empty 「<body>」 element</li>
+<li>an empty "<body>" element</li>
 </ol>
-<p>When the JS and WASM have loaded, Leptos will render your app into the 「<body>」. This means that nothing appears on the screen until JS/WASM have loaded and run. This has some drawbacks:</p>
+<p>When the JS and WASM have loaded, Leptos will render your app into the "<body>". This means that nothing appears on the screen until JS/WASM have loaded and run. This has some drawbacks:</p>
 <ol>
 <li>It increases load time, as your user’s screen is blank until additional resources have been downloaded.</li>
 <li>It’s bad for SEO, as load times are longer and the HTML you serve has no meaningful content.</li>
@@ -177,8 +177,8 @@
 <p>These downsides apply across the web ecosystem, but especially to WASM apps.</p>
 <p>However, depending on the requirements of your project, you may be fine with these limitations.</p>
 <p>If you just want to deploy your Client-Side Rendered website, skip ahead to the chapter on <a href="https://leptos-rs.github.io/leptos/deployment/index.html">"Deployment"</a> - there, you'll find directions on how best to deploy your Leptos CSR site.</p>
-<p>But what do you do if you want to return more than just an empty 「<body>」 tag in your 「index.html」 page? Use “Server-Side Rendering”!</p>
-<p>Whole books could be (and probably have been) written about this topic, but at its core, it’s really simple: rather than returning an empty 「<body>」 tag, with SSR, you'll return an initial HTML page that reflects the actual starting state of your app or site, so that while JS/WASM are loading, and until they load, the user can access the plain HTML version.</p>
+<p>But what do you do if you want to return more than just an empty "<body>」 tag in your 「index.html" page? Use “Server-Side Rendering”!</p>
+<p>Whole books could be (and probably have been) written about this topic, but at its core, it’s really simple: rather than returning an empty "<body>" tag, with SSR, you'll return an initial HTML page that reflects the actual starting state of your app or site, so that while JS/WASM are loading, and until they load, the user can access the plain HTML version.</p>
 <p>Part 2 of this book, on Leptos SSR, will cover this topic in some detail!</p>
 
                     </main>
@@ -244,6 +244,8 @@
 
         <!-- Custom JS scripts -->
         <script src="./sandbox.js"></script>
+        <script src="mermaid.min.js"></script>
+        <script src="mermaid-init.js"></script>
 
 
     </div>

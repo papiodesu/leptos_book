@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -162,23 +162,23 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="working-with-signals"><a class="header" href="#working-with-signals">Working with Signals</a></h1>
-<p>So far we’ve used some simple examples of using <a href="https://docs.rs/leptos/latest/leptos/reactive/signal/fn.signal.html">「signal」</a>, which returns a <a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html">「ReadSignal」</a> getter and a <a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html">「WriteSignal」</a> setter.</p>
+<p>So far we’ve used some simple examples of using <a href="https://docs.rs/leptos/latest/leptos/reactive/signal/fn.signal.html">"signal」</a>, which returns a <a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html">「ReadSignal」</a> getter and a <a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html">「WriteSignal"</a> setter.</p>
 <h2 id="getting-and-setting"><a class="header" href="#getting-and-setting">Getting and Setting</a></h2>
 <p>There are a few basic signal operations:</p>
 <h3 id="getting"><a class="header" href="#getting">Getting</a></h3>
 <ol>
-<li><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html#impl-Read-for-T">「.read()」</a> returns a read guard which dereferences to the value of the signal, and tracks any future changes to the value of the signal reactively. Note that you cannot update the value of the signal until this guard is dropped, or it will cause a runtime error.</li>
-<li><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html#impl-With-for-T">「.with()」</a> takes a function, which receives the current value of the signal by reference (「&amp;T」), and tracks the signal.</li>
-<li><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html#impl-Get-for-T">「.get()」</a> clones the current value of the signal and tracks further changes to the value.</li>
+<li><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html#impl-Read-for-T">".read()"</a> returns a read guard which dereferences to the value of the signal, and tracks any future changes to the value of the signal reactively. Note that you cannot update the value of the signal until this guard is dropped, or it will cause a runtime error.</li>
+<li><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html#impl-With-for-T">".with()」</a> takes a function, which receives the current value of the signal by reference (「&amp;T"), and tracks the signal.</li>
+<li><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html#impl-Get-for-T">".get()"</a> clones the current value of the signal and tracks further changes to the value.</li>
 </ol>
-<p>「.get()」 is the most common method of accessing a signal. 「.read()」 is useful for methods that take an immutable reference, without cloning the value (「my_vec_signal.read().len()」). 「.with()」 is useful if you need to do more with that reference, but want to make sure you don’t hold onto the lock longer than you need.</p>
+<p>".get()」 is the most common method of accessing a signal. 「.read()」 is useful for methods that take an immutable reference, without cloning the value (「my_vec_signal.read().len()」). 「.with()" is useful if you need to do more with that reference, but want to make sure you don’t hold onto the lock longer than you need.</p>
 <h3 id="setting"><a class="header" href="#setting">Setting</a></h3>
 <ol>
-<li><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html#impl-Write-for-WriteSignal%3CT,+S%3E">「.write()」</a> returns a write guard which is a mutable reference to the value of the signal, and notifies any subscribers that they need to update. Note that you cannot read from the value of the signal until this guard is dropped, or it will cause a runtime error.</li>
-<li><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html#impl-Update-for-T">「.update()」</a> takes a function, which receives a mutable reference to the current value of the signal (「&amp;mut T」), and notifies subscribers. (「.update()」 doesn’t return the value returned by the closure, but you can use <a href="https://docs.rs/leptos/latest/leptos/trait.SignalUpdate.html#tymethod.try_update">「.try_update()」</a> if you need to; for example, if you’re removing an item from a 「Vec&lt;_&gt;」 and want the removed item.)</li>
-<li><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html#impl-Set-for-T">「.set()」</a> replaces the current value of the signal and notifies subscribers.</li>
+<li><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html#impl-Write-for-WriteSignal%3CT,+S%3E">".write()"</a> returns a write guard which is a mutable reference to the value of the signal, and notifies any subscribers that they need to update. Note that you cannot read from the value of the signal until this guard is dropped, or it will cause a runtime error.</li>
+<li><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html#impl-Update-for-T">".update()」</a> takes a function, which receives a mutable reference to the current value of the signal (「&amp;mut T」), and notifies subscribers. (「.update()」 doesn’t return the value returned by the closure, but you can use <a href="https://docs.rs/leptos/latest/leptos/trait.SignalUpdate.html#tymethod.try_update">「.try_update()」</a> if you need to; for example, if you’re removing an item from a 「Vec&lt;_&gt;" and want the removed item.)</li>
+<li><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html#impl-Set-for-T">".set()"</a> replaces the current value of the signal and notifies subscribers.</li>
 </ol>
-<p>「.set()」 is most common for setting a new value; 「.write()」 is very useful for updating a value in place. Just as is the case with 「.read()」 and 「.with()」, 「.update()」 can be useful when you want to avoid the possibility of holding on the write lock longer than you intended to.</p>
+<p>".set()」 is most common for setting a new value; 「.write()」 is very useful for updating a value in place. Just as is the case with 「.read()」 and 「.with()」, 「.update()" can be useful when you want to avoid the possibility of holding on the write lock longer than you intended to.</p>
 <div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
 <div class="admonition-title">
 <div id="admonition-note-title">
@@ -187,40 +187,40 @@
 <a class="admonition-anchor-link" href="#admonition-note"></a>
 </div>
 <div>
-<p>These traits are based on trait composition and provided by blanket implementations. For example, 「Read」 is implemented for any type that implements 「Track」 and 「ReadUntracked」. 「With」 is implemented for any type that implements 「Read」. 「Get」 is implemented for any type that implements 「With」 and 「Clone」. And so on.</p>
-<p>Similar relationships exist for 「Write」, 「Update」, and 「Set」.</p>
-<p>This is worth noting when reading docs: if you only see 「ReadUntracked」 and 「Track」 as implemented traits, you will still be able to use 「.with()」, 「.get()」 (if 「T: Clone」), and so on.</p>
+<p>These traits are based on trait composition and provided by blanket implementations. For example, "Read」 is implemented for any type that implements 「Track」 and 「ReadUntracked」. 「With」 is implemented for any type that implements 「Read」. 「Get」 is implemented for any type that implements 「With」 and 「Clone". And so on.</p>
+<p>Similar relationships exist for "Write」, 「Update」, and 「Set".</p>
+<p>This is worth noting when reading docs: if you only see "ReadUntracked」 and 「Track」 as implemented traits, you will still be able to use 「.with()」, 「.get()」 (if 「T: Clone"), and so on.</p>
 </div>
 </div>
 <h2 id="working-with-signals-1"><a class="header" href="#working-with-signals-1">Working with Signals</a></h2>
-<p>You might notice that 「.get()」 and 「.set()」 can be implemented in terms of 「.read()」 and 「.write()」, or 「.with()」 and 「.update()」. In other words, 「count.get()」 is identical to 「count.with(|n| n.clone())」 or 「count.read().clone()」, and 「count.set(1)」 is implemented by doing 「count.update(|n| *n = 1)」 or 「*count.write() = 1」.</p>
-<p>But of course, 「.get()」 and 「.set()」 are nicer syntax.</p>
+<p>You might notice that ".get()」 and 「.set()」 can be implemented in terms of 「.read()」 and 「.write()」, or 「.with()」 and 「.update()」. In other words, 「count.get()」 is identical to 「count.with(|n| n.clone())」 or 「count.read().clone()」, and 「count.set(1)」 is implemented by doing 「count.update(|n| *n = 1)」 or 「*count.write() = 1".</p>
+<p>But of course, ".get()」 and 「.set()" are nicer syntax.</p>
 <p>However, there are some very good use cases for the other methods.</p>
-<p>For example, consider a signal that holds a 「Vec<String>」.</p>
+<p>For example, consider a signal that holds a "Vec<String>".</p>
 <pre><code class="language-rust">let (names, set_names) = signal(Vec::new());
 if names.get().is_empty() {
 	set_names(vec!["Alice".to_string()]);
 }</code></pre>
-<p>In terms of logic, this is simple enough, but it’s hiding some significant inefficiencies. Remember that 「names.get().is_empty()」 clones the value. This means we clone the whole 「Vec<String>」, run 「is_empty()」, and then immediately throw away the clone.</p>
-<p>Likewise, 「set_names」 replaces the value with a whole new 「Vec&lt;<em>&gt;」. This is fine, but we might as well just mutate the original 「Vec&lt;</em>&gt;」 in place.</p>
+<p>In terms of logic, this is simple enough, but it’s hiding some significant inefficiencies. Remember that "names.get().is_empty()」 clones the value. This means we clone the whole 「Vec<String>」, run 「is_empty()", and then immediately throw away the clone.</p>
+<p>Likewise, "set_names」 replaces the value with a whole new 「Vec&lt;<em>&gt;」. This is fine, but we might as well just mutate the original 「Vec&lt;</em>&gt;" in place.</p>
 <pre><code class="language-rust">let (names, set_names) = signal(Vec::new());
 if names.read().is_empty() {
 	set_names.write().push("Alice".to_string());
 }</code></pre>
-<p>Now our function simply takes 「names」 by reference to run 「is_empty()」, avoiding that clone, and then mutates the 「Vec&lt;_&gt;」 in place.</p>
+<p>Now our function simply takes "names」 by reference to run 「is_empty()」, avoiding that clone, and then mutates the 「Vec&lt;_&gt;" in place.</p>
 <h2 id="thread-safety-and-thread-local-values"><a class="header" href="#thread-safety-and-thread-local-values">Thread Safety and Thread-Local Values</a></h2>
-<p>You may have noticed, either by reading the docs or by experimenting with your own applications, that the values that are stored in signals must be 「Send + Sync」. This is because the reactive system actually supports multi-threading: signals can be sent across threads, and the whole reactive graph can work across multiple threads. (This is especially useful when doing <a href="../ssr/README.html">server-side rendering</a> with server frameworks like Axum, which use Tokio’s multi-threaded executor.) In most cases, this has no effect on what you do: ordinary Rust data types are 「Send + Sync」 by default.</p>
-<p>However, the browser environment is only single-threaded unless you use a Web Worker, and the JavaScript types provided by 「wasm-bindgen」 and 「web-sys」 are all explicitly 「!Send」. This mean they can’t be stored in ordinary signals.</p>
-<p>As a result, we provide “local” alternatives for each of the signal primitives, which can be used to store 「!Send」 data. You should only reach for these when you have a 「!Send」 browser type you need to store in a signal.</p>
+<p>You may have noticed, either by reading the docs or by experimenting with your own applications, that the values that are stored in signals must be "Send + Sync」. This is because the reactive system actually supports multi-threading: signals can be sent across threads, and the whole reactive graph can work across multiple threads. (This is especially useful when doing <a href="../ssr/README.html">server-side rendering</a> with server frameworks like Axum, which use Tokio’s multi-threaded executor.) In most cases, this has no effect on what you do: ordinary Rust data types are 「Send + Sync" by default.</p>
+<p>However, the browser environment is only single-threaded unless you use a Web Worker, and the JavaScript types provided by "wasm-bindgen」 and 「web-sys」 are all explicitly 「!Send". This mean they can’t be stored in ordinary signals.</p>
+<p>As a result, we provide “local” alternatives for each of the signal primitives, which can be used to store "!Send」 data. You should only reach for these when you have a 「!Send" browser type you need to store in a signal.</p>
 <div class="table-wrapper"><table><thead><tr><th>Standard</th><th>Local</th></tr></thead><tbody>
-<tr><td><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/fn.signal.html">「signal」</a></td><td><a href="https://docs.rs/leptos/latest/leptos/prelude/fn.signal_local.html">「signal_local」</a></td></tr>
-<tr><td><a href="https://docs.rs/leptos/latest/leptos/prelude/struct.RwSignal.html#method.new">「RwSignal::new」</a></td><td><a href="https://docs.rs/leptos/latest/leptos/prelude/struct.RwSignal.html#method.new_local">「RwSignal::new_local」</a></td></tr>
-<tr><td><a href="https://docs.rs/leptos/latest/leptos/prelude/struct.Resource.html">「Resource」</a></td><td><a href="https://docs.rs/leptos/latest/leptos/prelude/struct.LocalResource.html">「LocalResource」</a></td></tr>
-<tr><td><a href="https://docs.rs/leptos/latest/leptos/prelude/struct.Action.html#method.new">「Action::new」</a></td><td><a href="https://docs.rs/leptos/latest/leptos/prelude/struct.Action.html#method.new_local">「Action::new_local」</a>, <a href="https://docs.rs/leptos/latest/leptos/prelude/struct.Action.html#method.new_unsync">「Action::new_unsync」</a></td></tr>
+<tr><td><a href="https://docs.rs/leptos/latest/leptos/reactive/signal/fn.signal.html">"signal」</a></td><td><a href="https://docs.rs/leptos/latest/leptos/prelude/fn.signal_local.html">「signal_local"</a></td></tr>
+<tr><td><a href="https://docs.rs/leptos/latest/leptos/prelude/struct.RwSignal.html#method.new">"RwSignal::new」</a></td><td><a href="https://docs.rs/leptos/latest/leptos/prelude/struct.RwSignal.html#method.new_local">「RwSignal::new_local"</a></td></tr>
+<tr><td><a href="https://docs.rs/leptos/latest/leptos/prelude/struct.Resource.html">"Resource」</a></td><td><a href="https://docs.rs/leptos/latest/leptos/prelude/struct.LocalResource.html">「LocalResource"</a></td></tr>
+<tr><td><a href="https://docs.rs/leptos/latest/leptos/prelude/struct.Action.html#method.new">"Action::new」</a></td><td><a href="https://docs.rs/leptos/latest/leptos/prelude/struct.Action.html#method.new_local">「Action::new_local」</a>, <a href="https://docs.rs/leptos/latest/leptos/prelude/struct.Action.html#method.new_unsync">「Action::new_unsync"</a></td></tr>
 </tbody></table>
 </div>
 <h2 id="nightly-syntax"><a class="header" href="#nightly-syntax">Nightly Syntax</a></h2>
-<p>When using the 「nightly」 feature and 「nightly」 syntax, calling a 「ReadSignal」 as a function is syntax sugar for 「.get()」. Calling a 「WriteSignal」 as a function is syntax sugar for 「.set()」. So</p>
+<p>When using the "nightly」 feature and 「nightly」 syntax, calling a 「ReadSignal」 as a function is syntax sugar for 「.get()」. Calling a 「WriteSignal」 as a function is syntax sugar for 「.set()". So</p>
 <pre><code class="language-rust">let (count, set_count) = signal(0);
 set_count(1);
 logging::log!(count());</code></pre>
@@ -240,7 +240,7 @@ let derived_signal_double_count = move || count.get() * 2;
 // B is a function of A
 let memoized_double_count = Memo::new(move |_| count.get() * 2);</code></pre>
 <blockquote>
-<p>For guidance on whether to use a derived signal or a memo, see the docs for <a href="https://docs.rs/leptos/latest/leptos/reactive/computed/struct.Memo.html">「Memo」</a></p>
+<p>For guidance on whether to use a derived signal or a memo, see the docs for <a href="https://docs.rs/leptos/latest/leptos/reactive/computed/struct.Memo.html">"Memo"</a></p>
 </blockquote>
 <p><strong>2) C is a function of A and some other thing B.</strong> Create signals for A and B and a derived signal or memo for C.</p>
 <pre><code class="language-rust">// A
@@ -254,7 +254,7 @@ let full_name = move || format!("{} {}", &amp;*first_name.read(), &amp;*last_nam
 let (age, set_age) = signal(32);
 // B
 let (favorite_number, set_favorite_number) = signal(42);
-// use this to handle a click on a 「Clear」 button
+// use this to handle a click on a "Clear" button
 let clear_handler = move |_| {
   // update both A and B
   set_age.set(0);
@@ -266,7 +266,7 @@ a) It will always be less efficient, as it means every time A updates you do two
 b) It increases your chances of accidentally creating things like infinite loops or over-re-running effects. This is the kind of ping-ponging, reactive spaghetti code that was common in the early 2010s and that we try to avoid with things like read-write segregation and discouraging writing to signals from effects.</p>
 <p>In most situations, it’s best to rewrite things such that there’s a clear, top-down data flow based on derived signals or memos. But this isn’t the end of the world.</p>
 <blockquote>
-<p>I’m intentionally not providing an example here. Read the <a href="https://docs.rs/leptos/latest/leptos/reactive/effect/struct.Effect.html">「Effect」</a> docs to figure out how this would work.</p>
+<p>I’m intentionally not providing an example here. Read the <a href="https://docs.rs/leptos/latest/leptos/reactive/effect/struct.Effect.html">"Effect"</a> docs to figure out how this would work.</p>
 </blockquote>
 
                     </main>
@@ -332,6 +332,8 @@ b) It increases your chances of accidentally creating things like infinite loops
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

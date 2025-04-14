@@ -8,7 +8,7 @@ will discuss a couple principles and approaches for testing a Leptos app.
 In many cases, it makes sense to pull the logic out of your components and test
 it separately. For some simple components, there’s no particular logic to test, but
 for many it’s worth using a testable wrapping type and implementing the logic in
-ordinary Rust 「impl」 blocks.
+ordinary Rust "impl" blocks.
 
 For example, instead of embedding logic in a component directly like this:
 
@@ -51,15 +51,15 @@ pub fn TodoApp() -> impl IntoView {
 In general, the less of your logic is wrapped into your components themselves, the
 more idiomatic your code will feel and the easier it will be to test.
 
-## 2. Test components with end-to-end (「e2e」) testing
+## 2. Test components with end-to-end ("e2e") testing
 
-Our [「examples」](https://github.com/leptos-rs/leptos/tree/main/examples) directory has several examples with extensive end-to-end testing, using different testing tools.
+Our ["examples"](https://github.com/leptos-rs/leptos/tree/main/examples) directory has several examples with extensive end-to-end testing, using different testing tools.
 
 The easiest way to see how to use these is to take a look at the test examples themselves:
 
-### 「wasm-bindgen-test」 with [「counter」](https://github.com/leptos-rs/leptos/blob/main/examples/counter/tests/web.rs)
+### "wasm-bindgen-test」 with [「counter"](https://github.com/leptos-rs/leptos/blob/main/examples/counter/tests/web.rs)
 
-This is a fairly simple manual testing setup that uses the [「wasm-pack test」](https://rustwasm.github.io/wasm-pack/book/commands/test.html) command.
+This is a fairly simple manual testing setup that uses the ["wasm-pack test"](https://rustwasm.github.io/wasm-pack/book/commands/test.html) command.
 
 #### Sample Test
 
@@ -86,7 +86,7 @@ async fn clear() {
         .unwrap()
         .unchecked_into::<web_sys::HtmlElement>();
 
-    // now let's click the 「clear」 button
+    // now let's click the "clear" button
     clear.click();
 
     // the reactive system is built on top of the async system, so changes are not reflected
@@ -96,7 +96,7 @@ async fn clear() {
     tick().await;
 
     // now let's test the <div> against the expected value
-    // we can do this by testing its 「outerHTML」
+    // we can do this by testing its "outerHTML"
     assert_eq!(div.outer_html(), {
         // it's as if we're creating it with a value of 0, right?
         let (value, _set_value) = signal(0);
@@ -135,7 +135,7 @@ async fn clear() {
 }
 ```
 
-### [Playwright with 「counters」](https://github.com/leptos-rs/leptos/tree/main/examples/counters/e2e)
+### [Playwright with "counters"](https://github.com/leptos-rs/leptos/tree/main/examples/counters/e2e)
 
 These tests use the common JavaScript testing tool Playwright to run end-to-end tests on the same example, using a library and testing approach familiar to many who have done frontend development before.
 
@@ -157,7 +157,7 @@ test.describe("Increment Count", () => {
 });
 ```
 
-### [Gherkin/Cucumber Tests with 「todo_app_sqlite」](https://github.com/leptos-rs/leptos/blob/main/examples/todo_app_sqlite/e2e/README.md)
+### [Gherkin/Cucumber Tests with "todo_app_sqlite"](https://github.com/leptos-rs/leptos/blob/main/examples/todo_app_sqlite/e2e/README.md)
 
 You can integrate any testing tool you’d like into this flow. This example uses Cucumber, a testing framework based on natural language.
 

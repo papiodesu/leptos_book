@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -162,7 +162,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="async-rendering-and-ssr-modes"><a class="header" href="#async-rendering-and-ssr-modes">Async Rendering and SSR “Modes”</a></h1>
-<p>Server-rendering a page that uses only synchronous data is pretty simple: You just walk down the component tree, rendering each element to an HTML string. But this is a pretty big caveat: it doesn’t answer the question of what we should do with pages that includes asynchronous data, i.e., the sort of stuff that would be rendered under a 「<Suspense/>」 node on the client.</p>
+<p>Server-rendering a page that uses only synchronous data is pretty simple: You just walk down the component tree, rendering each element to an HTML string. But this is a pretty big caveat: it doesn’t answer the question of what we should do with pages that includes asynchronous data, i.e., the sort of stuff that would be rendered under a "<Suspense/>" node on the client.</p>
 <p>When a page loads async data that it needs to render, what should we do? Should we wait for all the async data to load, and then render everything at once? (Let’s call this “async” rendering) Should we go all the way in the opposite direction, just sending the HTML we have immediately down to the client and letting the client load the resources and fill them in? (Let’s call this “synchronous” rendering) Or is there some middle-ground solution that somehow beats them both? (Hint: There is.)</p>
 <p>If you’ve ever listened to streaming music or watched a video online, I’m sure you realize that HTTP supports streaming, allowing a single connection to send chunks of data one after another without waiting for the full content to load. You may not realize that browsers are also really good at rendering partial HTML pages. Taken together, this means that you can actually enhance your users’ experience by <strong>streaming HTML</strong>: and this is something that Leptos supports out of the box, with no configuration at all. And there’s actually more than one way to stream HTML: you can stream the chunks of HTML that make up your page in order, like frames of a video, or you can stream them... well, out of order.</p>
 <p>Let me say a little more about what I mean.</p>
@@ -175,30 +175,30 @@
 </ol>
 <h2 id="synchronous-rendering"><a class="header" href="#synchronous-rendering">Synchronous Rendering</a></h2>
 <ol>
-<li><strong>Synchronous</strong>: Serve an HTML shell that includes 「fallback」 for any 「<Suspense/>」. Load data on the client using 「create_local_resource」, replacing 「fallback」 once resources are loaded.</li>
+<li><strong>Synchronous</strong>: Serve an HTML shell that includes "fallback」 for any 「<Suspense/>」. Load data on the client using 「create_local_resource」, replacing 「fallback" once resources are loaded.</li>
 </ol>
 <ul>
 <li><em>Pros</em>: App shell appears very quickly: great TTFB (time to first byte).</li>
 <li><em>Cons</em>
 <ul>
 <li>Resources load relatively slowly; you need to wait for JS + WASM to load before even making a request.</li>
-<li>No ability to include data from async resources in the 「<title>」 or other 「<meta>」 tags, hurting SEO and things like social media link previews.</li>
+<li>No ability to include data from async resources in the "<title>」 or other 「<meta>" tags, hurting SEO and things like social media link previews.</li>
 </ul>
 </li>
 </ul>
-<p>If you’re using server-side rendering, the synchronous mode is almost never what you actually want, from a performance perspective. This is because it misses out on an important optimization. If you’re loading async resources during server rendering, you can actually begin loading the data on the server. Rather than waiting for the client to receive the HTML response, then loading its JS + WASM, <em>then</em> realize it needs the resources and begin loading them, server rendering can actually begin loading the resources when the client first makes the response. In this sense, during server rendering an async resource is like a 「Future」 that begins loading on the server and resolves on the client. As long as the resources are actually serializable, this will always lead to a faster total load time.</p>
+<p>If you’re using server-side rendering, the synchronous mode is almost never what you actually want, from a performance perspective. This is because it misses out on an important optimization. If you’re loading async resources during server rendering, you can actually begin loading the data on the server. Rather than waiting for the client to receive the HTML response, then loading its JS + WASM, <em>then</em> realize it needs the resources and begin loading them, server rendering can actually begin loading the resources when the client first makes the response. In this sense, during server rendering an async resource is like a "Future" that begins loading on the server and resolves on the client. As long as the resources are actually serializable, this will always lead to a faster total load time.</p>
 <blockquote>
-<p>This is why a 「Resource」 needs its data to be serializable, and why you should use 「LocalResource」 for any async data that is not serializable and should therefore only be loaded in the browser itself. Creating a local resource when you could create a serializable resource is always a deoptimization.</p>
+<p>This is why a "Resource」 needs its data to be serializable, and why you should use 「LocalResource" for any async data that is not serializable and should therefore only be loaded in the browser itself. Creating a local resource when you could create a serializable resource is always a deoptimization.</p>
 </blockquote>
 <h2 id="async-rendering"><a class="header" href="#async-rendering">Async Rendering</a></h2>
 <video controls>
 	<source src="https://github.com/leptos-rs/leptos/blob/main/docs/video/async.mov?raw=true" type="video/mp4">
 </video>
 <ol start="2">
-<li><strong>「async」</strong>: Load all resources on the server. Wait until all data are loaded, and render HTML in one sweep.</li>
+<li><strong>"async"</strong>: Load all resources on the server. Wait until all data are loaded, and render HTML in one sweep.</li>
 </ol>
 <ul>
-<li><em>Pros</em>: Better handling for meta tags (because you know async data even before you render the 「<head>」). Faster complete load than <strong>synchronous</strong> because async resources begin loading on server.</li>
+<li><em>Pros</em>: Better handling for meta tags (because you know async data even before you render the "<head>"). Faster complete load than <strong>synchronous</strong> because async resources begin loading on server.</li>
 <li><em>Cons</em>: Slower load time/TTFB: you need to wait for all async resources to load before displaying anything on the client. The page is totally blank until everything is loaded.</li>
 </ul>
 <h2 id="in-order-streaming"><a class="header" href="#in-order-streaming">In-Order Streaming</a></h2>
@@ -206,14 +206,14 @@
 	<source src="https://github.com/leptos-rs/leptos/blob/main/docs/video/in-order.mov?raw=true" type="video/mp4">
 </video>
 <ol start="3">
-<li><strong>In-order streaming</strong>: Walk through the component tree, rendering HTML until you hit a 「<Suspense/>」. Send down all the HTML you’ve got so far as a chunk in the stream, wait for all the resources accessed under the 「<Suspense/>」 to load, then render it to HTML and keep walking until you hit another 「<Suspense/>」 or the end of the page.</li>
+<li><strong>In-order streaming</strong>: Walk through the component tree, rendering HTML until you hit a "<Suspense/>」. Send down all the HTML you’ve got so far as a chunk in the stream, wait for all the resources accessed under the 「<Suspense/>」 to load, then render it to HTML and keep walking until you hit another 「<Suspense/>" or the end of the page.</li>
 </ol>
 <ul>
 <li><em>Pros</em>: Rather than a blank screen, shows at least <em>something</em> before the data are ready.</li>
 <li><em>Cons</em>
 <ul>
-<li>Loads the shell more slowly than synchronous rendering (or out-of-order streaming) because it needs to pause at every 「<Suspense/>」.</li>
-<li>Unable to show fallback states for 「<Suspense/>」.</li>
+<li>Loads the shell more slowly than synchronous rendering (or out-of-order streaming) because it needs to pause at every "<Suspense/>".</li>
+<li>Unable to show fallback states for "<Suspense/>".</li>
 <li>Can’t begin hydration until the entire page has loaded, so earlier pieces of the page will not be interactive until the suspended chunks have loaded.</li>
 </ul>
 </li>
@@ -223,22 +223,22 @@
 	<source src="https://github.com/leptos-rs/leptos/blob/main/docs/video/out-of-order.mov?raw=true" type="video/mp4">
 </video>
 <ol start="4">
-<li><strong>Out-of-order streaming</strong>: Like synchronous rendering, serve an HTML shell that includes 「fallback」 for any 「<Suspense/>」. But load data on the <strong>server</strong>, streaming it down to the client as it resolves, and streaming down HTML for 「<Suspense/>」 nodes, which is swapped in to replace the fallback.</li>
+<li><strong>Out-of-order streaming</strong>: Like synchronous rendering, serve an HTML shell that includes "fallback」 for any 「<Suspense/>」. But load data on the <strong>server</strong>, streaming it down to the client as it resolves, and streaming down HTML for 「<Suspense/>" nodes, which is swapped in to replace the fallback.</li>
 </ol>
 <ul>
-<li><em>Pros</em>: Combines the best of <strong>synchronous</strong> and <strong>「async」</strong>.
+<li><em>Pros</em>: Combines the best of <strong>synchronous</strong> and <strong>"async"</strong>.
 <ul>
 <li>Fast initial response/TTFB because it immediately sends the whole synchronous shell</li>
 <li>Fast total time because resources begin loading on the server.</li>
 <li>Able to show the fallback loading state and dynamically replace it, instead of showing blank sections for un-loaded data.</li>
 </ul>
 </li>
-<li><em>Cons</em>: Requires JavaScript to be enabled for suspended fragments to appear in correct order. (This small chunk of JS streamed down in a 「<script>」 tag alongside the 「<template>」 tag that contains the rendered 「<Suspense/>」 fragment, so it does not need to load any additional JS files.)</li>
+<li><em>Cons</em>: Requires JavaScript to be enabled for suspended fragments to appear in correct order. (This small chunk of JS streamed down in a "<script>」 tag alongside the 「<template>」 tag that contains the rendered 「<Suspense/>" fragment, so it does not need to load any additional JS files.)</li>
 </ul>
 <ol start="5">
-<li><strong>Partially-blocked streaming</strong>: “Partially-blocked” streaming is useful when you have multiple separate 「<Suspense/>」 components on the page.  It is triggered by setting 「ssr=SsrMode::PartiallyBlocked」 on a route, and depending on blocking resources within the view.   If one of the 「<Suspense/>」 components reads from one or more “blocking resources” (see below), the fallback will not be sent; rather, the server will wait until that 「<Suspense/>」 has resolved and then replace the fallback with the resolved fragment on the server, which means that it is included in the initial HTML response and appears even if JavaScript is disabled or not supported. Other 「<Suspense/>」 stream in out of order, similar to the 「SsrMode::OutOfOrder」 default.</li>
+<li><strong>Partially-blocked streaming</strong>: “Partially-blocked” streaming is useful when you have multiple separate "<Suspense/>」 components on the page.  It is triggered by setting 「ssr=SsrMode::PartiallyBlocked」 on a route, and depending on blocking resources within the view.   If one of the 「<Suspense/>」 components reads from one or more “blocking resources” (see below), the fallback will not be sent; rather, the server will wait until that 「<Suspense/>」 has resolved and then replace the fallback with the resolved fragment on the server, which means that it is included in the initial HTML response and appears even if JavaScript is disabled or not supported. Other 「<Suspense/>」 stream in out of order, similar to the 「SsrMode::OutOfOrder" default.</li>
 </ol>
-<p>This is useful when you have multiple 「<Suspense/>」 on the page, and one is more important than the other: think of a blog post and comments, or product information and reviews. It is <em>not</em> useful if there’s only one 「<Suspense/>」, or if every 「<Suspense/>」 reads from blocking resources. In those cases it is a slower form of 「async」 rendering.</p>
+<p>This is useful when you have multiple "<Suspense/>」 on the page, and one is more important than the other: think of a blog post and comments, or product information and reviews. It is <em>not</em> useful if there’s only one 「<Suspense/>」, or if every 「<Suspense/>」 reads from blocking resources. In those cases it is a slower form of 「async" rendering.</p>
 <ul>
 <li><em>Pros</em>: Works if JavaScript is disabled or not supported on the user’s device.</li>
 <li><em>Cons</em>
@@ -250,7 +250,7 @@
 </li>
 </ul>
 <h2 id="using-ssr-modes"><a class="header" href="#using-ssr-modes">Using SSR Modes</a></h2>
-<p>Because it offers the best blend of performance characteristics, Leptos defaults to out-of-order streaming. But it’s really simple to opt into these different modes. You do it by adding an 「ssr」 property onto one or more of your 「<Route/>」 components, like in the <a href="https://github.com/leptos-rs/leptos/blob/main/examples/ssr_modes/src/app.rs">「ssr_modes」 example</a>.</p>
+<p>Because it offers the best blend of performance characteristics, Leptos defaults to out-of-order streaming. But it’s really simple to opt into these different modes. You do it by adding an "ssr」 property onto one or more of your 「<Route/>」 components, like in the <a href="https://github.com/leptos-rs/leptos/blob/main/examples/ssr_modes/src/app.rs">「ssr_modes" example</a>.</p>
 <pre><code class="language-rust">&lt;Routes fallback=|| "Not found."&gt;
 	// We’ll load the home page with out-of-order streaming and &lt;Suspense/&gt;
 	&lt;Route path=path!("") view=HomePage/&gt;
@@ -263,11 +263,11 @@
 		ssr=SsrMode::Async
 	/&gt;
 &lt;/Routes&gt;</code></pre>
-<p>For a path that includes multiple nested routes, the most restrictive mode will be used: i.e., if even a single nested route asks for 「async」 rendering, the whole initial request will be rendered 「async」. 「async」 is the most restricted requirement, followed by in-order, and then out-of-order. (This probably makes sense if you think about it for a few minutes.)</p>
+<p>For a path that includes multiple nested routes, the most restrictive mode will be used: i.e., if even a single nested route asks for "async」 rendering, the whole initial request will be rendered 「async」. 「async" is the most restricted requirement, followed by in-order, and then out-of-order. (This probably makes sense if you think about it for a few minutes.)</p>
 <h2 id="blocking-resources"><a class="header" href="#blocking-resources">Blocking Resources</a></h2>
-<p>Blocking resources can be created with 「Resource::new_blocking」. A blocking resource still loads asynchronously like any other 「async」/「.await」 in Rust. It doesn’t block a server thread, or anything like that. Instead, reading from a blocking resource under a 「<Suspense/>」 blocks the HTML <em>stream</em> from returning anything, including its initial synchronous shell, until that 「<Suspense/>」 has resolved.</p>
-<p>From a performance perspective, this is not ideal. None of the synchronous shell for your page will load until that resource is ready. However, rendering nothing means that you can do things like set the 「<title>」 or 「<meta>」 tags in your 「<head>」 in actual HTML. This sounds a lot like 「async」 rendering, but there’s one big difference: if you have multiple 「<Suspense/>」 sections, you can block on <em>one</em> of them but still render a placeholder and then stream in the other.</p>
-<p>For example, think about a blog post. For SEO and for social sharing, I definitely want my blog post’s title and metadata in the initial HTML 「<head>」. But I really don’t care whether comments have loaded yet or not; I’d like to load those as lazily as possible.</p>
+<p>Blocking resources can be created with "Resource::new_blocking」. A blocking resource still loads asynchronously like any other 「async」/「.await」 in Rust. It doesn’t block a server thread, or anything like that. Instead, reading from a blocking resource under a 「<Suspense/>」 blocks the HTML <em>stream</em> from returning anything, including its initial synchronous shell, until that 「<Suspense/>" has resolved.</p>
+<p>From a performance perspective, this is not ideal. None of the synchronous shell for your page will load until that resource is ready. However, rendering nothing means that you can do things like set the "<title>」 or 「<meta>」 tags in your 「<head>」 in actual HTML. This sounds a lot like 「async」 rendering, but there’s one big difference: if you have multiple 「<Suspense/>" sections, you can block on <em>one</em> of them but still render a placeholder and then stream in the other.</p>
+<p>For example, think about a blog post. For SEO and for social sharing, I definitely want my blog post’s title and metadata in the initial HTML "<head>". But I really don’t care whether comments have loaded yet or not; I’d like to load those as lazily as possible.</p>
 <p>With blocking resources, I can do something like this:</p>
 <pre><code class="language-rust">#[component]
 pub fn BlogPost() -&gt; impl IntoView {
@@ -294,8 +294,8 @@ pub fn BlogPost() -&gt; impl IntoView {
         &lt;/Suspense&gt;
     }
 }</code></pre>
-<p>The first 「<Suspense/>」, with the body of the blog post, will block my HTML stream, because it reads from a blocking resource.  Meta tags and other head elements awaiting the blocking resource will be rendered before the stream is sent.</p>
-<p>Combined with the following route definition, which uses 「SsrMode::PartiallyBlocked」, the blocking resource will be fully rendered on the server side, making it accessible to users who disable WebAssembly or JavaScript.</p>
+<p>The first "<Suspense/>", with the body of the blog post, will block my HTML stream, because it reads from a blocking resource.  Meta tags and other head elements awaiting the blocking resource will be rendered before the stream is sent.</p>
+<p>Combined with the following route definition, which uses "SsrMode::PartiallyBlocked", the blocking resource will be fully rendered on the server side, making it accessible to users who disable WebAssembly or JavaScript.</p>
 <pre><code class="language-rust">&lt;Routes fallback=|| "Not found."&gt;
 	// We’ll load the home page with out-of-order streaming and &lt;Suspense/&gt;
 	&lt;Route path=path!("") view=HomePage/&gt;
@@ -308,7 +308,7 @@ pub fn BlogPost() -&gt; impl IntoView {
 		ssr=SsrMode::PartiallyBlocked
 	/&gt;
 &lt;/Routes&gt;</code></pre>
-<p>The second 「<Suspense/>」, with the comments, will not block the stream. Blocking resources gave me exactly the power and granularity I needed to optimize my page for SEO and user experience.</p>
+<p>The second "<Suspense/>", with the comments, will not block the stream. Blocking resources gave me exactly the power and granularity I needed to optimize my page for SEO and user experience.</p>
 
                     </main>
 
@@ -373,6 +373,8 @@ pub fn BlogPost() -&gt; impl IntoView {
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -165,15 +165,15 @@
 <p>The server functions we looked at in the last chapter showed how to run code on the server, and integrate it with the user interface you’re rendering in the browser. But they didn’t show you much about how to actually use your server to its full potential.</p>
 <h2 id="server-frameworks"><a class="header" href="#server-frameworks">Server Frameworks</a></h2>
 <p>We call Leptos a “full-stack” framework, but “full-stack” is always a misnomer (after all, it never means everything from the browser to your power company.) For us, “full stack” means that your Leptos app can run in the browser, and can run on the server, and can integrate the two, drawing together the unique features available in each; as we’ve seen in the book so far, a button click on the browser can drive a database read on the server, both written in the same Rust module. But Leptos itself doesn’t provide the server (or the database, or the operating system, or the firmware, or the electrical cables...)</p>
-<p>Instead, Leptos provides integrations for the two most popular Rust web server frameworks, Actix Web (<a href="https://docs.rs/leptos_actix/latest/leptos_actix/">「leptos_actix」</a>) and Axum (<a href="https://docs.rs/leptos_axum/latest/leptos_axum/">「leptos_axum」</a>). We’ve built integrations with each server’s router so that you can simply plug your Leptos app into an existing server with 「.leptos_routes()」, and easily handle server function calls.</p>
+<p>Instead, Leptos provides integrations for the two most popular Rust web server frameworks, Actix Web (<a href="https://docs.rs/leptos_actix/latest/leptos_actix/">"leptos_actix」</a>) and Axum (<a href="https://docs.rs/leptos_axum/latest/leptos_axum/">「leptos_axum」</a>). We’ve built integrations with each server’s router so that you can simply plug your Leptos app into an existing server with 「.leptos_routes()", and easily handle server function calls.</p>
 <blockquote>
 <p>If you haven’t seen our <a href="https://github.com/leptos-rs/start">Actix</a> and <a href="https://github.com/leptos-rs/start-axum">Axum</a> templates, now’s a good time to check them out.</p>
 </blockquote>
 <h2 id="using-extractors"><a class="header" href="#using-extractors">Using Extractors</a></h2>
 <p>Both Actix and Axum handlers are built on the same powerful idea of <strong>extractors</strong>. Extractors “extract” typed data from an HTTP request, allowing you to access server-specific data easily.</p>
-<p>Leptos provides 「extract」 helper functions to let you use these extractors directly in your server functions, with a convenient syntax very similar to handlers for each framework.</p>
+<p>Leptos provides "extract" helper functions to let you use these extractors directly in your server functions, with a convenient syntax very similar to handlers for each framework.</p>
 <h3 id="actix-extractors"><a class="header" href="#actix-extractors">Actix Extractors</a></h3>
-<p>The <a href="https://docs.rs/leptos_actix/latest/leptos_actix/fn.extract.html">「extract」 function in 「leptos_actix」</a> takes a handler function as its argument. The handler follows similar rules to an Actix handler: it is an async function that receives arguments that will be extracted from the request and returns some value. The handler function receives that extracted data as its arguments, and can do further 「async」 work on them inside the body of the 「async move」 block. It returns whatever value you return back out into the server function.</p>
+<p>The <a href="https://docs.rs/leptos_actix/latest/leptos_actix/fn.extract.html">"extract」 function in 「leptos_actix」</a> takes a handler function as its argument. The handler follows similar rules to an Actix handler: it is an async function that receives arguments that will be extracted from the request and returns some value. The handler function receives that extracted data as its arguments, and can do further 「async」 work on them inside the body of the 「async move" block. It returns whatever value you return back out into the server function.</p>
 <pre><code class="language-rust">use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
@@ -191,7 +191,7 @@ pub async fn actix_extract() -&gt; Result&lt;String, ServerFnError&gt; {
     Ok(format!("search = {search:?}\nconnection = {connection:?}",))
 }</code></pre>
 <h3 id="axum-extractors"><a class="header" href="#axum-extractors">Axum Extractors</a></h3>
-<p>The syntax for the <a href="https://docs.rs/leptos_axum/latest/leptos_axum/fn.extract.html">「leptos_axum::extract」</a> function is very similar.</p>
+<p>The syntax for the <a href="https://docs.rs/leptos_axum/latest/leptos_axum/fn.extract.html">"leptos_axum::extract"</a> function is very similar.</p>
 <pre><code class="language-rust">use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
@@ -208,8 +208,8 @@ pub async fn axum_extract() -&gt; Result&lt;String, ServerFnError&gt; {
 
     Ok(format!("{method:?} and {query:?}"))
 }</code></pre>
-<p>These are relatively simple examples accessing basic data from the server. But you can use extractors to access things like headers, cookies, database connection pools, and more, using the exact same 「extract()」 pattern.</p>
-<p>The Axum 「extract」 function only supports extractors for which the state is 「()」. If you need an extractor that uses 「State」, you should use <a href="https://docs.rs/leptos_axum/latest/leptos_axum/fn.extract_with_state.html">「extract_with_state」</a>. This requires you to provide the state. You can do this by extending the existing 「LeptosOptions」 state using the Axum 「FromRef」 pattern, which providing the state as context during render and server functions with custom handlers.</p>
+<p>These are relatively simple examples accessing basic data from the server. But you can use extractors to access things like headers, cookies, database connection pools, and more, using the exact same "extract()" pattern.</p>
+<p>The Axum "extract」 function only supports extractors for which the state is 「()」. If you need an extractor that uses 「State」, you should use <a href="https://docs.rs/leptos_axum/latest/leptos_axum/fn.extract_with_state.html">「extract_with_state」</a>. This requires you to provide the state. You can do this by extending the existing 「LeptosOptions」 state using the Axum 「FromRef" pattern, which providing the state as context during render and server functions with custom handlers.</p>
 <pre><code class="language-rust">use axum::extract::FromRef;
 
 /// Derive FromRef to allow multiple items in state, using Axum’s
@@ -221,7 +221,7 @@ pub struct AppState{
 }</code></pre>
 <p><a href="https://github.com/leptos-rs/leptos/blob/19ea6fae6aec2a493d79cc86612622d219e6eebb/examples/session_auth_axum/src/main.rs#L24-L44">Click here for an example of providing context in custom handlers</a>.</p>
 <h4 id="axum-state"><a class="header" href="#axum-state">Axum State</a></h4>
-<p>Axum's typical pattern for dependency injection is to provide a 「State」, which can then be extracted in your route handler. Leptos provides its own method of dependency injection via context. Context can often be used instead of 「State」 to provide shared server data (for example, a database connection pool).</p>
+<p>Axum's typical pattern for dependency injection is to provide a "State」, which can then be extracted in your route handler. Leptos provides its own method of dependency injection via context. Context can often be used instead of 「State" to provide shared server data (for example, a database connection pool).</p>
 <pre><code class="language-rust">let connection_pool = /* some shared state here */;
 
 let app = Router::new()
@@ -232,8 +232,8 @@ let app = Router::new()
         App,
     )
     // etc.</code></pre>
-<p>This context can then be accessed with a simple 「use_context::<T>()」 inside your server functions.</p>
-<p>If you <em>need</em> to use 「State」 in a server function—for example, if you have an existing Axum extractor that requires 「State」—that is also possible using Axum's <a href="https://docs.rs/axum/latest/axum/extract/derive.FromRef.html">「FromRef」</a> pattern and <a href="https://docs.rs/leptos_axum/latest/leptos_axum/fn.extract_with_state.html">「extract_with_state」</a>. Essentially you'll need to provide the state both via context and via Axum router state:</p>
+<p>This context can then be accessed with a simple "use_context::<T>()" inside your server functions.</p>
+<p>If you <em>need</em> to use "State」 in a server function—for example, if you have an existing Axum extractor that requires 「State」—that is also possible using Axum's <a href="https://docs.rs/axum/latest/axum/extract/derive.FromRef.html">「FromRef」</a> pattern and <a href="https://docs.rs/leptos_axum/latest/leptos_axum/fn.extract_with_state.html">「extract_with_state"</a>. Essentially you'll need to provide the state both via context and via Axum router state:</p>
 <pre><code class="language-rust">#[derive(FromRef, Debug, Clone)]
 pub struct MyData {
     pub value: usize,
@@ -267,9 +267,9 @@ pub async fn uses_state() -&gt; Result&lt;(), ServerFnError&gt; {
     // todo
 }</code></pre>
 <h2 id="a-note-about-data-loading-patterns"><a class="header" href="#a-note-about-data-loading-patterns">A Note about Data-Loading Patterns</a></h2>
-<p>Because Actix and (especially) Axum are built on the idea of a single round-trip HTTP request and response, you typically run extractors near the “top” of your application (i.e., before you start rendering) and use the extracted data to determine how that should be rendered. Before you render a 「<button>」, you load all the data your app could need. And any given route handler needs to know all the data that will need to be extracted by that route.</p>
-<p>But Leptos integrates both the client and the server, and it’s important to be able to refresh small pieces of your UI with new data from the server without forcing a full reload of all the data. So Leptos likes to push data loading “down” in your application, as far towards the leaves of your user interface as possible. When you click a 「<button>」, it can refresh just the data it needs. This is exactly what server functions are for: they give you granular access to data to be loaded and reloaded.</p>
-<p>The 「extract()」 functions let you combine both models by using extractors in your server functions. You get access to the full power of route extractors, while decentralizing knowledge of what needs to be extracted down to your individual components. This makes it easier to refactor and reorganize routes: you don’t need to specify all the data a route needs up front.</p>
+<p>Because Actix and (especially) Axum are built on the idea of a single round-trip HTTP request and response, you typically run extractors near the “top” of your application (i.e., before you start rendering) and use the extracted data to determine how that should be rendered. Before you render a "<button>", you load all the data your app could need. And any given route handler needs to know all the data that will need to be extracted by that route.</p>
+<p>But Leptos integrates both the client and the server, and it’s important to be able to refresh small pieces of your UI with new data from the server without forcing a full reload of all the data. So Leptos likes to push data loading “down” in your application, as far towards the leaves of your user interface as possible. When you click a "<button>", it can refresh just the data it needs. This is exactly what server functions are for: they give you granular access to data to be loaded and reloaded.</p>
+<p>The "extract()" functions let you combine both models by using extractors in your server functions. You get access to the full power of route extractors, while decentralizing knowledge of what needs to be extracted down to your individual components. This makes it easier to refactor and reorganize routes: you don’t need to specify all the data a route needs up front.</p>
 
                     </main>
 
@@ -334,6 +334,8 @@ pub async fn uses_state() -&gt; Result&lt;(), ServerFnError&gt; {
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

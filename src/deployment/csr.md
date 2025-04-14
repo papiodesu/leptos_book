@@ -6,7 +6,7 @@ If you’ve been building an app that only uses client-side rendering, working w
 trunk build --release
 ```
 
-「trunk build」 will create a number of build artifacts in a 「dist/」 directory. Publishing 「dist」 somewhere online should be all you need to deploy your app. This should work very similarly to deploying any JavaScript application.
+"trunk build」 will create a number of build artifacts in a 「dist/」 directory. Publishing 「dist" somewhere online should be all you need to deploy your app. This should work very similarly to deploying any JavaScript application.
 
 We've created several example repositories which show how to set up and deploy a Leptos CSR app to various hosting services.
 
@@ -20,7 +20,7 @@ Examples:
 
 ## Github Pages
 
-Deploying a Leptos CSR app to Github pages is a simple affair. First, go to your Github repo's settings and click on "Pages" in the left side menu. In the "Build and deployment" section of the page, change the "source" to "Github Actions". Then copy the following into a file such as 「.github/workflows/gh-pages-deploy.yml」
+Deploying a Leptos CSR app to Github pages is a simple affair. First, go to your Github repo's settings and click on "Pages" in the left side menu. In the "Build and deployment" section of the page, change the "source" to "Github Actions". Then copy the following into a file such as ".github/workflows/gh-pages-deploy.yml"
 
 ```admonish example collapsible=true
 
@@ -134,24 +134,24 @@ Note: Both the preview and deploy actions will need your Vercel credentials setu
 
 1. Retrieve your [Vercel Access Token](https://vercel.com/guides/how-do-i-use-a-vercel-api-access-token) by going to "Account Settings" > "Tokens" and creating a new token - save the token to use in sub-step 5, below.
 
-2. Install the [Vercel CLI](https://vercel.com/cli) using the 「npm i -g vercel」 command, then run 「vercel login」 to login to your acccount.
+2. Install the [Vercel CLI](https://vercel.com/cli) using the "npm i -g vercel」 command, then run 「vercel login" to login to your acccount.
 
-3. Inside your folder, run 「vercel link」 to create a new Vercel project; in the CLI, you will be asked to 'Link to an existing project?' - answer yes, then enter the name you created in step 1. A new 「.vercel」 folder will be created for you.
+3. Inside your folder, run "vercel link」 to create a new Vercel project; in the CLI, you will be asked to 'Link to an existing project?' - answer yes, then enter the name you created in step 1. A new 「.vercel" folder will be created for you.
 
-4. Inside the generated 「.vercel」 folder, open the the 「project.json」 file and save the "projectId" and "orgId" for the next step.
+4. Inside the generated ".vercel」 folder, open the the 「project.json" file and save the "projectId" and "orgId" for the next step.
 
 5. Inside GitHub, go the repo's "Settings" > "Secrets and Variables" > "Actions" and add the following as [Repository secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets):
-   - save your Vercel Access Token (from sub-step 1) as the 「VERCEL_TOKEN」 secret
-   - from the 「.vercel/project.json」 add "projectID" as 「VERCEL_PROJECT_ID」
-   - from the 「.vercel/project.json」 add "orgId" as 「VERCEL_ORG_ID」
+   - save your Vercel Access Token (from sub-step 1) as the "VERCEL_TOKEN" secret
+   - from the ".vercel/project.json」 add "projectID" as 「VERCEL_PROJECT_ID"
+   - from the ".vercel/project.json」 add "orgId" as 「VERCEL_ORG_ID"
 
 <i>For full instructions see ["How can I use Github Actions with Vercel"](https://vercel.com/guides/how-can-i-use-github-actions-with-vercel)</i>
 
 ### Step 3: Add Github Action Scripts
 
-Finally, you're ready to simply copy and paste the two files - one for deployment, one for PR previews - from below or from [the example repo's 「.github/workflows/」 folder](https://github.com/diversable/vercel-leptos-CSR-deployment/tree/leptos_0.6/.github/workflows) into your own github workflows folder - then, on your next commit or PR deploys will occur automatically.
+Finally, you're ready to simply copy and paste the two files - one for deployment, one for PR previews - from below or from [the example repo's ".github/workflows/" folder](https://github.com/diversable/vercel-leptos-CSR-deployment/tree/leptos_0.6/.github/workflows) into your own github workflows folder - then, on your next commit or PR deploys will occur automatically.
 
-<i>Production deployment script: 「vercel_deploy.yml」</i>
+<i>Production deployment script: "vercel_deploy.yml"</i>
 
 ```admonish example collapsible=true
 
@@ -206,7 +206,7 @@ Finally, you're ready to simply copy and paste the two files - one for deploymen
 
 ```
 
-<i>Preview deployments script: 「vercel_preview.yml」</i>
+<i>Preview deployments script: "vercel_preview.yml"</i>
 
 ```admonish example collapsible=true
 
@@ -324,11 +324,11 @@ Start by installing the [Spin CLI using the instructions, here](https://develope
 
 4. Go into your Github repo and open "Settings" > "Secrets and Variables" > "Actions" and add the Fermyon cloud token to "Repository secrets" using the variable name "FERMYON_CLOUD_TOKEN"
 
-5. Copy and paste the following Github Actions scripts (below) into your 「.github/workflows/<SCRIPT_NAME>.yml」 files
+5. Copy and paste the following Github Actions scripts (below) into your ".github/workflows/<SCRIPT_NAME>.yml" files
 
 6. With the 'preview' and 'deploy' scripts active, Github Actions will now generate previews on pull requests & deploy automatically on updates to your 'main' branch.
 
-<i>Production deployment script: 「spin_deploy.yml」</i>
+<i>Production deployment script: "spin_deploy.yml"</i>
 
 ```admonish example collapsible=true
 
@@ -425,7 +425,7 @@ Start by installing the [Spin CLI using the instructions, here](https://develope
 
 ```
 
-<i>Preview deployment script: 「spin_preview.yml」</i>
+<i>Preview deployment script: "spin_preview.yml"</i>
 
 ```admonish example collapsible=true
 

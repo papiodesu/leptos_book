@@ -4,7 +4,7 @@ additional-css = [
     "./mdbook-admonish-custom.css",
     "./sandbox.css",
 ]
-additional-js = ["./sandbox.js"]
+additional-js = ["./sandbox.js", "mermaid.min.js", "mermaid-init.js"]
 git-repository-url = "https://github.com/leptos-rs/book"
 edit-url-template = "https://github.com/leptos-rs/book/edit/main/{path}"
 [output.html.playground]
@@ -20,6 +20,9 @@ assets_version = "3.0.1"    # do not edit: managed by `mdbook-admonish install`
 directive = "sandbox"
 color = "#DCFF50"
 icon = "./CodeSandbox-Square-Logo.svg"
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
 
 [build]
 build-dir = "./docs"

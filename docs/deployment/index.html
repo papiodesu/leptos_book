@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -165,7 +165,7 @@
 <p>There are as many ways to deploy a web application as there are developers, let alone applications. But there are a couple useful tips to keep in mind when deploying an app.</p>
 <h2 id="general-advice"><a class="header" href="#general-advice">General Advice</a></h2>
 <ol>
-<li>Remember: Always deploy Rust apps built in 「--release」 mode, not debug mode. This has a huge effect on both performance and binary size.</li>
+<li>Remember: Always deploy Rust apps built in "--release" mode, not debug mode. This has a huge effect on both performance and binary size.</li>
 <li>Test locally in release mode as well. The framework applies certain optimizations in release mode that it does not apply in debug mode, so it’s possible for bugs to surface at this point. (If your app behaves differently or you do encounter a bug, it’s likely a framework-level bug and you should open a GitHub issue with a reproduction.)</li>
 <li>See the chapter on "Optimizing WASM Binary Size" for additional tips and tricks to further improve the time-to-interactive metric for your WASM app on first load.</li>
 </ol>
@@ -236,6 +236,8 @@
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

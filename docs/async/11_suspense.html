@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -161,7 +161,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id=""><a class="header" href="#">「<Suspense/>」</a></h1>
+                        <h1 id=""><a class="header" href="#">"<Suspense/>"</a></h1>
 <p>In the previous chapter, we showed how you can create a simple loading screen to show some fallback while a resource is loading.</p>
 <pre><code class="language-rust">let (count, set_count) = signal(0);
 let once = Resource::new(move || count.get(), |count| async move { load_a(count).await });
@@ -190,7 +190,7 @@ view! {
     }}
 }</code></pre>
 <p>That’s not <em>so</em> bad, but it’s kind of annoying. What if we could invert the flow of control?</p>
-<p>The <a href="https://docs.rs/leptos/latest/leptos/suspense/fn.Suspense.html">「<Suspense/>」</a> component lets us do exactly that. You give it a 「fallback」 prop and children, one or more of which usually involves reading from a resource. Reading from a resource “under” a 「<Suspense/>」 (i.e., in one of its children) registers that resource with the 「<Suspense/>」. If it’s still waiting for resources to load, it shows the 「fallback」. When they’ve all loaded, it shows the children.</p>
+<p>The <a href="https://docs.rs/leptos/latest/leptos/suspense/fn.Suspense.html">"<Suspense/>」</a> component lets us do exactly that. You give it a 「fallback」 prop and children, one or more of which usually involves reading from a resource. Reading from a resource “under” a 「<Suspense/>」 (i.e., in one of its children) registers that resource with the 「<Suspense/>」. If it’s still waiting for resources to load, it shows the 「fallback". When they’ve all loaded, it shows the children.</p>
 <pre><code class="language-rust">let (count, set_count) = signal(0);
 let (count2, set_count2) = signal(0);
 let a = Resource::new(count, |count| async move { load_a(count).await });
@@ -214,9 +214,9 @@ view! {
         }}
     &lt;/Suspense&gt;
 }</code></pre>
-<p>Every time one of the resources is reloading, the 「"Loading..."」 fallback will show again.</p>
+<p>Every time one of the resources is reloading, the ""Loading..."" fallback will show again.</p>
 <p>This inversion of the flow of control makes it easier to add or remove individual resources, as you don’t need to handle the matching yourself. It also unlocks some massive performance improvements during server-side rendering, which we’ll talk about during a later chapter.</p>
-<p>Using 「<Suspense/>」 also gives us access to a useful way to directly 「.await」 resources, allowing us to remove a level of nesting, above. The 「Suspend」 type lets us create a renderable 「Future」 which can be used in the view:</p>
+<p>Using "<Suspense/>」 also gives us access to a useful way to directly 「.await」 resources, allowing us to remove a level of nesting, above. The 「Suspend」 type lets us create a renderable 「Future" which can be used in the view:</p>
 <pre><code class="language-rust">view! {
     &lt;h1&gt;"My Data"&lt;/h1&gt;
     &lt;Suspense
@@ -235,14 +235,14 @@ view! {
         })}
     &lt;/Suspense&gt;
 }</code></pre>
-<p>「Suspend」 allows us to avoid null-checking each resource, and removes some additional complexity from the code.</p>
-<h2 id="-1"><a class="header" href="#-1">「<Await/>」</a></h2>
-<p>If you’re simply trying to wait for some 「Future」 to resolve before rendering, you may find the 「<Await/>」 component helpful in reducing boilerplate. 「<Await/>」 essentially combines a 「OnceResource」 with a 「<Suspense/>」 with no fallback.</p>
+<p>"Suspend" allows us to avoid null-checking each resource, and removes some additional complexity from the code.</p>
+<h2 id="-1"><a class="header" href="#-1">"<Await/>"</a></h2>
+<p>If you’re simply trying to wait for some "Future」 to resolve before rendering, you may find the 「<Await/>」 component helpful in reducing boilerplate. 「<Await/>」 essentially combines a 「OnceResource」 with a 「<Suspense/>" with no fallback.</p>
 <p>In other words:</p>
 <ol>
-<li>It only polls the 「Future」 once, and does not respond to any reactive changes.</li>
-<li>It does not render anything until the 「Future」 resolves.</li>
-<li>After the 「Future」 resolves, it binds its data to whatever variable name you choose and then renders its children with that variable in scope.</li>
+<li>It only polls the "Future" once, and does not respond to any reactive changes.</li>
+<li>It does not render anything until the "Future" resolves.</li>
+<li>After the "Future" resolves, it binds its data to whatever variable name you choose and then renders its children with that variable in scope.</li>
 </ol>
 <pre><code class="language-rust">async fn fetch_monkeys(monkey: i32) -&gt; i32 {
     // maybe this didn't need to be async
@@ -250,7 +250,7 @@ view! {
 }
 view! {
     &lt;Await
-        // 「future」 provides the 「Future」 to be resolved
+        // "future」 provides the 「Future" to be resolved
         future=fetch_monkeys(3)
         // the data is bound to whatever variable name you provide
         let:data
@@ -290,7 +290,7 @@ async fn important_api_call(name: String) -&gt; String {
 pub fn App() -&gt; impl IntoView {
     let (name, set_name) = signal("Bill".to_string());
 
-    // this will reload every time 「name」 changes
+    // this will reload every time "name" changes
     let async_data = LocalResource::new(move || important_api_call(name.get()));
 
     view! {
@@ -398,6 +398,8 @@ fn main() {
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

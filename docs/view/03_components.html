@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -169,7 +169,7 @@ interface down into smaller, reusable, composable chunks.</p>
 <p>Let’s take our progress bar example. Imagine that you want two progress bars
 instead of one: one that advances one tick per click, one that advances two ticks
 per click.</p>
-<p>You <em>could</em> do this by just creating two 「<progress>」 elements:</p>
+<p>You <em>could</em> do this by just creating two "<progress>" elements:</p>
 <pre><code class="language-rust">let (count, set_count) = signal(0);
 let double_count = move || count.get() * 2;
 
@@ -186,7 +186,7 @@ view! {
 <p>But of course, this doesn’t scale very well. If you want to add a third progress
 bar, you need to add this code another time. And if you want to edit anything
 about it, you need to edit it in triplicate.</p>
-<p>Instead, let’s create a 「<ProgressBar/>」 component.</p>
+<p>Instead, let’s create a "<ProgressBar/>" component.</p>
 <pre><code class="language-rust">#[component]
 fn ProgressBar() -&gt; impl IntoView {
     view! {
@@ -197,7 +197,7 @@ fn ProgressBar() -&gt; impl IntoView {
         /&gt;
     }
 }</code></pre>
-<p>There’s just one problem: 「progress」 is not defined. Where should it come from?
+<p>There’s just one problem: "progress" is not defined. Where should it come from?
 When we were defining everything manually, we just used the local variable names.
 Now we need some way to pass an argument into the component.</p>
 <h2 id="component-props"><a class="header" href="#component-props">Component Props</a></h2>
@@ -218,7 +218,7 @@ fn ProgressBar(
         /&gt;
     }
 }</code></pre>
-<p>Now we can use our component in the main 「<App/>」 component’s view.</p>
+<p>Now we can use our component in the main "<App/>" component’s view.</p>
 <pre><code class="language-rust">#[component]
 fn App() -&gt; impl IntoView {
     let (count, set_count) = signal(0);
@@ -232,19 +232,19 @@ fn App() -&gt; impl IntoView {
 }</code></pre>
 <p>Using a component in the view looks a lot like using an HTML element. You’ll
 notice that you can easily tell the difference between an element and a component
-because components always have 「PascalCase」 names. You pass the 「progress」 prop
+because components always have "PascalCase」 names. You pass the 「progress" prop
 in as if it were an HTML element attribute. Simple.</p>
 <h3 id="reactive-and-static-props"><a class="header" href="#reactive-and-static-props">Reactive and Static Props</a></h3>
-<p>You’ll notice that throughout this example, 「progress」 takes a reactive
-「ReadSignal<i32>」, and not a plain 「i32」. This is <strong>very important</strong>.</p>
+<p>You’ll notice that throughout this example, "progress" takes a reactive
+"ReadSignal<i32>」, and not a plain 「i32". This is <strong>very important</strong>.</p>
 <p>Component props have no special meaning attached to them. A component is simply
 a function that runs once to set up the user interface. The only way to tell the
 interface to respond to changes is to pass it a signal type. So if you have a
-component property that will change over time, like our 「progress」, it should
+component property that will change over time, like our "progress", it should
 be a signal.</p>
-<h3 id="optional-props"><a class="header" href="#optional-props">「optional」 Props</a></h3>
-<p>Right now the 「max」 setting is hard-coded. Let’s take that as a prop too. But
-let’s make this prop optional. We can do that by annotating it with 「#[prop(optional)]」.</p>
+<h3 id="optional-props"><a class="header" href="#optional-props">"optional" Props</a></h3>
+<p>Right now the "max" setting is hard-coded. Let’s take that as a prop too. But
+let’s make this prop optional. We can do that by annotating it with "#[prop(optional)]".</p>
 <pre><code class="language-rust">#[component]
 fn ProgressBar(
     // mark this prop optional
@@ -260,14 +260,14 @@ fn ProgressBar(
         /&gt;
     }
 }</code></pre>
-<p>Now, we can use 「<ProgressBar max=50 progress=count/>」, or we can omit 「max」
-to use the default value (i.e., 「<ProgressBar progress=count/>」). The default value
-on an 「optional」 is its 「Default::default()」 value, which for a 「u16」 is going to
-be 「0」. In the case of a progress bar, a max value of 「0」 is not very useful.</p>
+<p>Now, we can use "<ProgressBar max=50 progress=count/>」, or we can omit 「max"
+to use the default value (i.e., "<ProgressBar progress=count/>"). The default value
+on an "optional」 is its 「Default::default()」 value, which for a 「u16" is going to
+be "0」. In the case of a progress bar, a max value of 「0" is not very useful.</p>
 <p>So let’s give it a particular default value instead.</p>
-<h3 id="default-props"><a class="header" href="#default-props">「default」 props</a></h3>
-<p>You can specify a default value other than 「Default::default()」 pretty simply
-with 「#[prop(default = ...)」.</p>
+<h3 id="default-props"><a class="header" href="#default-props">"default" props</a></h3>
+<p>You can specify a default value other than "Default::default()" pretty simply
+with "#[prop(default = ...)".</p>
 <pre><code class="language-rust">#[component]
 fn ProgressBar(
     #[prop(default = 100)]
@@ -282,9 +282,9 @@ fn ProgressBar(
     }
 }</code></pre>
 <h3 id="generic-props"><a class="header" href="#generic-props">Generic Props</a></h3>
-<p>This is great. But we began with two counters, one driven by 「count」, and one by
-the derived signal 「double_count」. Let’s recreate that by using 「double_count」
-as the 「progress」 prop on another 「<ProgressBar/>」.</p>
+<p>This is great. But we began with two counters, one driven by "count", and one by
+the derived signal "double_count」. Let’s recreate that by using 「double_count"
+as the "progress」 prop on another 「<ProgressBar/>".</p>
 <pre><code class="language-rust compile_fail">#[component]
 fn App() -&gt; impl IntoView {
     let (count, set_count) = signal(0);
@@ -300,15 +300,15 @@ fn App() -&gt; impl IntoView {
     }
 }</code></pre>
 <p>Hm... this won’t compile. It should be pretty easy to understand why: we’ve declared
-that the 「progress」 prop takes 「ReadSignal<i32>」, and 「double_count」 is not
-「ReadSignal<i32>」. As rust-analyzer will tell you, its type is 「|| -&gt; i32」, i.e.,
-it’s a closure that returns an 「i32」.</p>
+that the "progress」 prop takes 「ReadSignal<i32>」, and 「double_count" is not
+"ReadSignal<i32>」. As rust-analyzer will tell you, its type is 「|| -&gt; i32", i.e.,
+it’s a closure that returns an "i32".</p>
 <p>There are a couple ways to handle this. One would be to say: “Well, I know that
 for the view to be reactive, it needs to take a function or a signal. I can always
 turn a signal into a function by wrapping it in a closure... Maybe I could
 just take any function?”</p>
-<p>If you’re using nightly Rust with the 「nightly」 feature, signals are functions,
-so you could use a generic component and take any 「Fn() -&gt; i32」:</p>
+<p>If you’re using nightly Rust with the "nightly" feature, signals are functions,
+so you could use a generic component and take any "Fn() -&gt; i32":</p>
 <pre><code class="language-rust">#[component]
 fn ProgressBar(
     #[prop(default = 100)]
@@ -325,9 +325,9 @@ fn ProgressBar(
     }
 }</code></pre>
 <blockquote>
-<p>Generic props can also be specified using a 「where」 clause, or using inline generics like 「ProgressBar&lt;F: Fn() -&gt; i32 + 'static&gt;」.</p>
+<p>Generic props can also be specified using a "where」 clause, or using inline generics like 「ProgressBar&lt;F: Fn() -&gt; i32 + 'static&gt;".</p>
 </blockquote>
-<p>Generics need to be used somewhere in the component props. This is because props are built into a struct, so all generic types must be used somewhere in the struct. This is often easily accomplished using an optional 「PhantomData」 prop. You can then specify a generic in the view using the syntax for expressing types: 「&lt;Component<T>/&gt;」 (not with the turbofish-style 「&lt;Component::<T>/&gt;」).</p>
+<p>Generics need to be used somewhere in the component props. This is because props are built into a struct, so all generic types must be used somewhere in the struct. This is often easily accomplished using an optional "PhantomData」 prop. You can then specify a generic in the view using the syntax for expressing types: 「&lt;Component<T>/&gt;」 (not with the turbofish-style 「&lt;Component::<T>/&gt;").</p>
 <pre><code class="language-rust">#[component]
 fn SizeOf&lt;T: Sized&gt;(#[prop(optional)] _ty: PhantomData&lt;T&gt;) -&gt; impl IntoView {
     std::mem::size_of::&lt;T&gt;()
@@ -341,16 +341,16 @@ pub fn App() -&gt; impl IntoView {
     }
 }</code></pre>
 <blockquote>
-<p>Note that there are some limitations. For example, our view macro parser can’t handle nested generics like 「&lt;SizeOf&lt;Vec<T>&gt;/&gt;」.</p>
+<p>Note that there are some limitations. For example, our view macro parser can’t handle nested generics like "&lt;SizeOf&lt;Vec<T>&gt;/&gt;".</p>
 </blockquote>
-<h3 id="into-props"><a class="header" href="#into-props">「into」 Props</a></h3>
-<p>If you’re on stable Rust, signals don’t directly implement 「Fn()」. We could wrap the signal in a closure (「move || progress.get()」)
+<h3 id="into-props"><a class="header" href="#into-props">"into" Props</a></h3>
+<p>If you’re on stable Rust, signals don’t directly implement "Fn()」. We could wrap the signal in a closure (「move || progress.get()")
 but that’s a bit messy.</p>
-<p>There’s another way we could implement this, and it would be to use 「#[prop(into)]」.
-This attribute automatically calls 「.into()」 on the values you pass as props,
+<p>There’s another way we could implement this, and it would be to use "#[prop(into)]".
+This attribute automatically calls ".into()" on the values you pass as props,
 which allows you to easily pass props with different values.</p>
 <p>In this case, it’s helpful to know about the
-<a href="https://docs.rs/leptos/latest/leptos/reactive/wrappers/read/struct.Signal.html">「Signal」</a> type. 「Signal」
+<a href="https://docs.rs/leptos/latest/leptos/reactive/wrappers/read/struct.Signal.html">"Signal」</a> type. 「Signal"
 is an enumerated type that represents any kind of readable reactive signal, or a plain value.
 It can be useful when defining APIs for components you’ll want to reuse while passing
 different sorts of signals.</p>
@@ -380,9 +380,9 @@ fn App() -&gt; impl IntoView {
         &lt;button on:click=move |_| *set_count.write() += 1&gt;
             "Click me"
         &lt;/button&gt;
-        // .into() converts 「ReadSignal」 to 「Signal」
+        // .into() converts "ReadSignal」 to 「Signal"
         &lt;ProgressBar progress=count/&gt;
-        // use 「Signal::derive()」 to wrap a derived signal with the 「Signal」 type
+        // use "Signal::derive()」 to wrap a derived signal with the 「Signal" type
         &lt;ProgressBar progress=Signal::derive(double_count)/&gt;
     }
 }</code></pre>
@@ -411,15 +411,15 @@ pub fn App() -&gt; impl IntoView {
 }</code></pre>
 <p>Rust helpfully gives the error</p>
 <pre><code>xx |         &lt;ProgressBar/&gt;
-   |          ^^^^^^^^^^^ cannot infer type of the type parameter 「F」 declared on the function 「ProgressBar」
+   |          ^^^^^^^^^^^ cannot infer type of the type parameter "F」 declared on the function 「ProgressBar"
    |
 help: consider specifying the generic argument
    |
 xx |         &lt;ProgressBar::&lt;F&gt;/&gt;
    |                     +++++
 </code></pre>
-<p>You can specify generics on components with a 「&lt;ProgressBar<F>/&gt;」 syntax (no turbofish in the 「view」 macro). Specifying the correct type here is not possible; closures and functions in general are unnameable types. The compiler can display them with a shorthand, but you can’t specify them.</p>
-<p>However, you can get around this by providing a concrete type using 「Box<dyn _>」 or 「&amp;dyn _」:</p>
+<p>You can specify generics on components with a "&lt;ProgressBar<F>/&gt;」 syntax (no turbofish in the 「view" macro). Specifying the correct type here is not possible; closures and functions in general are unnameable types. The compiler can display them with a shorthand, but you can’t specify them.</p>
+<p>However, you can get around this by providing a concrete type using "Box<dyn _>」 or 「&amp;dyn _":</p>
 <pre><code class="language-rust">#[component]
 fn ProgressBar(
     #[prop(optional)] progress: Option&lt;Box&lt;dyn Fn() -&gt; i32 + Send + Sync&gt;&gt;,
@@ -441,9 +441,9 @@ pub fn App() -&gt; impl IntoView {
         &lt;ProgressBar/&gt;
     }
 }</code></pre>
-<p>Because the Rust compiler now knows the concrete type of the prop, and therefore its size in memory even in the 「None」 case, this compiles fine.</p>
+<p>Because the Rust compiler now knows the concrete type of the prop, and therefore its size in memory even in the "None" case, this compiles fine.</p>
 <blockquote>
-<p>In this particular case, 「&amp;dyn Fn() -&gt; i32」 will cause lifetime issues, but in other cases, it may be a possibility.</p>
+<p>In this particular case, "&amp;dyn Fn() -&gt; i32" will cause lifetime issues, but in other cases, it may be a possibility.</p>
 </blockquote>
 <h2 id="documenting-components"><a class="header" href="#documenting-components">Documenting Components</a></h2>
 <p>This is one of the least essential but most important sections of this book.
@@ -467,13 +467,13 @@ fn ProgressBar(
 <p>That’s all you need to do. These behave like ordinary Rust doc comments, except
 that you can document individual component props, which can’t be done with Rust
 function arguments.</p>
-<p>This will automatically generate documentation for your component, its 「Props」
+<p>This will automatically generate documentation for your component, its "Props"
 type, and each of the fields used to add props. It can be a little hard to
 understand how powerful this is until you hover over the component name or props
-and see the power of the 「#[component]」 macro combined with rust-analyzer here.</p>
+and see the power of the "#[component]" macro combined with rust-analyzer here.</p>
 <h2 id="spreading-attributes-onto-components"><a class="header" href="#spreading-attributes-onto-components">Spreading Attributes onto Components</a></h2>
-<p>Sometimes you want users to be able to add additional attributes to a component. For example, you might want users to be able to add their own 「class」 or 「id」 attributes for styling or other purposes.</p>
-<p>You <em>could</em> do this by creating 「class」 or 「id」 props that you then apply to the appropriate element. But Leptos also supports “spreading” additional attributes onto components. Attributes added to a component will be applied to all top-level HTML elements returned from its view.</p>
+<p>Sometimes you want users to be able to add additional attributes to a component. For example, you might want users to be able to add their own "class」 or 「id" attributes for styling or other purposes.</p>
+<p>You <em>could</em> do this by creating "class」 or 「id" props that you then apply to the appropriate element. But Leptos also supports “spreading” additional attributes onto components. Attributes added to a component will be applied to all top-level HTML elements returned from its view.</p>
 <pre><code class="language-rust">// you can create attribute lists by using the view macro with a spread {..} as the tag name
 let spread_onto_component = view! {
     &lt;{..} aria-label="a component with attribute spreading"/&gt;
@@ -506,7 +506,7 @@ view! {
         {..spread_onto_component}
     /&gt;
 }</code></pre>
-<p>See the <a href="https://github.com/leptos-rs/leptos/blob/main/examples/spread/src/lib.rs">「spread」 example</a> for more examples.</p>
+<p>See the <a href="https://github.com/leptos-rs/leptos/blob/main/examples/spread/src/lib.rs">"spread" example</a> for more examples.</p>
 <details id="admonition-live-example" class="admonition admonish-sandbox" role="note" aria-labelledby="admonition-live-example-title">
 <summary class="admonition-title">
 <div id="admonition-live-example-title">
@@ -541,9 +541,9 @@ fn ProgressBar(
     #[prop(default = 100)]
     /// The maximum value of the progress bar.
     max: u16,
-    // Will run 「.into()」 on the value passed into the prop.
+    // Will run ".into()" on the value passed into the prop.
     #[prop(into)]
-    // 「Signal&lt;T&gt;」 is a wrapper for several reactive types.
+    // "Signal&lt;T&gt;" is a wrapper for several reactive types.
     // It can be helpful in component APIs like this, where we
     // might want to take any kind of reactive value
     /// How much progress should be displayed.
@@ -574,8 +574,8 @@ fn App() -&gt; impl IntoView {
         &lt;/button&gt;
         &lt;br/&gt;
         // If you have this open in CodeSandbox or an editor with
-        // rust-analyzer support, try hovering over 「ProgressBar」,
-        // 「max」, or 「progress」 to see the docs we defined above
+        // rust-analyzer support, try hovering over "ProgressBar",
+        // "max」, or 「progress" to see the docs we defined above
         &lt;ProgressBar max=50 progress=count/&gt;
         // Let's use the default max value on this one
         // the default is 100, so it should move half as fast
@@ -655,6 +655,8 @@ fn main() {
 
         <!-- Custom JS scripts -->
         <script src=".././sandbox.js"></script>
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>

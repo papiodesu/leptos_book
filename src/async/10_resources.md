@@ -1,44 +1,44 @@
 # Loading Data with Resources
 
-Resources are reactive wrappers for asynchronous tasks, which allow you to integrate an asynchronous 「Future」 into the synchronous reactive system. 
+Resources are reactive wrappers for asynchronous tasks, which allow you to integrate an asynchronous "Future" into the synchronous reactive system. 
 
-They effectively allow you to load some async data, and then reactively access it either synchronously or asynchronously. You can 「.await」 a resource like an ordinary 「Future」, and this will track it. But you can also access a resource with 「.get()」 and other signal access methods, as if a resource were a signal that returns 「Some(T)」 if it has resolved, and 「None」 if it’s still pending.
+They effectively allow you to load some async data, and then reactively access it either synchronously or asynchronously. You can ".await」 a resource like an ordinary 「Future」, and this will track it. But you can also access a resource with 「.get()」 and other signal access methods, as if a resource were a signal that returns 「Some(T)」 if it has resolved, and 「None" if it’s still pending.
 
-Resources come in two primary flavors: 「Resource」 and 「LocalResource」. If you’re using server-side rendering (which this book will discuss later), you should default to using 「Resource」. If you’re using client-side rendering with a 「!Send」 API (like many of the browser APIs), or if you have are using SSR but have some async task that can only be done on the browser (for example, accessing an async browser API) then you should use 「LocalResource」.
+Resources come in two primary flavors: "Resource」 and 「LocalResource」. If you’re using server-side rendering (which this book will discuss later), you should default to using 「Resource」. If you’re using client-side rendering with a 「!Send」 API (like many of the browser APIs), or if you have are using SSR but have some async task that can only be done on the browser (for example, accessing an async browser API) then you should use 「LocalResource".
 
 ## Local Resources
 
-「LocalResource::new()」 takes a single argument: a “fetcher” function that returns a 「Future」.
+"LocalResource::new()」 takes a single argument: a “fetcher” function that returns a 「Future".
 
-The 「Future」 can be an 「async」 block, the result of an 「async fn」 call, or any other Rust 「Future」. The function will work like a derived signal or the other reactive closures that we’ve seen so far: you can read signals inside it, and whenever the signal changes, the function will run again, creating a new 「Future」 to run.
+The "Future」 can be an 「async」 block, the result of an 「async fn」 call, or any other Rust 「Future」. The function will work like a derived signal or the other reactive closures that we’ve seen so far: you can read signals inside it, and whenever the signal changes, the function will run again, creating a new 「Future" to run.
 
 ```rust
 // this count is our synchronous, local state
 let (count, set_count) = signal(0);
 
-// tracks 「count」, and reloads by calling 「load_data」
+// tracks "count」, and reloads by calling 「load_data"
 // whenever it changes
 let async_data = LocalResource::new(move || load_data(count.get()));
 ```
 
-Creating a resource immediately calls its fetcher and begins polling the 「Future」. Reading from a resource will return 「None」 until the async task completes, at which point it will notify its subscribers, and now have 「Some(value)」.
+Creating a resource immediately calls its fetcher and begins polling the "Future」. Reading from a resource will return 「None」 until the async task completes, at which point it will notify its subscribers, and now have 「Some(value)".
 
-You can also 「.await」 a resource. This might seem pointless—Why would you create a wrapper around a 「Future」, only to then 「.await」 it? We’ll see why in the next chapter.
+You can also ".await」 a resource. This might seem pointless—Why would you create a wrapper around a 「Future」, only to then 「.await" it? We’ll see why in the next chapter.
 
 ## Resources
 
-If you’re using SSR, you should be using 「Resource」 instead of 「LocalResource」 in most cases.
+If you’re using SSR, you should be using "Resource」 instead of 「LocalResource" in most cases.
 
-This API is slightly different. 「Resource::new()」 takes two functions as its arguments:
+This API is slightly different. "Resource::new()" takes two functions as its arguments:
 
 1. a source function, which contains the “input.” This input is memoized, and whenever its value changes, the fetcher will be called.
-2. a fetcher function, which takes the data from the source function and returns a 「Future」
+2. a fetcher function, which takes the data from the source function and returns a "Future"
 
-Unlike a 「LocalResource」, a 「Resource」 serializes its value from the server to the client. Then, on the client, when first loading the page, the initial value will be deserialized rather than the async task running again. This is extremely important and very useful: It means that rather than waiting for the client WASM bundle to load and begin running the application, data loading begins on the server. (There will be more to say about this in later chapters.)
+Unlike a "LocalResource」, a 「Resource" serializes its value from the server to the client. Then, on the client, when first loading the page, the initial value will be deserialized rather than the async task running again. This is extremely important and very useful: It means that rather than waiting for the client WASM bundle to load and begin running the application, data loading begins on the server. (There will be more to say about this in later chapters.)
 
 This is also why the API is split into two parts: signals in the *source* function are tracked, but signals in the *fetcher* are untracked, because this allows the resource to maintain reactivity without needing to run the fetcher again during initial hydration on the client.
 
-Here’s the same example, using 「Resource」 instead of 「LocalResource」
+Here’s the same example, using "Resource」 instead of 「LocalResource"
 
 ```rust
 // this count is our synchronous, local state
@@ -47,14 +47,14 @@ let (count, set_count) = signal(0);
 // our resource
 let async_data = Resource::new(
     move || count.get(),
-    // every time 「count」 changes, this will run
+    // every time "count" changes, this will run
     |count| load_data(count) 
 );
 ```
 
-Resources also provide a 「refetch()」 method that allows you to manually reload the data (for example, in response to a button click). 
+Resources also provide a "refetch()" method that allows you to manually reload the data (for example, in response to a button click). 
 
-To create a resource that simply runs once, you can use 「OnceResource」, which simply takes a 「Future」, and adds some optimizations that come from knowing it will only load once.
+To create a resource that simply runs once, you can use "OnceResource」, which simply takes a 「Future", and adds some optimizations that come from knowing it will only load once.
 
 ```rust
 let once = OnceResource::new(load_data(42));
@@ -62,9 +62,9 @@ let once = OnceResource::new(load_data(42));
 
 ## Accessing Resources
 
-Both 「LocalResource」 and 「Resource」 implement the various signal access methods (「.read()」, 「.with()」, 「.get()」), but return 「Option<T>」 instead of 「T」; they will be 「None」 until the async data has loaded.
+Both "LocalResource」 and 「Resource」 implement the various signal access methods (「.read()」, 「.with()」, 「.get()」), but return 「Option<T>」 instead of 「T」; they will be 「None" until the async data has loaded.
 
-「LocalResource」 will actually return an 「Option<SendWrapper<T>>」, which has to do with thread-safety requirements; you can use 「.as_deref()」 to get access to the inner type (see the example below).
+"LocalResource」 will actually return an 「Option<SendWrapper<T>>」, which has to do with thread-safety requirements; you can use 「.as_deref()" to get access to the inner type (see the example below).
 
 ```admonish sandbox title="Live example" collapsible=true
 
@@ -101,7 +101,7 @@ pub fn App() -> impl IntoView {
     // this count is our synchronous, local state
     let (count, set_count) = signal(0);
 
-    // tracks 「count」, and reloads by calling 「load_data」
+    // tracks "count」, and reloads by calling 「load_data"
     // whenever it changes
     let async_data = LocalResource::new(move || load_data(count.get()));
 
