@@ -1,0 +1,630 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Guide: Islands</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="./mdbook-admonish.css">
+        <link rel="stylesheet" href="./mdbook-admonish-custom.css">
+        <link rel="stylesheet" href="./sandbox.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/leptos-rs/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/leptos-rs/book/edit/main/src/islands.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="guide-islands"><a class="header" href="#guide-islands">Guide: Islands</a></h1>
+<p>Leptos 0.5 introduced the new 「islands」 feature. This guide will walk through the islands feature and core concepts, while implementing a demo app using the islands architecture.</p>
+<h2 id="the-islands-architecture"><a class="header" href="#the-islands-architecture">The Islands Architecture</a></h2>
+<p>The dominant JavaScript frontend frameworks (React, Vue, Svelte, Solid, Angular) all originated as frameworks for building client-rendered single-page apps (SPAs). The initial page load is rendered to HTML, then hydrated, and subsequent navigations are handled directly in the client. (Hence “single page”: everything happens from a single page load from the server, even if there is client-side routing later.) Each of these frameworks later added server-side rendering to improve initial load times, SEO, and user experience.</p>
+<p>This means that by default, the entire app is interactive. It also means that the entire app has to be shipped to the client as JavaScript in order to be hydrated. Leptos has followed this same pattern.</p>
+<blockquote>
+<p>You can read more in the chapters on <a href="./ssr/22_life_cycle.html">server-side rendering</a>.</p>
+</blockquote>
+<p>But it’s also possible to work in the opposite direction. Rather than taking an entirely-interactive app, rendering it to HTML on the server, and then hydrating it in the browser, you can begin with a plain HTML page and add small areas of interactivity. This is the traditional format for any website or app before the 2010s: your browser makes a series of requests to the server and returns the HTML for each new page in response. After the rise of “single-page apps” (SPA), this approach has sometimes become known as a “multi-page app” (MPA) by comparison.</p>
+<p>The phrase “islands architecture” has emerged recently to describe the approach of beginning with a “sea” of server-rendered HTML pages, and adding “islands” of interactivity throughout the page.</p>
+<blockquote>
+<h3 id="additional-reading"><a class="header" href="#additional-reading">Additional Reading</a></h3>
+<p>The rest of this guide will look at how to use islands with Leptos. For more background on the approach in general, check out some of the articles below:</p>
+<ul>
+<li>Jason Miller, <a href="https://jasonformat.com/islands-architecture/">“Islands Architecture”</a>, Jason Miller</li>
+<li>Ryan Carniato, <a href="https://dev.to/this-is-learning/islands-server-components-resumability-oh-my-319d">“Islands &amp; Server Components &amp; Resumability, Oh My!”</a></li>
+<li><a href="https://www.patterns.dev/posts/islands-architecture">“Islands Architectures”</a> on patterns.dev</li>
+<li><a href="https://docs.astro.build/en/concepts/islands/">Astro Islands</a></li>
+</ul>
+</blockquote>
+<h2 id="activating-islands-mode"><a class="header" href="#activating-islands-mode">Activating Islands Mode</a></h2>
+<p>Let’s start with a fresh 「cargo-leptos」 app:</p>
+<pre><code class="language-bash">cargo leptos new --git leptos-rs/start-axum
+</code></pre>
+<blockquote>
+<p>There should be no real differences between Actix and Axum in this example.</p>
+</blockquote>
+<p>I’m just going to run</p>
+<pre><code class="language-bash">cargo leptos build
+</code></pre>
+<p>in the background while I fire up my editor and keep writing.</p>
+<p>The first thing I’ll do is to add the 「islands」 feature in my 「Cargo.toml」. I only need to add this to the 「leptos」 crate.</p>
+<pre><code class="language-toml">leptos = { version = "0.7", features = ["islands"] }
+</code></pre>
+<p>Next I’m going to modify the 「hydrate」 function exported from 「src/lib.rs」. I’m going to remove the line that calls 「leptos::mount::mount_to_body(App)」 and replace it with</p>
+<pre><code class="language-rust">leptos::mount::hydrate_islands();</code></pre>
+<p>Rather than running the whole application and hydrating the view that it creates, this will hydrate each individual island, in order.</p>
+<p>In 「app.rs」, in the 「shell」 functions, we’ll also need to add 「islands=true」 to the 「HydrationScripts」 component:</p>
+<pre><code class="language-rust">&lt;HydrationScripts options islands=true/&gt;</code></pre>
+<p>Okay, now fire up your 「cargo leptos watch」 and go to <a href="http://localhost:3000">「http://localhost:3000」</a> (or wherever).</p>
+<p>Click the button, and...</p>
+<p>Nothing happens!</p>
+<p>Perfect.</p>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>The starter templates include 「use app::*;」 in their 「hydrate()」 function definitions. Once you've switched over to islands mode, you are no longer using the imported main 「App」 function, so you might think you can delete this. (And in fact, Rust lint tools might issue warnings if you don't!)</p>
+<p>However, this can cause issues if you are using a workspace setup. We use 「wasm-bindgen」 to independently export an entrypoint for each function. In my experience, if you are using a workspace setup and nothing in your 「frontend」 crate actually uses the 「app」 crate, those bindings will not be generated correctly. <a href="https://github.com/leptos-rs/leptos/issues/2083#issuecomment-1868053733">See this discussion for more</a>.</p>
+</div>
+</div>
+<h2 id="using-islands"><a class="header" href="#using-islands">Using Islands</a></h2>
+<p>Nothing happens because we’ve just totally inverted the mental model of our app. Rather than being interactive by default and hydrating everything, the app is now plain HTML by default, and we need to opt into interactivity.</p>
+<p>This has a big effect on WASM binary sizes: if I compile in release mode, this app is a measly 24kb of WASM (uncompressed), compared to 274kb in non-islands mode. (274kb is quite large for a “Hello, world!” It’s really just all the code related to client-side routing, which isn’t being used in the demo.)</p>
+<p>When we click the button, nothing happens, because our whole page is static.</p>
+<p>So how do we make something happen?</p>
+<p>Let’s turn the 「HomePage」 component into an island!</p>
+<p>Here was the non-interactive version:</p>
+<pre><code class="language-rust">#[component]
+fn HomePage() -&gt; impl IntoView {
+    // Creates a reactive value to update the button
+    let count = RwSignal::new(0);
+    let on_click = move |_| *count.write() += 1;
+
+    view! {
+        &lt;h1&gt;"Welcome to Leptos!"&lt;/h1&gt;
+        &lt;button on:click=on_click&gt;"Click Me: " {count}&lt;/button&gt;
+    }
+}</code></pre>
+<p>Here’s the interactive version:</p>
+<pre><code class="language-rust">#[island]
+fn HomePage() -&gt; impl IntoView {
+    // Creates a reactive value to update the button
+    let count = RwSignal::new(0);
+    let on_click = move |_| *count.write() += 1;
+
+    view! {
+        &lt;h1&gt;"Welcome to Leptos!"&lt;/h1&gt;
+        &lt;button on:click=on_click&gt;"Click Me: " {count}&lt;/button&gt;
+    }
+}</code></pre>
+<p>Now when I click the button, it works!</p>
+<p>The 「#[island]」 macro works exactly like the 「#[component]」 macro, except that in islands mode, it designates this as an interactive island. If we check the binary size again, this is 166kb uncompressed in release mode; much larger than the 24kb totally static version, but much smaller than the 355kb fully-hydrated version.</p>
+<p>If you open up the source for the page now, you’ll see that your 「HomePage」 island has been rendered as a special 「<leptos-island>」 HTML element which specifies which component should be used to hydrate it:</p>
+<pre><code class="language-html">&lt;leptos-island data-component="HomePage_7432294943247405892"&gt;
+  &lt;h1&gt;Welcome to Leptos!&lt;/h1&gt;
+  &lt;button&gt;
+    Click Me:
+    &lt;!&gt;0
+  &lt;/button&gt;
+&lt;/leptos-island&gt;
+</code></pre>
+<p>Only code for what's inside this 「<leptos-island>」 is compiled to WASM, only only that code runs when hydrating.</p>
+<h2 id="using-islands-effectively"><a class="header" href="#using-islands-effectively">Using Islands Effectively</a></h2>
+<p>Remember that <em>only</em> code within an 「#[island]」 needs to be compiled to WASM and shipped to the browser. This means that islands should be as small and specific as possible. My 「HomePage」, for example, would be better broken apart into a regular component and an island:</p>
+<pre><code class="language-rust">#[component]
+fn HomePage() -&gt; impl IntoView {
+    view! {
+        &lt;h1&gt;"Welcome to Leptos!"&lt;/h1&gt;
+        &lt;Counter/&gt;
+    }
+}
+
+#[island]
+fn Counter() -&gt; impl IntoView {
+    // Creates a reactive value to update the button
+    let (count, set_count) = signal(0);
+    let on_click = move |_| *set_count.write() += 1;
+
+    view! {
+        &lt;button on:click=on_click&gt;"Click Me: " {count}&lt;/button&gt;
+    }
+}</code></pre>
+<p>Now the 「<h1>」 doesn’t need to be included in the client bundle, or hydrated. This seems like a silly distinction now; but note that you can now add as much inert HTML content as you want to the 「HomePage」 itself, and the WASM binary size will remain exactly the same.</p>
+<p>In regular hydration mode, your WASM binary size grows as a function of the size/complexity of your app. In islands mode, your WASM binary grows as a function of the amount of interactivity in your app. You can add as much non-interactive content as you want, outside islands, and it will not increase that binary size.</p>
+<h2 id="unlocking-superpowers"><a class="header" href="#unlocking-superpowers">Unlocking Superpowers</a></h2>
+<p>So, this 50% reduction in WASM binary size is nice. But really, what’s the point?</p>
+<p>The point comes when you combine two key facts:</p>
+<ol>
+<li>Code inside 「#[component]」 functions now <em>only</em> runs on the server, unless you use it in an island.*</li>
+<li>Children and props can be passed from the server to islands, without being included in the WASM binary.</li>
+</ol>
+<p>This means you can run server-only code directly in the body of a component, and pass it directly into the children. Certain tasks that take a complex blend of server functions and Suspense in fully-hydrated apps can be done inline in islands.</p>
+<blockquote>
+<p>* This “unless you use it in an island” is important. It is <em>not</em> the case that 「#[component]」 components only run on the server. Rather, they are “shared components” that are only compiled into the WASM binary if they’re used in the body of an 「#[island]」. But if you don’t use them in an island, they won’t run in the browser.</p>
+</blockquote>
+<p>We’re going to rely on a third fact in the rest of this demo:</p>
+<ol start="3">
+<li>Context can be passed between otherwise-independent islands.</li>
+</ol>
+<p>So, instead of our counter demo, let’s make something a little more fun: a tabbed interface that reads data from files on the server.</p>
+<h2 id="passing-server-children-to-islands"><a class="header" href="#passing-server-children-to-islands">Passing Server Children to Islands</a></h2>
+<p>One of the most powerful things about islands is that you can pass server-rendered children into an island, without the island needing to know anything about them. Islands hydrate their own content, but not children that are passed to them.</p>
+<p>As Dan Abramov of React put it (in the very similar context of RSCs), islands aren’t really islands: they’re donuts. You can pass server-only content directly into the “donut hole,” as it were, allowing you to create tiny atolls of interactivity, surrounded on <em>both</em> sides by the sea of inert server HTML.</p>
+<blockquote>
+<p>In the demo code included below, I added some styles to show all server content as a light-blue “sea,” and all islands as light-green “land.” Hopefully that will help picture what I’m talking about!</p>
+</blockquote>
+<p>To continue with the demo: I’m going to create a 「Tabs」 component. Switching between tabs will require some interactivity, so of course this will be an island. Let’s start simple for now:</p>
+<pre><code class="language-rust">#[island]
+fn Tabs(labels: Vec&lt;String&gt;) -&gt; impl IntoView {
+    let buttons = labels
+        .into_iter()
+        .map(|label| view! { &lt;button&gt;{label}&lt;/button&gt; })
+        .collect_view();
+    view! {
+        &lt;div style="display: flex; width: 100%; justify-content: space-between;"&gt;
+            {buttons}
+        &lt;/div&gt;
+    }
+}</code></pre>
+<p>Oops. This gives me an error</p>
+<pre><code>error[E0463]: can't find crate for 「serde」
+  --&gt; src/app.rs:43:1
+   |
+43 | #[island]
+   | ^^^^^^^^^ can't find crate
+</code></pre>
+<p>Easy fix: let’s 「cargo add serde --features=derive」. The 「#[island]」 macro wants to pull in 「serde」 here because it needs to serialize and deserialize the 「labels」 prop.</p>
+<p>Now let’s update the 「HomePage」 to use 「Tabs」.</p>
+<pre><code class="language-rust">#[component]
+fn HomePage() -&gt; impl IntoView {
+	// these are the files we’re going to read
+    let files = ["a.txt", "b.txt", "c.txt"];
+	// the tab labels will just be the file names
+	let labels = files.iter().copied().map(Into::into).collect();
+    view! {
+        &lt;h1&gt;"Welcome to Leptos!"&lt;/h1&gt;
+        &lt;p&gt;"Click any of the tabs below to read a recipe."&lt;/p&gt;
+        &lt;Tabs labels/&gt;
+    }
+}</code></pre>
+<p>If you take a look in the DOM inspector, you’ll see the island is now something like</p>
+<pre><code class="language-html">&lt;leptos-island
+  data-component="Tabs_1030591929019274801"
+  data-props='{"labels":["a.txt","b.txt","c.txt"]}'
+&gt;
+  &lt;div style="display: flex; width: 100%; justify-content: space-between;;"&gt;
+    &lt;button&gt;a.txt&lt;/button&gt;
+    &lt;button&gt;b.txt&lt;/button&gt;
+    &lt;button&gt;c.txt&lt;/button&gt;
+    &lt;!----&gt;
+  &lt;/div&gt;
+&lt;/leptos-island&gt;
+</code></pre>
+<p>Our 「labels」 prop is getting serialized to JSON and stored in an HTML attribute so it can be used to hydrate the island.</p>
+<p>Now let’s add some tabs. For the moment, a 「Tab」 island will be really simple:</p>
+<pre><code class="language-rust">#[island]
+fn Tab(index: usize, children: Children) -&gt; impl IntoView {
+    view! {
+        &lt;div&gt;{children()}&lt;/div&gt;
+    }
+}</code></pre>
+<p>Each tab, for now will just be a 「<div>」 wrapping its children.</p>
+<p>Our 「Tabs」 component will also get some children: for now, let’s just show them all.</p>
+<pre><code class="language-rust">#[island]
+fn Tabs(labels: Vec&lt;String&gt;, children: Children) -&gt; impl IntoView {
+    let buttons = labels
+        .into_iter()
+        .map(|label| view! { &lt;button&gt;{label}&lt;/button&gt; })
+        .collect_view();
+    view! {
+        &lt;div style="display: flex; width: 100%; justify-content: space-around;"&gt;
+            {buttons}
+        &lt;/div&gt;
+        {children()}
+    }
+}</code></pre>
+<p>Okay, now let’s go back into the 「HomePage」. We’re going to create the list of tabs to put into our tab box.</p>
+<pre><code class="language-rust">#[component]
+fn HomePage() -&gt; impl IntoView {
+    let files = ["a.txt", "b.txt", "c.txt"];
+    let labels = files.iter().copied().map(Into::into).collect();
+	let tabs = move || {
+        files
+            .into_iter()
+            .enumerate()
+            .map(|(index, filename)| {
+                let content = std::fs::read_to_string(filename).unwrap();
+                view! {
+                    &lt;Tab index&gt;
+                        &lt;h2&gt;{filename.to_string()}&lt;/h2&gt;
+                        &lt;p&gt;{content}&lt;/p&gt;
+                    &lt;/Tab&gt;
+                }
+            })
+            .collect_view()
+    };
+
+    view! {
+        &lt;h1&gt;"Welcome to Leptos!"&lt;/h1&gt;
+        &lt;p&gt;"Click any of the tabs below to read a recipe."&lt;/p&gt;
+        &lt;Tabs labels&gt;
+            &lt;div&gt;{tabs()}&lt;/div&gt;
+        &lt;/Tabs&gt;
+    }
+}</code></pre>
+<p>Uh... What?</p>
+<p>If you’re used to using Leptos, you know that you just can’t do this. All code in the body of components has to run on the server (to be rendered to HTML) and in the browser (to hydrate), so you can’t just call 「std::fs」; it will panic, because there’s no access to the local filesystem (and certainly not to the server filesystem!) in the browser. This would be a security nightmare!</p>
+<p>Except... wait. We’re in islands mode. This 「HomePage」 component <em>really does</em> only run on the server. So we can, in fact, just use ordinary server code like this.</p>
+<blockquote>
+<p><strong>Is this a dumb example?</strong> Yes! Synchronously reading from three different local files in a 「.map()」 is not a good choice in real life. The point here is just to demonstrate that this is, definitely, server-only content.</p>
+</blockquote>
+<p>Go ahead and create three files in the root of the project called 「a.txt」, 「b.txt」, and 「c.txt」, and fill them in with whatever content you’d like.</p>
+<p>Refresh the page and you should see the content in the browser. Edit the files and refresh again; it will be updated.</p>
+<p>You can pass server-only content from a 「#[component]」 into the children of an 「#[island]」, without the island needing to know anything about how to access that data or render that content.</p>
+<p><strong>This is really important.</strong> Passing server 「children」 to islands means that you can keep islands small. Ideally, you don’t want to slap an 「#[island]」 around a whole chunk of your page. You want to break that chunk out into an interactive piece, which can be an 「#[island]」, and a bunch of additional server content that can be passed to that island as 「children」, so that the non-interactive subsections of an interactive part of the page can be kept out of the WASM binary.</p>
+<h2 id="passing-context-between-islands"><a class="header" href="#passing-context-between-islands">Passing Context Between Islands</a></h2>
+<p>These aren’t really “tabs” yet: they just show every tab, all the time. So let’s add some simple logic to our 「Tabs」 and 「Tab」 components.</p>
+<p>We’ll modify 「Tabs」 to create a simple 「selected」 signal. We provide the read half via context, and set the value of the signal whenever someone clicks one of our buttons.</p>
+<pre><code class="language-rust">#[island]
+fn Tabs(labels: Vec&lt;String&gt;, children: Children) -&gt; impl IntoView {
+    let (selected, set_selected) = signal(0);
+    provide_context(selected);
+
+    let buttons = labels
+        .into_iter()
+        .enumerate()
+        .map(|(index, label)| view! {
+            &lt;button on:click=move |_| set_selected.set(index)&gt;
+                {label}
+            &lt;/button&gt;
+        })
+        .collect_view();
+// ...</code></pre>
+<p>And let’s modify the 「Tab」 island to use that context to show or hide itself:</p>
+<pre><code class="language-rust">#[island]
+fn Tab(index: usize, children: Children) -&gt; impl IntoView {
+    let selected = expect_context::&lt;ReadSignal&lt;usize&gt;&gt;();
+    view! {
+        &lt;div
+            style:background-color="lightgreen"
+            style:padding="10px"
+            style:display=move || if selected.get() == index {
+                "block"
+            } else {
+                "none"
+            }
+        &gt;
+            {children()}
+        &lt;/div&gt;
+    }
+}</code></pre>
+<p>Now the tabs behave exactly as I’d expect. 「Tabs」 passes the signal via context to each 「Tab」, which uses it to determine whether it should be open or not.</p>
+<blockquote>
+<p>That’s why in 「HomePage」, I made 「let tabs = move ||」 a function, and called it like 「{tabs()}」: creating the tabs lazily this way meant that the 「Tabs」 island would already have provided the 「selected」 context by the time each 「Tab」 went looking for it.</p>
+</blockquote>
+<p>Our complete tabs demo is about 200kb uncompressed: not the smallest demo in the world, but still significantly smaller than the “Hello, world” using client side routing that we started with! Just for kicks, I built the same demo without islands mode, using 「#[server]」 functions and 「Suspense」. and it was over 400kb. So again, this was about a 50% savings in binary size. And this app includes quite minimal server-only content: remember that as we add additional server-only components and pages, this 200kb will not grow.</p>
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>This demo may seem pretty basic. It is. But there are a number of immediate takeaways:</p>
+<ul>
+<li><strong>50% WASM binary size reduction</strong>, which means measurable improvements in time to interactivity and initial load times for clients.</li>
+<li><strong>Reduced data serialization costs.</strong> Creating a resource and reading it on the client means you need to serialize the data, so it can be used for hydration. If you’ve also read that data to create HTML in a 「Suspense」, you end up with “double data,” i.e., the same exact data is both rendered to HTML and serialized as JSON, increasing the size of responses, and therefore slowing them down.</li>
+<li><strong>Easily use server-only APIs</strong> inside a 「#[component]」 as if it were a normal, native Rust function running on the server—which, in islands mode, it is!</li>
+<li><strong>Reduced 「#[server]」/「create_resource」/「Suspense」 boilerplate</strong> for loading server data.</li>
+</ul>
+<h2 id="future-exploration"><a class="header" href="#future-exploration">Future Exploration</a></h2>
+<p>The 「islands」 feature reflects work at the cutting edge of what frontend web frameworks are exploring right now. As it stands, our islands approach is very similar to Astro (before its recent View Transitions support): it allows you to build a traditional server-rendered, multi-page app and pretty seamlessly integrate islands of interactivity.</p>
+<p>There are some small improvements that will be easy to add. For example, we can do something very much like Astro's View Transitions approach:</p>
+<ul>
+<li>add client-side routing for islands apps by fetching subsequent navigations from the server and replacing the HTML document with the new one</li>
+<li>add animated transitions between the old and new document using the View Transitions API</li>
+<li>support explicit persistent islands, i.e., islands that you can mark with unique IDs (something like 「persist:searchbar」 on the component in the view), which can be copied over from the old to the new document without losing their current state</li>
+</ul>
+<p>There are other, larger architectural changes that I’m <a href="https://github.com/leptos-rs/leptos/issues/1830">not sold on yet</a>.</p>
+<h2 id="additional-information"><a class="header" href="#additional-information">Additional Information</a></h2>
+<p>Check out the <a href="https://github.com/leptos-rs/leptos/blob/main/examples/islands/src/app.rs">「islands」 example</a>, <a href="https://github.com/leptos-rs/leptos/issues/1830">roadmap</a>, and <a href="https://github.com/leptos-rs/leptos/tree/leptos_0.6/examples/hackernews_islands_axum">Hackernews demo</a> for additional discussion.</p>
+<h2 id="demo-code"><a class="header" href="#demo-code">Demo Code</a></h2>
+<pre><code class="language-rust">use leptos::prelude::*;
+
+#[component]
+pub fn App() -&gt; impl IntoView {
+    view! {
+        &lt;main style="background-color: lightblue; padding: 10px"&gt;
+            &lt;HomePage/&gt;
+        &lt;/main&gt;
+    }
+}
+
+/// Renders the home page of your application.
+#[component]
+fn HomePage() -&gt; impl IntoView {
+    let files = ["a.txt", "b.txt", "c.txt"];
+    let labels = files.iter().copied().map(Into::into).collect();
+    let tabs = move || {
+        files
+            .into_iter()
+            .enumerate()
+            .map(|(index, filename)| {
+                let content = std::fs::read_to_string(filename).unwrap();
+                view! {
+                    &lt;Tab index&gt;
+                        &lt;div style="background-color: lightblue; padding: 10px"&gt;
+                            &lt;h2&gt;{filename.to_string()}&lt;/h2&gt;
+                            &lt;p&gt;{content}&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/Tab&gt;
+                }
+            })
+            .collect_view()
+    };
+
+    view! {
+        &lt;h1&gt;"Welcome to Leptos!"&lt;/h1&gt;
+        &lt;p&gt;"Click any of the tabs below to read a recipe."&lt;/p&gt;
+        &lt;Tabs labels&gt;
+            &lt;div&gt;{tabs()}&lt;/div&gt;
+        &lt;/Tabs&gt;
+    }
+}
+
+#[island]
+fn Tabs(labels: Vec&lt;String&gt;, children: Children) -&gt; impl IntoView {
+    let (selected, set_selected) = signal(0);
+    provide_context(selected);
+
+    let buttons = labels
+        .into_iter()
+        .enumerate()
+        .map(|(index, label)| {
+            view! {
+                &lt;button on:click=move |_| set_selected.set(index)&gt;
+                    {label}
+                &lt;/button&gt;
+            }
+        })
+        .collect_view();
+    view! {
+        &lt;div
+            style="display: flex; width: 100%; justify-content: space-around;\
+            background-color: lightgreen; padding: 10px;"
+        &gt;
+            {buttons}
+        &lt;/div&gt;
+        {children()}
+    }
+}
+
+#[island]
+fn Tab(index: usize, children: Children) -&gt; impl IntoView {
+    let selected = expect_context::&lt;ReadSignal&lt;usize&gt;&gt;();
+    view! {
+        &lt;div
+            style:background-color="lightgreen"
+            style:padding="10px"
+            style:display=move || if selected.get() == index {
+                "block"
+            } else {
+                "none"
+            }
+        &gt;
+            {children()}
+        &lt;/div&gt;
+    }
+}</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="deployment/binary_size.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="appendix_reactive_graph.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="deployment/binary_size.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="appendix_reactive_graph.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="./sandbox.js"></script>
+
+
+    </div>
+    </body>
+</html>

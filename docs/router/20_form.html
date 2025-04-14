@@ -1,0 +1,407 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>&lt;Form/&gt;</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+        <link rel="stylesheet" href=".././mdbook-admonish-custom.css">
+        <link rel="stylesheet" href=".././sandbox.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/leptos-rs/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/leptos-rs/book/edit/main/src/router/20_form.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="the--component"><a class="header" href="#the--component">The 「<Form/>」 Component</a></h1>
+<p>Links and forms sometimes seem completely unrelated. But, in fact, they work in very similar ways.</p>
+<p>In plain HTML, there are three ways to navigate to another page:</p>
+<ol>
+<li>An 「<a>」 element that links to another page: Navigates to the URL in its 「href」 attribute with the 「GET」 HTTP method.</li>
+<li>A 「<form method="GET">」: Navigates to the URL in its 「action」 attribute with the 「GET」 HTTP method and the form data from its inputs encoded in the URL query string.</li>
+<li>A 「<form method="POST">」: Navigates to the URL in its 「action」 attribute with the 「POST」 HTTP method and the form data from its inputs encoded in the body of the request.</li>
+</ol>
+<p>Since we have a client-side router, we can do client-side link navigations without reloading the page, i.e., without a full round-trip to the server and back. It makes sense that we can do client-side form navigations in the same way.</p>
+<p>The router provides a <a href="https://docs.rs/leptos_router/latest/leptos_router/components/fn.Form.html">「<Form>」</a> component, which works like the HTML 「<form>」 element, but uses client-side navigations instead of full page reloads. 「<Form/>」 works with both 「GET」 and 「POST」 requests. With 「method="GET"」, it will navigate to the URL encoded in the form data. With 「method="POST"」 it will make a 「POST」 request and handle the server’s response.</p>
+<p>「<Form/>」 provides the basis for some components like 「<ActionForm/>」 and 「<MultiActionForm/>」 that we’ll see in later chapters. But it also enables some powerful patterns of its own.</p>
+<p>For example, imagine that you want to create a search field that updates search results in real time as the user searches, without a page reload, but that also stores the search in the URL so a user can copy and paste it to share results with someone else.</p>
+<p>It turns out that the patterns we’ve learned so far make this easy to implement.</p>
+<pre><code class="language-rust">async fn fetch_results() {
+    // some async function to fetch our search results
+}
+
+#[component]
+pub fn FormExample() -&gt; impl IntoView {
+    // reactive access to URL query strings
+    let query = use_query_map();
+    // search stored as ?q=
+    let search = move || query.read().get("q").unwrap_or_default();
+    // a resource driven by the search string
+    let search_results = Resource::new(search, |_| fetch_results());
+
+    view! {
+        &lt;Form method="GET" action=""&gt;
+            &lt;input type="search" name="q" value=search/&gt;
+            &lt;input type="submit"/&gt;
+        &lt;/Form&gt;
+        &lt;Transition fallback=move || ()&gt;
+            /* render search results */
+            {todo!()}
+        &lt;/Transition&gt;
+    }
+}</code></pre>
+<p>Whenever you click 「Submit」, the 「<Form/>」 will “navigate” to 「?q={search}」. But because this navigation is done on the client side, there’s no page flicker or reload. The URL query string changes, which triggers 「search」 to update. Because 「search」 is the source signal for the 「search_results」 resource, this triggers 「search_results」 to reload its resource. The 「<Transition/>」 continues displaying the current search results until the new ones have loaded. When they are complete, it switches to displaying the new result.</p>
+<p>This is a great pattern. The data flow is extremely clear: all data flows from the URL to the resource into the UI. The current state of the application is stored in the URL, which means you can refresh the page or text the link to a friend and it will show exactly what you’re expecting. And once we introduce server rendering, this pattern will prove to be really fault-tolerant, too: because it uses a 「<form>」 element and URLs under the hood, it actually works really well without even loading your WASM on the client.</p>
+<p>We can actually take it a step further and do something kind of clever:</p>
+<pre><code class="language-rust">view! {
+	&lt;Form method="GET" action=""&gt;
+		&lt;input type="search" name="q" value=search
+			oninput="this.form.requestSubmit()"
+		/&gt;
+	&lt;/Form&gt;
+}</code></pre>
+<p>You’ll notice that this version drops the 「Submit」 button. Instead, we add an 「oninput」 attribute to the input. Note that this is <em>not</em> 「on:input」, which would listen for the 「input」 event and run some Rust code. Without the colon, 「oninput」 is the plain HTML attribute. So the string is actually a JavaScript string. 「this.form」 gives us the form the input is attached to. 「requestSubmit()」 fires the 「submit」 event on the 「<form>」, which is caught by 「<Form/>」 just as if we had clicked a 「Submit」 button. Now the form will “navigate” on every keystroke or input to keep the URL (and therefore the search) perfectly in sync with the user’s input as they type.</p>
+<details id="admonition-live-example" class="admonition admonish-sandbox" role="note" aria-labelledby="admonition-live-example-title">
+<summary class="admonition-title">
+<div id="admonition-live-example-title">
+<p>Live example</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-live-example"></a>
+</summary>
+<div>
+<p><a href="https://codesandbox.io/p/devbox/20-form-0-7-m73jsz">Click to open CodeSandbox.</a></p>
+<noscript>
+  Please enable JavaScript to view examples.
+</noscript>
+<template>
+  <iframe src="https://codesandbox.io/p/devbox/20-form-0-7-m73jsz" width="100%" height="1000px" style="max-height: 100vh"></iframe>
+</template>
+</div>
+</details>
+<details>
+<summary>CodeSandbox Source</summary>
+<pre><code class="language-rust">use leptos::prelude::*;
+use leptos_router::components::{Form, Route, Router, Routes};
+use leptos_router::hooks::use_query_map;
+use leptos_router::path;
+
+#[component]
+pub fn App() -&gt; impl IntoView {
+    view! {
+        &lt;Router&gt;
+            &lt;h1&gt;&lt;code&gt;"&lt;Form/&gt;"&lt;/code&gt;&lt;/h1&gt;
+            &lt;main&gt;
+                &lt;Routes fallback=|| "Not found."&gt;
+                    &lt;Route path=path!("") view=FormExample/&gt;
+                &lt;/Routes&gt;
+            &lt;/main&gt;
+        &lt;/Router&gt;
+    }
+}
+
+#[component]
+pub fn FormExample() -&gt; impl IntoView {
+    // reactive access to URL query
+    let query = use_query_map();
+    let name = move || query.read().get("name").unwrap_or_default();
+    let number = move || query.read().get("number").unwrap_or_default();
+    let select = move || query.read().get("select").unwrap_or_default();
+
+    view! {
+        // read out the URL query strings
+        &lt;table&gt;
+            &lt;tr&gt;
+                &lt;td&gt;&lt;code&gt;"name"&lt;/code&gt;&lt;/td&gt;
+                &lt;td&gt;{name}&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;&lt;code&gt;"number"&lt;/code&gt;&lt;/td&gt;
+                &lt;td&gt;{number}&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;&lt;code&gt;"select"&lt;/code&gt;&lt;/td&gt;
+                &lt;td&gt;{select}&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+        // &lt;Form/&gt; will navigate whenever submitted
+        &lt;h2&gt;"Manual Submission"&lt;/h2&gt;
+        &lt;Form method="GET" action=""&gt;
+            // input names determine query string key
+            &lt;input type="text" name="name" value=name/&gt;
+            &lt;input type="number" name="number" value=number/&gt;
+            &lt;select name="select"&gt;
+                // 「selected」 will set which starts as selected
+                &lt;option selected=move || select() == "A"&gt;
+                    "A"
+                &lt;/option&gt;
+                &lt;option selected=move || select() == "B"&gt;
+                    "B"
+                &lt;/option&gt;
+                &lt;option selected=move || select() == "C"&gt;
+                    "C"
+                &lt;/option&gt;
+            &lt;/select&gt;
+            // submitting should cause a client-side
+            // navigation, not a full reload
+            &lt;input type="submit"/&gt;
+        &lt;/Form&gt;
+        // This &lt;Form/&gt; uses some JavaScript to submit
+        // on every input
+        &lt;h2&gt;"Automatic Submission"&lt;/h2&gt;
+        &lt;Form method="GET" action=""&gt;
+            &lt;input
+                type="text"
+                name="name"
+                value=name
+                // this oninput attribute will cause the
+                // form to submit on every input to the field
+                oninput="this.form.requestSubmit()"
+            /&gt;
+            &lt;input
+                type="number"
+                name="number"
+                value=number
+                oninput="this.form.requestSubmit()"
+            /&gt;
+            &lt;select name="select"
+                onchange="this.form.requestSubmit()"
+            &gt;
+                &lt;option selected=move || select() == "A"&gt;
+                    "A"
+                &lt;/option&gt;
+                &lt;option selected=move || select() == "B"&gt;
+                    "B"
+                &lt;/option&gt;
+                &lt;option selected=move || select() == "C"&gt;
+                    "C"
+                &lt;/option&gt;
+            &lt;/select&gt;
+            // submitting should cause a client-side
+            // navigation, not a full reload
+            &lt;input type="submit"/&gt;
+        &lt;/Form&gt;
+    }
+}
+
+fn main() {
+    leptos::mount::mount_to_body(App)
+}</code></pre>
+</details>
+</preview>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../router/19_a.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../interlude_styling.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../router/19_a.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../interlude_styling.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src=".././sandbox.js"></script>
+
+
+    </div>
+    </body>
+</html>
