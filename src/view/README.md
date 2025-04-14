@@ -10,17 +10,17 @@ To get the most out of this book, we encourage you to code along with the exampl
 In the [Getting Started](https://book.leptos.dev/getting_started/) and [Leptos DX](https://book.leptos.dev/getting_started/leptos_dx.html) chapters, we showed you how to set up a basic project with Leptos and Trunk, including WASM error handling in the browser.
 That basic setup is enough to get you started developing with Leptos.
 
-If you'd prefer to get started using a more full-featured template which demonstrates how to set up a few of the basics you'd see in a real Leptos project, such as routing, (covered later in the book), injecting `<Title>` and `<Meta>` tags into the page head, and a few other niceties, then feel free to utilize [the leptos-rs `start-trunk`](https://github.com/leptos-rs/start-trunk) template repo to get up and running.
+If you'd prefer to get started using a more full-featured template which demonstrates how to set up a few of the basics you'd see in a real Leptos project, such as routing, (covered later in the book), injecting 「<Title>」 and 「<Meta>」 tags into the page head, and a few other niceties, then feel free to utilize [the leptos-rs 「start-trunk」](https://github.com/leptos-rs/start-trunk) template repo to get up and running.
 
-The `start-trunk` template requires that you have `Trunk` and `cargo-generate` installed, which you can get by running `cargo install trunk` and `cargo install cargo-generate`.
+The 「start-trunk」 template requires that you have 「Trunk」 and 「cargo-generate」 installed, which you can get by running 「cargo install trunk」 and 「cargo install cargo-generate」.
 
 To use the template to set up your project, just run
 
-`cargo generate --git https://github.com/leptos-community/start-csr`
+「cargo generate --git https://github.com/leptos-community/start-csr」
 
 then run
 
-`trunk serve --port 3000 --open`
+「trunk serve --port 3000 --open」
 
 in the newly created app's directory to start developing your app.
 The Trunk server will reload your app on file changes, making development relatively seamless.

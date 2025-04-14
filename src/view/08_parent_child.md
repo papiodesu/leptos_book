@@ -5,25 +5,25 @@ handles its own local state and manages a section of the user interface, so
 components tend to be relatively self-contained.
 
 Sometimes, though, you’ll want to communicate between a parent component and its
-child. For example, imagine you’ve defined a `<FancyButton/>` component that adds
-some styling, logging, or something else to a `<button/>`. You want to use a
-`<FancyButton/>` in your `<App/>` component. But how can you communicate between
+child. For example, imagine you’ve defined a 「<FancyButton/>」 component that adds
+some styling, logging, or something else to a 「<button/>」. You want to use a
+「<FancyButton/>」 in your 「<App/>」 component. But how can you communicate between
 the two?
 
 It’s easy to communicate state from a parent component to a child component. We
 covered some of this in the material on [components and props](./03_components.md).
 Basically if you want the parent to communicate to the child, you can pass either a
-[`ReadSignal`](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html) or
-[`Signal`](https://docs.rs/leptos/latest/leptos/reactive/wrappers/read/struct.Signal.html) as a prop.
+[「ReadSignal」](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html) or
+[「Signal」](https://docs.rs/leptos/latest/leptos/reactive/wrappers/read/struct.Signal.html) as a prop.
 
 But what about the other direction? How can a child send notifications about events
 or state changes back up to the parent?
 
 There are four basic patterns of parent-child communication in Leptos.
 
-## 1. Pass a [`WriteSignal`](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html)
+## 1. Pass a [「WriteSignal」](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html)
 
-One approach is simply to pass a `WriteSignal` from the parent down to the child, and update
+One approach is simply to pass a 「WriteSignal」 from the parent down to the child, and update
 it in the child. This lets you manipulate the state of the parent from the child.
 
 ```rust
@@ -48,16 +48,16 @@ pub fn ButtonA(setter: WriteSignal<bool>) -> impl IntoView {
 }
 ```
 
-This pattern is simple, but you should be careful with it: passing around a `WriteSignal`
+This pattern is simple, but you should be careful with it: passing around a 「WriteSignal」
 can make it hard to reason about your code. In this example, it’s pretty clear when you
-read `<App/>` that you are handing off the ability to mutate `toggled`, but it’s not at
+read 「<App/>」 that you are handing off the ability to mutate 「toggled」, but it’s not at
 all clear when or how it will change. In this small, local example it’s easy to understand,
-but if you find yourself passing around `WriteSignal`s like this throughout your code,
+but if you find yourself passing around 「WriteSignal」s like this throughout your code,
 you should really consider whether this is making it too easy to write spaghetti code.
 
 ## 2. Use a Callback
 
-Another approach would be to pass a callback to the child: say, `on_click`.
+Another approach would be to pass a callback to the child: say, 「on_click」.
 
 ```rust
 #[component]
@@ -79,17 +79,17 @@ pub fn ButtonB(on_click: impl FnMut(MouseEvent) + 'static) -> impl IntoView {
 }
 ```
 
-You’ll notice that whereas `<ButtonA/>` was given a `WriteSignal` and decided how to mutate it,
-`<ButtonB/>` simply fires an event: the mutation happens back in `<App/>`. This has the advantage
+You’ll notice that whereas 「<ButtonA/>」 was given a 「WriteSignal」 and decided how to mutate it,
+「<ButtonB/>」 simply fires an event: the mutation happens back in 「<App/>」. This has the advantage
 of keeping local state local, preventing the problem of spaghetti mutation. But it also means
-the logic to mutate that signal needs to exist up in `<App/>`, not down in `<ButtonB/>`. These
+the logic to mutate that signal needs to exist up in 「<App/>」, not down in 「<ButtonB/>」. These
 are real trade-offs, not a simple right-or-wrong choice.
 
 ## 3. Use an Event Listener
 
 You can actually write Option 2 in a slightly different way. If the callback maps directly onto
-a native DOM event, you can add an `on:` listener directly to the place you use the component
-in your `view` macro in `<App/>`.
+a native DOM event, you can add an 「on:」 listener directly to the place you use the component
+in your 「view」 macro in 「<App/>」.
 
 ```rust
 #[component]
@@ -111,15 +111,15 @@ pub fn ButtonC() -> impl IntoView {
 }
 ```
 
-This lets you write way less code in `<ButtonC/>` than you did for `<ButtonB/>`,
+This lets you write way less code in 「<ButtonC/>」 than you did for 「<ButtonB/>」,
 and still gives a correctly-typed event to the listener. This works by adding an
-`on:` event listener to each element that `<ButtonC/>` returns: in this case, just
-the one `<button>`.
+「on:」 event listener to each element that 「<ButtonC/>」 returns: in this case, just
+the one 「<button>」.
 
 Of course, this only works for actual DOM events that you’re passing directly through
 to the elements you’re rendering in the component. For more complex logic that
-doesn’t map directly onto an element (say you create `<ValidatedForm/>` and want an
-`on_valid_form_submit` callback) you should use Option 2.
+doesn’t map directly onto an element (say you create 「<ValidatedForm/>」 and want an
+「on_valid_form_submit」 callback) you should use Option 2.
 
 ## 4. Providing a Context
 
@@ -164,8 +164,8 @@ pub fn ButtonD() -> impl IntoView {
 
 ```
 
-Now `<ButtonD/>` is no longer a direct child of `<App/>`, so you can’t simply
-pass your `WriteSignal` to its props. You could do what’s sometimes called
+Now 「<ButtonD/>」 is no longer a direct child of 「<App/>」, so you can’t simply
+pass your 「WriteSignal」 to its props. You could do what’s sometimes called
 “prop drilling,” adding a prop to each layer between the two:
 
 ```rust
@@ -205,10 +205,10 @@ pub fn ButtonD(set_toggled: WriteSignal<bool>) -> impl IntoView {
 }
 ```
 
-This is a mess. `<Layout/>` and `<Content/>` don’t need `set_toggled`; they just
-pass it through to `<ButtonD/>`. But I need to declare the prop in triplicate.
+This is a mess. 「<Layout/>」 and 「<Content/>」 don’t need 「set_toggled」; they just
+pass it through to 「<ButtonD/>」. But I need to declare the prop in triplicate.
 This is not only annoying but hard to maintain: imagine we add a “half-toggled”
-option and the type of `set_toggled` needs to change to an `enum`. We have to change
+option and the type of 「set_toggled」 needs to change to an 「enum」. We have to change
 it in three places!
 
 Isn’t there some way to skip levels?
@@ -217,9 +217,9 @@ There is!
 
 ### 4.1 The Context API
 
-You can provide data that skips levels by using [`provide_context`](https://docs.rs/leptos/latest/leptos/context/fn.provide_context.html)
-and [`use_context`](https://docs.rs/leptos/latest/leptos/context/fn.use_context.html). Contexts are identified
-by the type of the data you provide (in this example, `WriteSignal<bool>`), and they exist in a top-down
+You can provide data that skips levels by using [「provide_context」](https://docs.rs/leptos/latest/leptos/context/fn.provide_context.html)
+and [「use_context」](https://docs.rs/leptos/latest/leptos/context/fn.use_context.html). Contexts are identified
+by the type of the data you provide (in this example, 「WriteSignal<bool>」), and they exist in a top-down
 tree that follows the contours of your UI tree. In this example, we can use context to skip the
 unnecessary prop drilling.
 
@@ -228,7 +228,7 @@ unnecessary prop drilling.
 pub fn App() -> impl IntoView {
     let (toggled, set_toggled) = signal(false);
 
-    // share `set_toggled` with all children of this component
+    // share 「set_toggled」 with all children of this component
     provide_context(set_toggled);
 
     view! {
@@ -238,12 +238,12 @@ pub fn App() -> impl IntoView {
 }
 
 // <Layout/> and <Content/> omitted
-// To work in this version, drop the `set_toggled` parameter on each
+// To work in this version, drop the 「set_toggled」 parameter on each
 
 #[component]
 pub fn ButtonD() -> impl IntoView {
     // use_context searches up the context tree, hoping to
-    // find a `WriteSignal<bool>`
+    // find a 「WriteSignal<bool>」
     // in this case, I .expect() because I know I provided it
     let setter = use_context::<WriteSignal<bool>>().expect("to have found the setter provided");
 
@@ -258,7 +258,7 @@ pub fn ButtonD() -> impl IntoView {
 
 ```
 
-The same caveats apply to this as to `<ButtonA/>`: passing a `WriteSignal`
+The same caveats apply to this as to 「<ButtonA/>」: passing a 「WriteSignal」
 around should be done with caution, as it allows you to mutate state from
 arbitrary parts of your code. But when done carefully, this can be one of
 the most effective techniques for global state management in Leptos: simply
@@ -267,16 +267,16 @@ you need it lower down.
 
 Note that there are no performance downsides to this approach. Because you
 are passing a fine-grained reactive signal, _nothing happens_ in the intervening
-components (`<Layout/>` and `<Content/>`) when you update it. You are communicating
-directly between `<ButtonD/>` and `<App/>`. In fact—and this is the power of
+components (「<Layout/>」 and 「<Content/>」) when you update it. You are communicating
+directly between 「<ButtonD/>」 and 「<App/>」. In fact—and this is the power of
 fine-grained reactivity—you are communicating directly between a button click
-in `<ButtonD/>` and a single text node in `<App/>`. It’s as if the components
+in 「<ButtonD/>」 and a single text node in 「<App/>」. It’s as if the components
 themselves don’t exist at all. And, well... at runtime, they don’t. It’s just
 signals and effects, all the way down.
 
 Note that this approach makes an important tradeoff: You don't have type-safety
-anymore between `provide_context` and `use_context`. Receiving the right context
-in the child component is a runtime check (see `use_context.expect(...)`). The
+anymore between 「provide_context」 and 「use_context」. Receiving the right context
+in the child component is a runtime check (see 「use_context.expect(...)」). The
 compiler won't guide you during a refactoring, as it does with the earlier approaches. 
 
 ```admonish sandbox title="Live example" collapsible=true
@@ -305,7 +305,7 @@ use leptos::{ev::MouseEvent, prelude::*};
 //    for the child component to write into and the parent to read
 // 2) <ButtonB/>: passing a closure as one of the child component props, for
 //    the child component to call
-// 3) <ButtonC/>: adding an `on:` event listener to a component
+// 3) <ButtonC/>: adding an 「on:」 event listener to a component
 // 4) <ButtonD/>: providing a context that is used in the component (rather than prop drilling)
 
 #[derive(Copy, Clone)]
@@ -320,7 +320,7 @@ pub fn App() -> impl IntoView {
     let (smallcaps, set_smallcaps) = signal(false);
 
     // the newtype pattern isn't *necessary* here but is a good practice
-    // it avoids confusion with other possible future `WriteSignal<bool>` contexts
+    // it avoids confusion with other possible future 「WriteSignal<bool>」 contexts
     // and makes it easier to refer to it in ButtonD
     provide_context(SmallcapsContext(set_smallcaps));
 

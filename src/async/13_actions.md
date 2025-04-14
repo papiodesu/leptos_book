@@ -1,14 +1,14 @@
 # Mutating Data with Actions
 
-We’ve talked about how to load `async` data with resources. Resources immediately load data and work closely with `<Suspense/>` and `<Transition/>` components to show whether data is loading in your app. But what if you just want to call some arbitrary `async` function and keep track of what it’s doing?
+We’ve talked about how to load 「async」 data with resources. Resources immediately load data and work closely with 「<Suspense/>」 and 「<Transition/>」 components to show whether data is loading in your app. But what if you just want to call some arbitrary 「async」 function and keep track of what it’s doing?
 
-Well, you could always use [`spawn_local`](https://docs.rs/leptos/latest/leptos/task/fn.spawn_local.html). This allows you to just spawn an `async` task in a synchronous environment by handing the `Future` off to the browser (or, on the server, Tokio or whatever other runtime you’re using). But how do you know if it’s still pending? Well, you could just set a signal to show whether it’s loading, and another one to show the result...
+Well, you could always use [「spawn_local」](https://docs.rs/leptos/latest/leptos/task/fn.spawn_local.html). This allows you to just spawn an 「async」 task in a synchronous environment by handing the 「Future」 off to the browser (or, on the server, Tokio or whatever other runtime you’re using). But how do you know if it’s still pending? Well, you could just set a signal to show whether it’s loading, and another one to show the result...
 
-All of this is true. Or you could use the final `async` primitive: [`Action`](https://docs.rs/leptos/latest/leptos/reactive/actions/struct.Action.html).
+All of this is true. Or you could use the final 「async」 primitive: [「Action」](https://docs.rs/leptos/latest/leptos/reactive/actions/struct.Action.html).
 
-Actions and resources seem similar, but they represent fundamentally different things. If you’re trying to load data by running an `async` function, either once or when some other value changes, you probably want to use a resource. If you’re trying to occasionally run an `async` function in response to something like a user clicking a button, you probably want to use an `Action`.
+Actions and resources seem similar, but they represent fundamentally different things. If you’re trying to load data by running an 「async」 function, either once or when some other value changes, you probably want to use a resource. If you’re trying to occasionally run an 「async」 function in response to something like a user clicking a button, you probably want to use an 「Action」.
 
-Say we have some `async` function we want to run.
+Say we have some 「async」 function we want to run.
 
 ```rust
 async fn add_todo_request(new_title: &str) -> Uuid {
@@ -16,7 +16,7 @@ async fn add_todo_request(new_title: &str) -> Uuid {
 }
 ```
 
-`Action::new()` takes an `async` function that takes a reference to a single argument, which you could think of as its “input type.”
+「Action::new()」 takes an 「async」 function that takes a reference to a single argument, which you could think of as its “input type.”
 
 > The input is always a single type. If you want to pass in multiple arguments, you can do it with a struct or tuple.
 >
@@ -27,7 +27,7 @@ async fn add_todo_request(new_title: &str) -> Uuid {
 >    async move { todo!() }
 > });
 >
-> // if there are no arguments, use the unit type `()`
+> // if there are no arguments, use the unit type 「()」
 > let action2 = Action::new(|input: &()| async { todo!() });
 >
 > // if there are multiple arguments, use a tuple
@@ -36,7 +36,7 @@ async fn add_todo_request(new_title: &str) -> Uuid {
 > );
 > ```
 >
-> Because the action function takes a reference but the `Future` needs to have a `'static` lifetime, you’ll usually need to clone the value to pass it into the `Future`. This is admittedly awkward but it unlocks some powerful features like optimistic UI. We’ll see a little more about that in future chapters.
+> Because the action function takes a reference but the 「Future」 needs to have a 「'static」 lifetime, you’ll usually need to clone the value to pass it into the 「Future」. This is admittedly awkward but it unlocks some powerful features like optimistic UI. We’ll see a little more about that in future chapters.
 
 So in this case, all we need to do to create an action is
 
@@ -47,13 +47,13 @@ let add_todo_action = Action::new(|input: &String| {
 });
 ```
 
-Rather than calling `add_todo_action` directly, we’ll call it with `.dispatch()`, as in
+Rather than calling 「add_todo_action」 directly, we’ll call it with 「.dispatch()」, as in
 
 ```rust
 add_todo_action.dispatch("Some value".to_string());
 ```
 
-You can do this from an event listener, a timeout, or anywhere; because `.dispatch()` isn’t an `async` function, it can be called from a synchronous context.
+You can do this from an event listener, a timeout, or anywhere; because 「.dispatch()」 isn’t an 「async」 function, it can be called from a synchronous context.
 
 Actions provide access to a few signals that synchronize between the asynchronous action you’re calling and the synchronous reactive system:
 
@@ -89,7 +89,7 @@ view! {
 }
 ```
 
-Now, there’s a chance this all seems a little over-complicated, or maybe too restricted. I wanted to include actions here, alongside resources, as the missing piece of the puzzle. In a real Leptos app, you’ll actually most often use actions alongside server functions, [`ServerAction`](https://docs.rs/leptos/latest/leptos/server/struct.ServerAction.html), and the [`<ActionForm/>`](https://docs.rs/leptos/latest/leptos/form/fn.ActionForm.html) component to create really powerful progressively-enhanced forms. So if this primitive seems useless to you... Don’t worry! Maybe it will make sense later. (Or check out our [`todo_app_sqlite`](https://github.com/leptos-rs/leptos/blob/main/examples/todo_app_sqlite/src/todo.rs) example now.)
+Now, there’s a chance this all seems a little over-complicated, or maybe too restricted. I wanted to include actions here, alongside resources, as the missing piece of the puzzle. In a real Leptos app, you’ll actually most often use actions alongside server functions, [「ServerAction」](https://docs.rs/leptos/latest/leptos/server/struct.ServerAction.html), and the [「<ActionForm/>」](https://docs.rs/leptos/latest/leptos/form/fn.ActionForm.html) component to create really powerful progressively-enhanced forms. So if this primitive seems useless to you... Don’t worry! Maybe it will make sense later. (Or check out our [「todo_app_sqlite」](https://github.com/leptos-rs/leptos/blob/main/examples/todo_app_sqlite/src/todo.rs) example now.)
 
 ```admonish sandbox title="Live example" collapsible=true
 

@@ -1,8 +1,8 @@
 # Component Children
 
 It’s pretty common to want to pass children into a component, just as you can pass
-children into an HTML element. For example, imagine I have a `<FancyForm/>` component
-that enhances an HTML `<form>`. I need some way to pass all its inputs.
+children into an HTML element. For example, imagine I have a 「<FancyForm/>」 component
+that enhances an HTML 「<form>」. I need some way to pass all its inputs.
 
 ```rust
 view! {
@@ -22,21 +22,21 @@ How can you do this in Leptos? There are basically two ways to pass components t
 other components:
 
 1. **render props**: properties that are functions that return a view
-2. the **`children`** prop: a special component property that includes anything
+2. the **「children」** prop: a special component property that includes anything
    you pass as a child to the component.
 
-In fact, you’ve already seen these both in action in the [`<Show/>`](/view/06_control_flow.html#show) component:
+In fact, you’ve already seen these both in action in the [「<Show/>」](/view/06_control_flow.html#show) component:
 
 ```rust
 view! {
   <Show
-    // `when` is a normal prop
+    // 「when」 is a normal prop
     when=move || value.get() > 5
-    // `fallback` is a "render prop": a function that returns a view
+    // 「fallback」 is a "render prop": a function that returns a view
     fallback=|| view! { <Small/> }
   >
-    // `<Big/>` (and anything else here)
-    // will be given to the `children` prop
+    // 「<Big/>」 (and anything else here)
+    // will be given to the 「children」 prop
     <Big/>
   </Show>
 }
@@ -45,13 +45,13 @@ view! {
 Let’s define a component that takes some children and a render prop.
 
 ```rust
-/// Displays a `render_prop` and some children within markup.
+/// Displays a 「render_prop」 and some children within markup.
 #[component]
 pub fn TakesChildren<F, IV>(
     /// Takes a function (type F) that returns anything that can be
     /// converted into a View (type IV)
     render_prop: F,
-    /// `children` can take one of several different types, each of which
+    /// 「children」 can take one of several different types, each of which
     /// is a function that returns some view type
     children: Children,
 ) -> impl IntoView
@@ -70,22 +70,22 @@ where
 }
 ```
 
-`render_prop` and `children` are both functions, so we can call them to generate
-the appropriate views. `children`, in particular, is an alias for
-`Box<dyn FnOnce() -> AnyView>`. (Aren't you glad we named it `Children` instead?)
-The `AnyView` returned here is an opaque, type-erased view: you can’t do anything to
-inspect it. There are a variety of other child types: for example, `ChildrenFragment`
-will return a `Fragment`, which is a collection whose children can be iterated over.
+「render_prop」 and 「children」 are both functions, so we can call them to generate
+the appropriate views. 「children」, in particular, is an alias for
+「Box<dyn FnOnce() -> AnyView>」. (Aren't you glad we named it 「Children」 instead?)
+The 「AnyView」 returned here is an opaque, type-erased view: you can’t do anything to
+inspect it. There are a variety of other child types: for example, 「ChildrenFragment」
+will return a 「Fragment」, which is a collection whose children can be iterated over.
 
-> If you need a `Fn` or `FnMut` here because you need to call `children` more than once,
-> we also provide `ChildrenFn` and `ChildrenMut` aliases.
+> If you need a 「Fn」 or 「FnMut」 here because you need to call 「children」 more than once,
+> we also provide 「ChildrenFn」 and 「ChildrenMut」 aliases.
 
 We can use the component like this:
 
 ```rust
 view! {
     <TakesChildren render_prop=|| view! { <p>"Hi, there!"</p> }>
-        // these get passed to `children`
+        // these get passed to 「children」
         "Some text"
         <span>"A span"</span>
     </TakesChildren>
@@ -94,18 +94,18 @@ view! {
 
 ## Manipulating Children
 
-The [`Fragment`](https://docs.rs/leptos/latest/leptos/tachys/view/fragment/struct.Fragment.html) type is
-basically a way of wrapping a `Vec<AnyView>`. You can insert it anywhere into your view.
+The [「Fragment」](https://docs.rs/leptos/latest/leptos/tachys/view/fragment/struct.Fragment.html) type is
+basically a way of wrapping a 「Vec<AnyView>」. You can insert it anywhere into your view.
 
 But you can also access those inner views directly to manipulate them. For example, here’s
 a component that takes its children and turns them into an unordered list.
 
 ```rust
-/// Wraps each child in an `<li>` and embeds them in a `<ul>`.
+/// Wraps each child in an 「<li>」 and embeds them in a 「<ul>」.
 #[component]
 pub fn WrapsChildren(children: ChildrenFragment) -> impl IntoView {
-    // children() returns a `Fragment`, which has a
-    // `nodes` field that contains a Vec<View>
+    // children() returns a 「Fragment」, which has a
+    // 「nodes」 field that contains a Vec<View>
     // this means we can iterate over the children
     // to create something new!
     let children = children()
@@ -158,7 +158,7 @@ use leptos::prelude::*;
 // component. There are two basic patterns for doing this:
 // - "render props": creating a component prop that takes a function
 //   that creates a view
-// - the `children` prop: a special property that contains content
+// - the 「children」 prop: a special property that contains content
 //   passed as the children of a component in your view, not as a
 //   property
 
@@ -177,7 +177,7 @@ pub fn App() -> impl IntoView {
         // embedding them in some other markup
         <TakesChildren
             // for component props, you can shorthand
-            // `render_prop=render_prop` => `render_prop`
+            // 「render_prop=render_prop」 => 「render_prop」
             // (this doesn't work for HTML element attributes)
             render_prop
         >
@@ -194,15 +194,15 @@ pub fn App() -> impl IntoView {
     }
 }
 
-/// Displays a `render_prop` and some children within markup.
+/// Displays a 「render_prop」 and some children within markup.
 #[component]
 pub fn TakesChildren<F, IV>(
     /// Takes a function (type F) that returns anything that can be
     /// converted into a View (type IV)
     render_prop: F,
-    /// `children` takes the `Children` type
-    /// this is an alias for `Box<dyn FnOnce() -> Fragment>`
-    /// ... aren't you glad we named it `Children` instead?
+    /// 「children」 takes the 「Children」 type
+    /// this is an alias for 「Box<dyn FnOnce() -> Fragment>」
+    /// ... aren't you glad we named it 「Children」 instead?
     children: Children,
 ) -> impl IntoView
 where
@@ -219,11 +219,11 @@ where
     }
 }
 
-/// Wraps each child in an `<li>` and embeds them in a `<ul>`.
+/// Wraps each child in an 「<li>」 and embeds them in a 「<ul>」.
 #[component]
 pub fn WrapsChildren(children: ChildrenFragment) -> impl IntoView {
-    // children() returns a `Fragment`, which has a
-    // `nodes` field that contains a Vec<View>
+    // children() returns a 「Fragment」, which has a
+    // 「nodes」 field that contains a Vec<View>
     // this means we can iterate over the children
     // to create something new!
     let children = children()
