@@ -46,6 +46,6 @@ To run Docker commands inside the dev container, see: https://code.visualstudio.
 
 ## ブラウザの翻訳で読みやすく
 
-ブラウザで翻訳すると、「\`\`」で強調されている文字が文章の最後に表示されて読みづらくなりました。「`\`\`」を「""」へ置き換えると文章中に表示されるようになりましたので全体を変換してみました。
+ブラウザで翻訳すると、「\`\`」で強調されている文字が文章の最後に表示されて読みづらくなりました。「\`\`」を「""」へ置き換えると文章中に表示されるようになりましたので全体を変換してみました。
 
 [`https://papiodesu.github.io/leptos_book/`](https://papiodesu.github.io/leptos_book/)
