@@ -43,3 +43,9 @@ Install Docker and the official [Dev Containers](https://marketplace.visualstudi
 For more info, see: https://code.visualstudio.com/remote/advancedcontainers/use-docker-kubernetes
 
 To run Docker commands inside the dev container, see: https://code.visualstudio.com/remote/advancedcontainers/use-docker-kubernetes
+
+## ブラウザの翻訳で読みやすく
+
+ブラウザで翻訳すると、`\`\``で強調されている文字が文章の最後に表示されて読みづらくなりました。`\`\``を`""`へ置き換えると文章中に表示されるようになりましたので全体を変換してみました。変換したbookはPagesで公開しています。
+
+[`https://papiodesu.github.io/leptos_book/`](https://papiodesu.github.io/leptos_book/)
