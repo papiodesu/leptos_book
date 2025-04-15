@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -199,13 +199,13 @@ The advantages of taking the SSR route with Leptos include helping you get the b
 <p>And then create a basic Rust project</p>
 <pre><code class="language-bash">cargo init leptos-tutorial
 </code></pre>
-<p>"cd」 into your new 「leptos-tutorial」 project and add 「leptos" as a dependency</p>
+<p>"cd" into your new "leptos-tutorial" project and add "leptos" as a dependency</p>
 <pre><code class="language-bash">cargo add leptos --features=csr
 </code></pre>
 <p>Make sure you've added the "wasm32-unknown-unknown" target so that Rust can compile your code to WebAssembly to run in the browser.</p>
 <pre><code class="language-bash">rustup target add wasm32-unknown-unknown
 </code></pre>
-<p>Create a simple "index.html」 in the root of the 「leptos-tutorial" directory</p>
+<p>Create a simple "index.html" in the root of the "leptos-tutorial" directory</p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;&lt;/head&gt;
@@ -225,7 +225,7 @@ fn main() {
 ├── Cargo.toml
 ├── index.html
 </code></pre>
-<p>Now run "trunk serve --open」 from the root of the 「leptos-tutorial" directory.
+<p>Now run "trunk serve --open" from the root of the "leptos-tutorial" directory.
 Trunk should automatically compile your app and open it in your default browser.
 If you make edits to "main.rs", Trunk will recompile your source code and
 live-reload the page.</p>
@@ -238,7 +238,7 @@ live-reload the page.</p>
 <a class="admonition-anchor-link" href="#admonition-note-1"></a>
 </div>
 <div>
-<p>If you are using Windows, note that "trunk serve --open」 may not work. If you have issues with 「--open",
+<p>If you are using Windows, note that "trunk serve --open" may not work. If you have issues with "--open",
 simply use "trunk serve" and open a browser tab manually.</p>
 </div>
 </div>
@@ -291,6 +291,22 @@ simply use "trunk serve" and open a browser tab manually.</p>
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

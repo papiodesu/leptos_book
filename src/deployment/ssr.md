@@ -4,7 +4,7 @@ It's possible to deploy Leptos fullstack, SSR apps to any number of server or co
 
 There are a multitude of different deployment setups and hosting services, and in general, Leptos itself is agnostic to the deployment setup you use. With this diversity of deployment targets in mind, on this page we will go over:
 
-- [creating a "Containerfile」 (or 「Dockerfile") for use with Leptos SSR apps](#creating-a-containerfile)
+- [creating a "Containerfile" (or "Dockerfile") for use with Leptos SSR apps](#creating-a-containerfile)
 - Using a "Dockerfile" to [deploy to a cloud service](#cloud-deployments) - [for example, Fly.io](#deploy-to-flyio)
 - Deploying Leptos to [serverless runtimes](#deploy-to-serverless-runtimes) - for example, [AWS Lambda](#aws-lambda) and [JS-hosted WASM runtimes like Deno & Cloudflare](#deno--cloudflare-workers)
 - [Platforms that have not yet gained Leptos SSR support](#currently-unsupported-platforms)
@@ -13,7 +13,7 @@ _Note: Leptos does not endorse the use of any particular method of deployment or
 
 ## Creating a Containerfile
 
-The most popular way for people to deploy full-stack apps built with "cargo-leptos」 is to use a cloud hosting service that supports deployment via a Podman or Docker build. Here’s a sample 「Containerfile」 / 「Dockerfile", which is based on the one we use to deploy the Leptos website.
+The most popular way for people to deploy full-stack apps built with "cargo-leptos" is to use a cloud hosting service that supports deployment via a Podman or Docker build. Here’s a sample "Containerfile" / "Dockerfile", which is based on the one we use to deploy the Leptos website.
 
 ### Debian
 
@@ -114,7 +114,7 @@ EXPOSE 8080
 CMD ["/app/leptos_start"]
 ```
 
-> Read more: ["gnu」 and 「musl" build files for Leptos apps](https://github.com/leptos-rs/leptos/issues/1152#issuecomment-1634916088).
+> Read more: ["gnu" and "musl" build files for Leptos apps](https://github.com/leptos-rs/leptos/issues/1152#issuecomment-1634916088).
 
 ## Cloud Deployments
 
@@ -125,7 +125,7 @@ One option for deploying your Leptos SSR app is to use a service like [Fly.io](h
 First, create a "Dockerfile" in the root of your application and fill it in with the suggested contents (above); make sure to update the binary names in the Dockerfile example
 to the name of your own application, and make other adjustments as necessary.
 
-Also, ensure you have the "flyctl」 CLI tool installed, and have an account set up at [Fly.io](https://fly.io/). To install 「flyctl" on MacOS, Linux, or Windows WSL, run:
+Also, ensure you have the "flyctl" CLI tool installed, and have an account set up at [Fly.io](https://fly.io/). To install "flyctl" on MacOS, Linux, or Windows WSL, run:
 
 ```sh
 curl -L https://fly.io/install.sh | sh
@@ -148,7 +148,7 @@ fly launch
 The "flyctl" CLI tool will walk you through the process of deploying your app to Fly.io.
 
 ```admonish note
-By default, Fly.io will auto-stop machines that don't have traffic coming to them after a certain period of time. Although Fly.io's lightweight VM's start up quickly, if you want to minimize the latency of your Leptos app and ensure it's always swift to respond, go into the generated "fly.toml」 file and change the 「min_machines_running" to 1 from the default of 0.
+By default, Fly.io will auto-stop machines that don't have traffic coming to them after a certain period of time. Although Fly.io's lightweight VM's start up quickly, if you want to minimize the latency of your Leptos app and ensure it's always swift to respond, go into the generated "fly.toml" file and change the "min_machines_running" to 1 from the default of 0.
 
 [See this page in the Fly.io docs for more details](https://fly.io/docs/apps/autostart-stop/).
 ```
@@ -226,7 +226,7 @@ The other factor to bear in mind is the 'cold-start' time for functions as a ser
 
 ### Deno & Cloudflare Workers
 
-Currently, Leptos-Axum supports running in Javascript-hosted WebAssembly runtimes such as Deno, Cloudflare Workers, etc. This option requires some changes to the setup of your source code (for example, in "Cargo.toml」 you must define your app using 「crate-type = ["cdylib"]」 and the "wasm" feature must be enabled for 「leptos_axum」). [The Leptos HackerNews JS-fetch example](https://github.com/leptos-rs/leptos/tree/leptos_0.6/examples/hackernews_js_fetch) demonstrates the required modifications and shows how to run an app in the Deno runtime. Additionally, the [「leptos_axum」 crate docs](https://docs.rs/leptos_axum/latest/leptos_axum/#js-fetch-integration) are a helpful reference when setting up your own 「Cargo.toml" file for JS-hosted WASM runtimes.
+Currently, Leptos-Axum supports running in Javascript-hosted WebAssembly runtimes such as Deno, Cloudflare Workers, etc. This option requires some changes to the setup of your source code (for example, in "Cargo.toml" you must define your app using "crate-type = ["cdylib"]" and the "wasm" feature must be enabled for "leptos_axum"). [The Leptos HackerNews JS-fetch example](https://github.com/leptos-rs/leptos/tree/leptos_0.6/examples/hackernews_js_fetch) demonstrates the required modifications and shows how to run an app in the Deno runtime. Additionally, the ["leptos_axum" crate docs](https://docs.rs/leptos_axum/latest/leptos_axum/#js-fetch-integration) are a helpful reference when setting up your own "Cargo.toml" file for JS-hosted WASM runtimes.
 
 While the initial setup for JS-hosted WASM runtimes is not onerous, the more important restriction to keep in mind is that since your app will be compiled to WebAssembly ("wasm32-unknown-unknown") on the server as well as the client, you must ensure that the crates you use in your app are all WASM-compatible; this may or may not be a deal-breaker depending on your app's requirements, as not all crates in the Rust ecosystem have WASM support.
 

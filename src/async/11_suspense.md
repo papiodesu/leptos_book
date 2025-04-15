@@ -37,7 +37,7 @@ view! {
 
 That’s not _so_ bad, but it’s kind of annoying. What if we could invert the flow of control?
 
-The ["<Suspense/>」](https://docs.rs/leptos/latest/leptos/suspense/fn.Suspense.html) component lets us do exactly that. You give it a 「fallback」 prop and children, one or more of which usually involves reading from a resource. Reading from a resource “under” a 「<Suspense/>」 (i.e., in one of its children) registers that resource with the 「<Suspense/>」. If it’s still waiting for resources to load, it shows the 「fallback". When they’ve all loaded, it shows the children.
+The ["<Suspense/>"](https://docs.rs/leptos/latest/leptos/suspense/fn.Suspense.html) component lets us do exactly that. You give it a "fallback" prop and children, one or more of which usually involves reading from a resource. Reading from a resource “under” a "<Suspense/>" (i.e., in one of its children) registers that resource with the "<Suspense/>". If it’s still waiting for resources to load, it shows the "fallback". When they’ve all loaded, it shows the children.
 
 ```rust
 let (count, set_count) = signal(0);
@@ -69,7 +69,7 @@ Every time one of the resources is reloading, the ""Loading..."" fallback will s
 
 This inversion of the flow of control makes it easier to add or remove individual resources, as you don’t need to handle the matching yourself. It also unlocks some massive performance improvements during server-side rendering, which we’ll talk about during a later chapter.
 
-Using "<Suspense/>」 also gives us access to a useful way to directly 「.await」 resources, allowing us to remove a level of nesting, above. The 「Suspend」 type lets us create a renderable 「Future" which can be used in the view:
+Using "<Suspense/>" also gives us access to a useful way to directly ".await" resources, allowing us to remove a level of nesting, above. The "Suspend" type lets us create a renderable "Future" which can be used in the view:
 
 ```rust
 view! {
@@ -96,7 +96,7 @@ view! {
 
 ## "<Await/>"
 
-If you’re simply trying to wait for some "Future」 to resolve before rendering, you may find the 「<Await/>」 component helpful in reducing boilerplate. 「<Await/>」 essentially combines a 「OnceResource」 with a 「<Suspense/>" with no fallback.
+If you’re simply trying to wait for some "Future" to resolve before rendering, you may find the "<Await/>" component helpful in reducing boilerplate. "<Await/>" essentially combines a "OnceResource" with a "<Suspense/>" with no fallback.
 
 In other words:
 
@@ -111,7 +111,7 @@ async fn fetch_monkeys(monkey: i32) -> i32 {
 }
 view! {
     <Await
-        // "future」 provides the 「Future" to be resolved
+        // "future" provides the "Future" to be resolved
         future=fetch_monkeys(3)
         // the data is bound to whatever variable name you provide
         let:data

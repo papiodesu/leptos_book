@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="./mdbook-admonish.css">
@@ -161,9 +161,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="integrating-with-javascript-wasm-bindgen-web_sys-and-htmlelement"><a class="header" href="#integrating-with-javascript-wasm-bindgen-web_sys-and-htmlelement">Integrating with JavaScript: "wasm-bindgen」, 「web_sys」 and 「HtmlElement"</a></h1>
+                        <h1 id="integrating-with-javascript-wasm-bindgen-web_sys-and-htmlelement"><a class="header" href="#integrating-with-javascript-wasm-bindgen-web_sys-and-htmlelement">Integrating with JavaScript: "wasm-bindgen", "web_sys" and "HtmlElement"</a></h1>
 <p>Leptos provides a variety of tools to allow you to build declarative web applications without leaving the world
-of the framework. Things like the reactive system, "component」 and 「view" macros, and router allow you to build
+of the framework. Things like the reactive system, "component" and "view" macros, and router allow you to build
 user interfaces without directly interacting with the Web APIs provided by the browser. And they let you do it
 all directly in Rust, which is great—assuming you like Rust. (And if you’ve gotten this far in the book, we assume
 you like Rust.)</p>
@@ -176,7 +176,7 @@ have direct access to browser APIs. Instead, the Rust/WASM ecosystem depends on 
 to the JavaScript browser environment that hosts it.</p>
 <p>The <a href="https://rustwasm.github.io/docs/wasm-bindgen/">"wasm-bindgen"</a> crate is at the center of that ecosystem. It provides
 both an interface for marking parts of Rust code with annotations telling it how to call JS, and a CLI tool for generating
-the necessary JS glue code. You’ve been using this without knowing it all along: both "trunk」 and 「cargo-leptos" rely on
+the necessary JS glue code. You’ve been using this without knowing it all along: both "trunk" and "cargo-leptos" rely on
 "wasm-bindgen" under the hood.</p>
 <p>If there is a JavaScript library that you want to call from Rust, you should refer to the "wasm-bindgen" docs on
 <a href="https://rustwasm.github.io/docs/wasm-bindgen/examples/import-js.html">importing functions from JS</a>. It is relatively
@@ -194,14 +194,14 @@ JavaScript solution and translating it to Rust using the <a href="https://docs.r
 good approach.</p>
 <blockquote>
 <p>After this section, you might find
-<a href="https://rustwasm.github.io/docs/wasm-bindgen/web-sys/index.html">the "wasm-bindgen」 guide chapter on 「web-sys"</a>
+<a href="https://rustwasm.github.io/docs/wasm-bindgen/web-sys/index.html">the "wasm-bindgen" guide chapter on "web-sys"</a>
 useful for additional reading.</p>
 </blockquote>
 <h3 id="enabling-features"><a class="header" href="#enabling-features">Enabling features</a></h3>
 <p>"web_sys" is heavily feature-gated to keep compile times low. If you would like to use one of its many APIs, you may
 need to enable a feature to use it.</p>
 <p>The features required to use an item are always listed in its documentation.
-For example, to use <a href="https://docs.rs/web-sys/latest/web_sys/struct.Element.html#method.get_bounding_client_rect">"Element::get_bounding_rect_client」</a>, you need to enable the 「DomRect」 and 「Element" features.</p>
+For example, to use <a href="https://docs.rs/web-sys/latest/web_sys/struct.Element.html#method.get_bounding_client_rect">"Element::get_bounding_rect_client"</a>, you need to enable the "DomRect" and "Element" features.</p>
 <p>Leptos already enables <a href="https://github.com/leptos-rs/leptos/blob/main/leptos_dom/Cargo.toml#L41">a whole bunch</a> of features - if the required feature is already enabled here, you won't have to enable it in your own app.
 Otherwise, add it to your "Cargo.toml" and you’re good to go!</p>
 <pre><code class="language-toml">[dependencies.web-sys]
@@ -219,7 +219,7 @@ This can either be done by adding it to every command, or add it to ".cargo/conf
 <pre><code class="language-toml">[env]
 RUSTFLAGS = "--cfg=web_sys_unstable_apis"
 </code></pre>
-<h2 id="accessing-raw-htmlelements-from-your-view"><a class="header" href="#accessing-raw-htmlelements-from-your-view">Accessing raw "HtmlElement」s from your 「view"</a></h2>
+<h2 id="accessing-raw-htmlelements-from-your-view"><a class="header" href="#accessing-raw-htmlelements-from-your-view">Accessing raw "HtmlElement"s from your "view"</a></h2>
 <p>The declarative style of the framework means that you don’t need to directly manipulate DOM nodes to build up your user interface.
 However, in some cases you want direct access to the underlying DOM element that represents part of your view. The section of the book
 on <a href="/view/05_forms.html?highlight=NodeRef#uncontrolled-inputs">“uncontrolled inputs”</a> showed how to do this using the
@@ -241,8 +241,8 @@ pub fn App() -&gt; impl IntoView {
         &lt;input node_ref=node_ref/&gt;
     }
 }</code></pre>
-<p>Inside the effect here, "node」 is simply a 「web_sys::HtmlInputElement". This allows us to call any appropriate methods.</p>
-<p>(Note that ".get()」 returns an 「Option」 here, because the 「NodeRef」 is empty until it is filled when the DOM elements are actually created. Effects run a tick after the component runs, so in most cases the 「<input>" will already have been created by the time the effect runs.)</p>
+<p>Inside the effect here, "node" is simply a "web_sys::HtmlInputElement". This allows us to call any appropriate methods.</p>
+<p>(Note that ".get()" returns an "Option" here, because the "NodeRef" is empty until it is filled when the DOM elements are actually created. Effects run a tick after the component runs, so in most cases the "<input>" will already have been created by the time the effect runs.)</p>
 
                     </main>
 
@@ -290,6 +290,22 @@ pub fn App() -&gt; impl IntoView {
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

@@ -66,7 +66,7 @@ pub fn SimpleCounter() -> impl IntoView {
 }
 ```
 
-The "SimpleCounter」 function itself runs once. The 「value」 signal is created once. The framework hands off the 「increment」 function to the browser as an event listener. When you click the button, the browser calls 「increment」, which updates 「value」 via 「set_value」. And that updates the single text node represented in our view by 「{value}".
+The "SimpleCounter" function itself runs once. The "value" signal is created once. The framework hands off the "increment" function to the browser as an event listener. When you click the button, the browser calls "increment", which updates "value" via "set_value". And that updates the single text node represented in our view by "{value}".
 
 Functions are key to reactivity. They provide the framework with the ability to rerun the smallest possible unit of your application in response to a change.
 
@@ -76,7 +76,7 @@ So remember two things:
 2. For values in your view template to be reactive, they must be reactive functions: either signals or closures that capture and read from signals.
 
 ```admonish note
-This is actually the primary difference between the stable and nightly versions of Leptos. As you may know, using the nightly compiler and the "nightly」 feature allows you to call a signal directly, as a function: so, 「value()」 instead of 「value.get()".
+This is actually the primary difference between the stable and nightly versions of Leptos. As you may know, using the nightly compiler and the "nightly" feature allows you to call a signal directly, as a function: so, "value()" instead of "value.get()".
 
 But this isn’t just syntax sugar. It allows for an extremely consistent semantic model: Reactive things are functions. Signals are accessed by calling functions. To say “give me a signal as an argument” you can take anything that "impl Fn() -> T". And this function-based interface makes no distinction between signals, memos, and derived signals: any of them can be accessed by calling them as functions.
 

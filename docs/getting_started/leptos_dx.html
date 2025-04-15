@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -175,7 +175,7 @@
 <p>If this is unclear, <a href="https://github.com/leptos-rs/leptos/blob/main/examples/counter/src/main.rs#L6">click here for an example</a>.</p>
 </blockquote>
 <p>Now you should have much better panic messages in the browser console!</p>
-<h2 id="2-editor-autocompletion-inside-component-and-server"><a class="header" href="#2-editor-autocompletion-inside-component-and-server">2) Editor Autocompletion inside "#[component]」 and 「#[server]"</a></h2>
+<h2 id="2-editor-autocompletion-inside-component-and-server"><a class="header" href="#2-editor-autocompletion-inside-component-and-server">2) Editor Autocompletion inside "#[component]" and "#[server]"</a></h2>
 <p>Because of the nature of macros (they can expand from anything to anything, but only if the input is exactly correct at that instant) it can be hard for rust-analyzer to do proper autocompletion and other support.</p>
 <p>If you run into issues using these macros in your editor, you can explicitly tell rust-analyzer to ignore certain proc macros. For the "#[server]" macro especially, which annotates function bodies but doesn't actually transform anything inside the body of your function, this can be really helpful.</p>
 <div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
@@ -186,7 +186,7 @@
 <a class="admonition-anchor-link" href="#admonition-note"></a>
 </div>
 <div>
-<p>Starting in Leptos version 0.5.3, rust-analyzer support was added for the "#[component]」 macro, but if you run into issues, you may want to add 「#[component]" to the macro ignore list as well (see below).
+<p>Starting in Leptos version 0.5.3, rust-analyzer support was added for the "#[component]" macro, but if you run into issues, you may want to add "#[component]" to the macro ignore list as well (see below).
 Note that this means that rust-analyzer doesn't know about your component props, which may generate its own set of errors or warnings in the IDE.</p>
 </div>
 </div>
@@ -259,7 +259,7 @@ config = { procMacro = { ignored = { leptos_macro = [
   }
 }
 </code></pre>
-<p>SublimeText 3, under "LSP-rust-analyzer.sublime-settings」 in 「Goto Anything..." menu:</p>
+<p>SublimeText 3, under "LSP-rust-analyzer.sublime-settings" in "Goto Anything..." menu:</p>
 <pre><code class="language-json">// Settings in here override those in "LSP-rust-analyzer/LSP-rust-analyzer.sublime-settings"
 {
   "rust-analyzer.procMacro.ignored": {
@@ -272,14 +272,14 @@ config = { procMacro = { ignored = { leptos_macro = [
 }
 </code></pre>
 <h2 id="3-set-up-leptosfmt-with-rust-analyzer-optional"><a class="header" href="#3-set-up-leptosfmt-with-rust-analyzer-optional">3) Set up "leptosfmt" With Rust Analyzer (optional)</a></h2>
-<p>"leptosfmt」 is a formatter for the Leptos 「view!」 macro (inside of which you'll typically write your UI code). Because the 「view!」 macro enables an 'RSX' (like JSX) style of writing your UI's, cargo-fmt has a harder time auto-formatting your code that's inside the 「view!」 macro. 「leptosfmt" is a crate that solves your formatting issues and keeps your RSX-style UI code looking nice and tidy!</p>
+<p>"leptosfmt" is a formatter for the Leptos "view!" macro (inside of which you'll typically write your UI code). Because the "view!" macro enables an 'RSX' (like JSX) style of writing your UI's, cargo-fmt has a harder time auto-formatting your code that's inside the "view!" macro. "leptosfmt" is a crate that solves your formatting issues and keeps your RSX-style UI code looking nice and tidy!</p>
 <p>"leptosfmt" can be installed and used via the command line or from within your code editor:</p>
 <p>First, install the tool with "cargo install leptosfmt".</p>
-<p>If you just want to use the default options from the command line, just run "leptosfmt ./**/*.rs」 from the root of your project to format all the rust files using 「leptosfmt".</p>
-<p>If you wish to set up your editor to work with "leptosfmt」, or if you wish to customize your 「leptosfmt」 experience, please see the instructions available on the <a href="https://github.com/bram209/leptosfmt">「leptosfmt" github repo's README.md page</a>.</p>
+<p>If you just want to use the default options from the command line, just run "leptosfmt ./**/*.rs" from the root of your project to format all the rust files using "leptosfmt".</p>
+<p>If you wish to set up your editor to work with "leptosfmt", or if you wish to customize your "leptosfmt" experience, please see the instructions available on the <a href="https://github.com/bram209/leptosfmt">"leptosfmt" github repo's README.md page</a>.</p>
 <p>Just note that it's recommended to set up your editor with "leptosfmt" on a per-workspace basis for best results.</p>
 <h2 id="4-use---cfgerase_components-during-development"><a class="header" href="#4-use---cfgerase_components-during-development">4) Use "--cfg=erase_components" during development</a></h2>
-<p>Leptos 0.7 made a number of changes to the renderer that relied more heavily on the type system. For larger projects, this can lead to slower compile times. Most of the slowdown in compile times can be alleviated by using the custom configuration flag "--cfg=erase_components」 during development. (This erases some of that type information to reduce the amount of work done and debug info emitted by the compiler, at the expense of additional binary size and runtime cost, so it’s best not to use it in release mode.) You can set this easily in the command line (「RUSTFLAGS="--cfg erase_components" trunk serve」 or 「RUSTFLAGS="--cfg erase_components" cargo leptos watch」), or in your 「.cargo/config.toml":</p>
+<p>Leptos 0.7 made a number of changes to the renderer that relied more heavily on the type system. For larger projects, this can lead to slower compile times. Most of the slowdown in compile times can be alleviated by using the custom configuration flag "--cfg=erase_components" during development. (This erases some of that type information to reduce the amount of work done and debug info emitted by the compiler, at the expense of additional binary size and runtime cost, so it’s best not to use it in release mode.) You can set this easily in the command line ("RUSTFLAGS="--cfg erase_components" trunk serve" or "RUSTFLAGS="--cfg erase_components" cargo leptos watch"), or in your ".cargo/config.toml":</p>
 <pre><code class="language-toml"># use your own native target
 [target.aarch64-apple-darwin]
 rustflags = [
@@ -340,6 +340,22 @@ rustflags = [
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

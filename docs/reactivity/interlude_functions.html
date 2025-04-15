@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -215,7 +215,7 @@ pub fn SimpleCounter() -&gt; impl IntoView {
         &lt;/button&gt;
     }
 }</code></pre>
-<p>The "SimpleCounter」 function itself runs once. The 「value」 signal is created once. The framework hands off the 「increment」 function to the browser as an event listener. When you click the button, the browser calls 「increment」, which updates 「value」 via 「set_value」. And that updates the single text node represented in our view by 「{value}".</p>
+<p>The "SimpleCounter" function itself runs once. The "value" signal is created once. The framework hands off the "increment" function to the browser as an event listener. When you click the button, the browser calls "increment", which updates "value" via "set_value". And that updates the single text node represented in our view by "{value}".</p>
 <p>Functions are key to reactivity. They provide the framework with the ability to rerun the smallest possible unit of your application in response to a change.</p>
 <p>So remember two things:</p>
 <ol>
@@ -230,7 +230,7 @@ pub fn SimpleCounter() -&gt; impl IntoView {
 <a class="admonition-anchor-link" href="#admonition-note"></a>
 </div>
 <div>
-<p>This is actually the primary difference between the stable and nightly versions of Leptos. As you may know, using the nightly compiler and the "nightly」 feature allows you to call a signal directly, as a function: so, 「value()」 instead of 「value.get()".</p>
+<p>This is actually the primary difference between the stable and nightly versions of Leptos. As you may know, using the nightly compiler and the "nightly" feature allows you to call a signal directly, as a function: so, "value()" instead of "value.get()".</p>
 <p>But this isn’t just syntax sugar. It allows for an extremely consistent semantic model: Reactive things are functions. Signals are accessed by calling functions. To say “give me a signal as an argument” you can take anything that "impl Fn() -&gt; T". And this function-based interface makes no distinction between signals, memos, and derived signals: any of them can be accessed by calling them as functions.</p>
 <p>Unfortunately implementing the "Fn" traits on arbitrary structs like signals requires nightly Rust, although this particular feature has mostly just languished and is not likely to change (or be stabilized) any time soon. Many people avoid nightly, for one reason or another. So, over time we’ve moved the defaults for things like documentation toward stable. Unfortunately, this makes the simple mental model of “signals are functions” a bit less straightforward.</p>
 </div>
@@ -282,6 +282,22 @@ pub fn SimpleCounter() -&gt; impl IntoView {
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

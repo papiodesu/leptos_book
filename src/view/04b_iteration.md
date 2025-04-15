@@ -68,9 +68,9 @@ pub fn App() -> impl IntoView {
 }
 ```
 
-> Note the "let(child)」 syntax here. In the previous chapter we introduced 「<For/>"
+> Note the "let(child)" syntax here. In the previous chapter we introduced "<For/>"
 > with a "children" prop. We can actually create this value directly in the children
-> of the "<For/>」 component, without breaking out of the 「view」 macro: the 「let:child"
+> of the "<For/>" component, without breaking out of the "view" macro: the "let:child"
 > combined with "<p>{child.value}</p>" above is the equivalent of
 >
 > ```rust
@@ -99,7 +99,7 @@ Let’s try "{move || child.value}".
 Here’s the problem: as I said, each row is only rerendered when the key changes.
 We’ve updated the value for each row, but not the key for any of the rows, so
 nothing has rerendered. And if you look at the type of "child.value", it’s a plain
-"i32」, not a reactive 「ReadSignal<i32>" or something. This means that even if we
+"i32", not a reactive "ReadSignal<i32>" or something. This means that even if we
 wrap a closure around it, the value in this row will never update.
 
 We have three possible solutions:
@@ -129,8 +129,8 @@ replace the previous one.
 
 ### Pros
 
-This is very easy. We can make it even easier by deriving "PartialEq」, 「Eq」, and 「Hash"
-on "DatabaseEntry」, in which case we could just 「key=|state| state.clone()".
+This is very easy. We can make it even easier by deriving "PartialEq", "Eq", and "Hash"
+on "DatabaseEntry", in which case we could just "key=|state| state.clone()".
 
 ### Cons
 
@@ -207,13 +207,13 @@ see that unlike in the previous version, in this version only the individual tex
 nodes are updated. Passing the signal directly into "{child.value}" works, as
 signals do keep their reactivity if you pass them into the view.
 
-Note that I changed the "set_data.update()」 to a 「data.read()」. 「.read()" is a
+Note that I changed the "set_data.update()" to a "data.read()". ".read()" is a
 non-cloning way of accessing a signal’s value. In this case, we are only updating
 the inner values, not updating the list of values: because signals maintain their
 own state, we don’t actually need to update the "data" signal at all, so the immutable
 ".read()" is fine here.
 
-> In fact, this version doesn’t update "data」, so the 「<For/>" is essentially a static
+> In fact, this version doesn’t update "data", so the "<For/>" is essentially a static
 > list as in the last chapter, and this could just be a plain iterator. But the "<For/>"
 > is useful if we want to add or remove rows in the future.
 
@@ -259,8 +259,8 @@ will be updated to this:
 You’ll notice a few differences here:
 
 - we convert the "data" signal into an enumerated iterator
-- we use the "children」 prop explicitly, to make it easier to run some non-「view" code
-- we define a "value」 memo and use that in the view. This 「value" field doesn’t actually
+- we use the "children" prop explicitly, to make it easier to run some non-"view" code
+- we define a "value" memo and use that in the view. This "value" field doesn’t actually
   use the "child" being passed into each row. Instead, it uses the index and reaches back
   into the original "data" to get the value.
 
@@ -276,9 +276,9 @@ wrap the data in signals.
 
 It’s a bit more complex to set up this memo-per-row inside the "<For/>" loop rather than
 using nested signals. For example, you’ll notice that we have to guard against the possibility
-that the "data[index]」 would panic by using 「data.get(index)", because this memo may be
+that the "data[index]" would panic by using "data.get(index)", because this memo may be
 triggered to re-run once just after the row is removed. (This is because the memo for each row
-and the whole "<For/>」 both depend on the same 「data" signal, and the order of execution for
+and the whole "<For/>" both depend on the same "data" signal, and the order of execution for
 multiple reactive values that depend on the same signal isn’t guaranteed.)
 
 Note also that while memos memoize their reactive changes, the same
@@ -290,15 +290,15 @@ will still be more efficient for pinpoint updates here.
 > Some of this content is duplicated in the section on global state management with stores [here](../15_global_state.md#option-3-create-a-global-state-store). Both sections are intermediate/optional content, so I thought some duplication couldn’t hurt.
 
 Leptos 0.7 introduces a new reactive primitive called “stores.” Stores are designed to address
-the issues described in this chapter so far. They’re a bit experimental, so they require an additional dependency called "reactive_stores」 in your 「Cargo.toml".
+the issues described in this chapter so far. They’re a bit experimental, so they require an additional dependency called "reactive_stores" in your "Cargo.toml".
 
 Stores give you fine-grained reactive access to the individual fields of a struct, and to individual items in collections like "Vec<_>", without needing to create nested signals or memos manually, as in the options given above.
 
-Stores are built on top of the "Store」 derive macro, which creates a getter for each field of a struct. Calling this getter gives reactive access to that particular field. Reading from it will track only that field and its parents/children, and updating it will only notify that field and its parents/children, but not siblings. In other words, mutating 「value」 will not notify 「key", and so on.
+Stores are built on top of the "Store" derive macro, which creates a getter for each field of a struct. Calling this getter gives reactive access to that particular field. Reading from it will track only that field and its parents/children, and updating it will only notify that field and its parents/children, but not siblings. In other words, mutating "value" will not notify "key", and so on.
 
 We can adapt the data types we used in the examples above.
 
-The top level of a store always needs to be a struct, so we’ll create a "Data」 wrapper with a single 「rows" field.
+The top level of a store always needs to be a struct, so we’ll create a "Data" wrapper with a single "rows" field.
 ```rust
 #[derive(Store, Debug, Clone)]
 pub struct Data {
@@ -312,7 +312,7 @@ struct DatabaseEntry {
     value: i32,
 }
 ```
-Adding "#[store(key)]」 to the 「rows」 field allows us to have keyed access to the fields of the store, which will be useful in the 「<For/>」 component below. We can simply use 「key」, the same key that we’ll use in 「<For/>".
+Adding "#[store(key)]" to the "rows" field allows us to have keyed access to the fields of the store, which will be useful in the "<For/>" component below. We can simply use "key", the same key that we’ll use in "<For/>".
 
 The "<For/>" component is pretty straightforward:
 ```rust
@@ -325,11 +325,11 @@ The "<For/>" component is pretty straightforward:
     }
 />
 ```
-Because "rows」 is a keyed field, it implements 「IntoIterator」, and we can simply use 「move || data.rows()」 as the 「each」 prop. This will react to any changes to the 「rows」 list, just as 「move || data.get()" did in our nested-signal version.
+Because "rows" is a keyed field, it implements "IntoIterator", and we can simply use "move || data.rows()" as the "each" prop. This will react to any changes to the "rows" list, just as "move || data.get()" did in our nested-signal version.
 
-The "key」 field calls 「.read()」 to get access to the current value of the row, then clones and returns the 「key" field.
+The "key" field calls ".read()" to get access to the current value of the row, then clones and returns the "key" field.
 
-In "children」 prop, calling 「child.value()」 gives us reactive access to the 「value」 field for the row with this key. If rows are reordered, added, or removed, the keyed store field will keep in sync so that this 「value" is always associated with the correct key.
+In "children" prop, calling "child.value()" gives us reactive access to the "value" field for the row with this key. If rows are reordered, added, or removed, the keyed store field will keep in sync so that this "value" is always associated with the correct key.
 
 In the update button handler, we’ll iterate over the entries in "rows", updating each one:
 ```rust

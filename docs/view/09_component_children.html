@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -220,15 +220,15 @@ where
         {children()}
     }
 }</code></pre>
-<p>"render_prop」 and 「children" are both functions, so we can call them to generate
+<p>"render_prop" and "children" are both functions, so we can call them to generate
 the appropriate views. "children", in particular, is an alias for
-"Box&lt;dyn FnOnce() -&gt; AnyView&gt;」. (Aren't you glad we named it 「Children" instead?)
+"Box&lt;dyn FnOnce() -&gt; AnyView&gt;". (Aren't you glad we named it "Children" instead?)
 The "AnyView" returned here is an opaque, type-erased view: you can’t do anything to
 inspect it. There are a variety of other child types: for example, "ChildrenFragment"
 will return a "Fragment", which is a collection whose children can be iterated over.</p>
 <blockquote>
-<p>If you need a "Fn」 or 「FnMut」 here because you need to call 「children" more than once,
-we also provide "ChildrenFn」 and 「ChildrenMut" aliases.</p>
+<p>If you need a "Fn" or "FnMut" here because you need to call "children" more than once,
+we also provide "ChildrenFn" and "ChildrenMut" aliases.</p>
 </blockquote>
 <p>We can use the component like this:</p>
 <pre><code class="language-rust">view! {
@@ -243,7 +243,7 @@ we also provide "ChildrenFn」 and 「ChildrenMut" aliases.</p>
 basically a way of wrapping a "Vec<AnyView>". You can insert it anywhere into your view.</p>
 <p>But you can also access those inner views directly to manipulate them. For example, here’s
 a component that takes its children and turns them into an unordered list.</p>
-<pre><code class="language-rust">/// Wraps each child in an "&lt;li&gt;」 and embeds them in a 「&lt;ul&gt;".
+<pre><code class="language-rust">/// Wraps each child in an "&lt;li&gt;" and embeds them in a "&lt;ul&gt;".
 #[component]
 pub fn WrapsChildren(children: ChildrenFragment) -&gt; impl IntoView {
     // children() returns a "Fragment", which has a
@@ -314,7 +314,7 @@ pub fn App() -&gt; impl IntoView {
         // embedding them in some other markup
         &lt;TakesChildren
             // for component props, you can shorthand
-            // "render_prop=render_prop」 =&gt; 「render_prop"
+            // "render_prop=render_prop" =&gt; "render_prop"
             // (this doesn't work for HTML element attributes)
             render_prop
         &gt;
@@ -337,7 +337,7 @@ pub fn TakesChildren&lt;F, IV&gt;(
     /// Takes a function (type F) that returns anything that can be
     /// converted into a View (type IV)
     render_prop: F,
-    /// "children」 takes the 「Children" type
+    /// "children" takes the "Children" type
     /// this is an alias for "Box&lt;dyn FnOnce() -&gt; Fragment&gt;"
     /// ... aren't you glad we named it "Children" instead?
     children: Children,
@@ -356,7 +356,7 @@ where
     }
 }
 
-/// Wraps each child in an "&lt;li&gt;」 and embeds them in a 「&lt;ul&gt;".
+/// Wraps each child in an "&lt;li&gt;" and embeds them in a "&lt;ul&gt;".
 #[component]
 pub fn WrapsChildren(children: ChildrenFragment) -&gt; impl IntoView {
     // children() returns a "Fragment", which has a
@@ -428,6 +428,22 @@ fn main() {
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

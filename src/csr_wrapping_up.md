@@ -19,7 +19,7 @@ However, depending on the requirements of your project, you may be fine with the
 If you just want to deploy your Client-Side Rendered website, skip ahead to the chapter on ["Deployment"](https://leptos-rs.github.io/leptos/deployment/index.html) - there, you'll find directions on how best to deploy your Leptos CSR site.
 
 
-But what do you do if you want to return more than just an empty "<body>」 tag in your 「index.html" page? Use “Server-Side Rendering”!
+But what do you do if you want to return more than just an empty "<body>" tag in your "index.html" page? Use “Server-Side Rendering”!
 
 Whole books could be (and probably have been) written about this topic, but at its core, it’s really simple: rather than returning an empty "<body>" tag, with SSR, you'll return an initial HTML page that reflects the actual starting state of your app or site, so that while JS/WASM are loading, and until they load, the user can access the plain HTML version.
 

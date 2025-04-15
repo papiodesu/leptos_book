@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="./mdbook-admonish.css">
@@ -204,7 +204,7 @@ more idiomatic your code will feel and the easier it will be to test.</p>
 <h2 id="2-test-components-with-end-to-end-e2e-testing"><a class="header" href="#2-test-components-with-end-to-end-e2e-testing">2. Test components with end-to-end ("e2e") testing</a></h2>
 <p>Our <a href="https://github.com/leptos-rs/leptos/tree/main/examples">"examples"</a> directory has several examples with extensive end-to-end testing, using different testing tools.</p>
 <p>The easiest way to see how to use these is to take a look at the test examples themselves:</p>
-<h3 id="wasm-bindgen-test-with-counter"><a class="header" href="#wasm-bindgen-test-with-counter">"wasm-bindgen-test」 with <a href="https://github.com/leptos-rs/leptos/blob/main/examples/counter/tests/web.rs">「counter"</a></a></h3>
+<h3 id="wasm-bindgen-test-with-counter"><a class="header" href="#wasm-bindgen-test-with-counter">"wasm-bindgen-test" with <a href="https://github.com/leptos-rs/leptos/blob/main/examples/counter/tests/web.rs">"counter"</a></a></h3>
 <p>This is a fairly simple manual testing setup that uses the <a href="https://rustwasm.github.io/wasm-pack/book/commands/test.html">"wasm-pack test"</a> command.</p>
 <h4 id="sample-test"><a class="header" href="#sample-test">Sample Test</a></h4>
 <pre><code class="language-rust">#[wasm_bindgen_test]
@@ -386,6 +386,22 @@ async fn i_add_a_todo_titled(world: &amp;mut AppWorld, text: String) -&gt; Resul
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

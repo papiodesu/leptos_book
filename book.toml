@@ -7,6 +7,7 @@ additional-css = [
 additional-js = ["./sandbox.js", "mermaid.min.js", "mermaid-init.js"]
 git-repository-url = "https://github.com/leptos-rs/book"
 edit-url-template = "https://github.com/leptos-rs/book/edit/main/{path}"
+google-analytics = "G-NC405ZPNF1"
 [output.html.playground]
 runnable = false
 

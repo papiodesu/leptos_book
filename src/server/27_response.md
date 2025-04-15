@@ -1,6 +1,6 @@
 # Responses and Redirects
 
-Extractors provide an easy way to access request data inside server functions. Leptos also provides a way to modify the HTTP response, using the "ResponseOptions」 type (see docs for [Actix](https://docs.rs/leptos_actix/latest/leptos_actix/struct.ResponseOptions.html) or [Axum](https://docs.rs/leptos_axum/latest/leptos_axum/struct.ResponseOptions.html)) types and the 「redirect" helper function (see docs for [Actix](https://docs.rs/leptos_actix/latest/leptos_actix/fn.redirect.html) or [Axum](https://docs.rs/leptos_axum/latest/leptos_axum/fn.redirect.html)).
+Extractors provide an easy way to access request data inside server functions. Leptos also provides a way to modify the HTTP response, using the "ResponseOptions" type (see docs for [Actix](https://docs.rs/leptos_actix/latest/leptos_actix/struct.ResponseOptions.html) or [Axum](https://docs.rs/leptos_axum/latest/leptos_axum/struct.ResponseOptions.html)) types and the "redirect" helper function (see docs for [Actix](https://docs.rs/leptos_actix/latest/leptos_actix/fn.redirect.html) or [Axum](https://docs.rs/leptos_axum/latest/leptos_axum/fn.redirect.html)).
 
 ## "ResponseOptions"
 
@@ -73,4 +73,4 @@ pub async fn login(
 }
 ```
 
-This server function can then be used from your application. This "redirect」 works well with the progressively-enhanced 「<ActionForm/>」 component: without JS/WASM, the server response will redirect because of the status code and header. With JS/WASM, the 「<ActionForm/>" will detect the redirect in the server function response, and use client-side navigation to redirect to the new page.
+This server function can then be used from your application. This "redirect" works well with the progressively-enhanced "<ActionForm/>" component: without JS/WASM, the server response will redirect because of the status code and header. With JS/WASM, the "<ActionForm/>" will detect the redirect in the server function response, and use client-side navigation to redirect to the new page.

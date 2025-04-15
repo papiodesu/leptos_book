@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -165,23 +165,23 @@
 <blockquote>
 <p>If you’re perfectly happy with the "view!" macro syntax described so far, you’re welcome to skip this chapter. The builder syntax described in this section is always available, but never required.</p>
 </blockquote>
-<p>For one reason or another, many developers would prefer to avoid macros. Perhaps you don’t like the limited "rustfmt」 support. (Although, you should check out <a href="https://github.com/bram209/leptosfmt">「leptosfmt」</a>, which is an excellent tool!) Perhaps you worry about the effect of macros on compile time. Perhaps you prefer the aesthetics of pure Rust syntax, or you have trouble context-switching between an HTML-like syntax and your Rust code. Or perhaps you want more flexibility in how you create and manipulate HTML elements than the 「view" macro provides.</p>
+<p>For one reason or another, many developers would prefer to avoid macros. Perhaps you don’t like the limited "rustfmt" support. (Although, you should check out <a href="https://github.com/bram209/leptosfmt">"leptosfmt"</a>, which is an excellent tool!) Perhaps you worry about the effect of macros on compile time. Perhaps you prefer the aesthetics of pure Rust syntax, or you have trouble context-switching between an HTML-like syntax and your Rust code. Or perhaps you want more flexibility in how you create and manipulate HTML elements than the "view" macro provides.</p>
 <p>If you fall into any of those camps, the builder syntax may be for you.</p>
-<p>The "view」 macro expands an HTML-like syntax to a series of Rust functions and method calls. If you’d rather not use the 「view" macro, you can simply use that expanded syntax yourself. And it’s actually pretty nice!</p>
+<p>The "view" macro expands an HTML-like syntax to a series of Rust functions and method calls. If you’d rather not use the "view" macro, you can simply use that expanded syntax yourself. And it’s actually pretty nice!</p>
 <p>First off, if you want you can even drop the "#[component]" macro: a component is just a setup function that creates your view, so you can define a component as a simple function call:</p>
 <pre><code class="language-rust">pub fn counter(initial_value: i32, step: u32) -&gt; impl IntoView { }</code></pre>
 <p>Elements are created by calling a function with the same name as the HTML element:</p>
 <pre><code class="language-rust">p()</code></pre>
-<p>You can add children to the element with <a href="https://docs.rs/leptos/latest/leptos/html/trait.ElementChild.html#tymethod.child">".child()」</a>, which takes a single child or a tuple or array of types that implement <a href="https://docs.rs/leptos/latest/leptos/trait.IntoView.html">「IntoView"</a>.</p>
+<p>You can add children to the element with <a href="https://docs.rs/leptos/latest/leptos/html/trait.ElementChild.html#tymethod.child">".child()"</a>, which takes a single child or a tuple or array of types that implement <a href="https://docs.rs/leptos/latest/leptos/trait.IntoView.html">"IntoView"</a>.</p>
 <pre><code class="language-rust">p().child((em().child("Big, "), strong().child("bold "), "text"))</code></pre>
-<p>Attributes are added with <a href="https://docs.rs/leptos/latest/leptos/attr/custom/trait.CustomAttribute.html#method.attr">".attr()」</a>. This can take any of the same types that you could pass as an attribute into the view macro (types that implement <a href="https://docs.rs/leptos/latest/leptos/attr/trait.Attribute.html">「Attribute"</a>).</p>
+<p>Attributes are added with <a href="https://docs.rs/leptos/latest/leptos/attr/custom/trait.CustomAttribute.html#method.attr">".attr()"</a>. This can take any of the same types that you could pass as an attribute into the view macro (types that implement <a href="https://docs.rs/leptos/latest/leptos/attr/trait.Attribute.html">"Attribute"</a>).</p>
 <pre><code class="language-rust">p().attr("id", "foo")
     .attr("data-count", move || count.get().to_string())</code></pre>
 <p>They can also be added with attribute methods, which are available for any built-in HTML attribute name:</p>
 <pre><code class="language-rust">p().id("foo")
     .attr("data-count", move || count.get().to_string())</code></pre>
-<p>Similarly, the "class:」, 「prop:」, and 「style:」 syntaxes map directly onto <a href="https://docs.rs/leptos/latest/leptos/attr/global/trait.ClassAttribute.html#tymethod.class">「.class()」</a>, <a href="https://docs.rs/leptos/latest/leptos/attr/global/trait.PropAttribute.html#tymethod.prop">「.prop()」</a>, and <a href="https://docs.rs/leptos/latest/leptos/attr/global/trait.StyleAttribute.html#tymethod.style">「.style()"</a> methods.</p>
-<p>Event listeners can be added with <a href="https://docs.rs/leptos/latest/leptos/attr/global/trait.OnAttribute.html#tymethod.on">".on()」</a>. Typed events found in <a href="https://docs.rs/leptos/latest/leptos/tachys/html/event/index.html">「leptos::ev"</a> prevent typos in event names and allow for correct type inference in the callback function.</p>
+<p>Similarly, the "class:", "prop:", and "style:" syntaxes map directly onto <a href="https://docs.rs/leptos/latest/leptos/attr/global/trait.ClassAttribute.html#tymethod.class">".class()"</a>, <a href="https://docs.rs/leptos/latest/leptos/attr/global/trait.PropAttribute.html#tymethod.prop">".prop()"</a>, and <a href="https://docs.rs/leptos/latest/leptos/attr/global/trait.StyleAttribute.html#tymethod.style">".style()"</a> methods.</p>
+<p>Event listeners can be added with <a href="https://docs.rs/leptos/latest/leptos/attr/global/trait.OnAttribute.html#tymethod.on">".on()"</a>. Typed events found in <a href="https://docs.rs/leptos/latest/leptos/tachys/html/event/index.html">"leptos::ev"</a> prevent typos in event names and allow for correct type inference in the callback function.</p>
 <pre><code class="language-rust">button()
     .on(ev::click, move |_| set_count.set(0))
     .child("Clear")</code></pre>
@@ -253,6 +253,22 @@ pub fn counter(initial_value: i32, step: i32) -&gt; impl IntoView {
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

@@ -57,7 +57,7 @@ Our ["examples"](https://github.com/leptos-rs/leptos/tree/main/examples) directo
 
 The easiest way to see how to use these is to take a look at the test examples themselves:
 
-### "wasm-bindgen-test」 with [「counter"](https://github.com/leptos-rs/leptos/blob/main/examples/counter/tests/web.rs)
+### "wasm-bindgen-test" with ["counter"](https://github.com/leptos-rs/leptos/blob/main/examples/counter/tests/web.rs)
 
 This is a fairly simple manual testing setup that uses the ["wasm-pack test"](https://rustwasm.github.io/wasm-pack/book/commands/test.html) command.
 

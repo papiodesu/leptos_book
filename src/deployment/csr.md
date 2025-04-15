@@ -6,7 +6,7 @@ If you’ve been building an app that only uses client-side rendering, working w
 trunk build --release
 ```
 
-"trunk build」 will create a number of build artifacts in a 「dist/」 directory. Publishing 「dist" somewhere online should be all you need to deploy your app. This should work very similarly to deploying any JavaScript application.
+"trunk build" will create a number of build artifacts in a "dist/" directory. Publishing "dist" somewhere online should be all you need to deploy your app. This should work very similarly to deploying any JavaScript application.
 
 We've created several example repositories which show how to set up and deploy a Leptos CSR app to various hosting services.
 
@@ -134,16 +134,16 @@ Note: Both the preview and deploy actions will need your Vercel credentials setu
 
 1. Retrieve your [Vercel Access Token](https://vercel.com/guides/how-do-i-use-a-vercel-api-access-token) by going to "Account Settings" > "Tokens" and creating a new token - save the token to use in sub-step 5, below.
 
-2. Install the [Vercel CLI](https://vercel.com/cli) using the "npm i -g vercel」 command, then run 「vercel login" to login to your acccount.
+2. Install the [Vercel CLI](https://vercel.com/cli) using the "npm i -g vercel" command, then run "vercel login" to login to your acccount.
 
-3. Inside your folder, run "vercel link」 to create a new Vercel project; in the CLI, you will be asked to 'Link to an existing project?' - answer yes, then enter the name you created in step 1. A new 「.vercel" folder will be created for you.
+3. Inside your folder, run "vercel link" to create a new Vercel project; in the CLI, you will be asked to 'Link to an existing project?' - answer yes, then enter the name you created in step 1. A new ".vercel" folder will be created for you.
 
-4. Inside the generated ".vercel」 folder, open the the 「project.json" file and save the "projectId" and "orgId" for the next step.
+4. Inside the generated ".vercel" folder, open the the "project.json" file and save the "projectId" and "orgId" for the next step.
 
 5. Inside GitHub, go the repo's "Settings" > "Secrets and Variables" > "Actions" and add the following as [Repository secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets):
    - save your Vercel Access Token (from sub-step 1) as the "VERCEL_TOKEN" secret
-   - from the ".vercel/project.json」 add "projectID" as 「VERCEL_PROJECT_ID"
-   - from the ".vercel/project.json」 add "orgId" as 「VERCEL_ORG_ID"
+   - from the ".vercel/project.json" add "projectID" as "VERCEL_PROJECT_ID"
+   - from the ".vercel/project.json" add "orgId" as "VERCEL_ORG_ID"
 
 <i>For full instructions see ["How can I use Github Actions with Vercel"](https://vercel.com/guides/how-can-i-use-github-actions-with-vercel)</i>
 

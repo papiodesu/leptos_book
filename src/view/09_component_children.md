@@ -70,15 +70,15 @@ where
 }
 ```
 
-"render_prop」 and 「children" are both functions, so we can call them to generate
+"render_prop" and "children" are both functions, so we can call them to generate
 the appropriate views. "children", in particular, is an alias for
-"Box<dyn FnOnce() -> AnyView>」. (Aren't you glad we named it 「Children" instead?)
+"Box<dyn FnOnce() -> AnyView>". (Aren't you glad we named it "Children" instead?)
 The "AnyView" returned here is an opaque, type-erased view: you can’t do anything to
 inspect it. There are a variety of other child types: for example, "ChildrenFragment"
 will return a "Fragment", which is a collection whose children can be iterated over.
 
-> If you need a "Fn」 or 「FnMut」 here because you need to call 「children" more than once,
-> we also provide "ChildrenFn」 and 「ChildrenMut" aliases.
+> If you need a "Fn" or "FnMut" here because you need to call "children" more than once,
+> we also provide "ChildrenFn" and "ChildrenMut" aliases.
 
 We can use the component like this:
 
@@ -101,7 +101,7 @@ But you can also access those inner views directly to manipulate them. For examp
 a component that takes its children and turns them into an unordered list.
 
 ```rust
-/// Wraps each child in an "<li>」 and embeds them in a 「<ul>".
+/// Wraps each child in an "<li>" and embeds them in a "<ul>".
 #[component]
 pub fn WrapsChildren(children: ChildrenFragment) -> impl IntoView {
     // children() returns a "Fragment", which has a
@@ -177,7 +177,7 @@ pub fn App() -> impl IntoView {
         // embedding them in some other markup
         <TakesChildren
             // for component props, you can shorthand
-            // "render_prop=render_prop」 => 「render_prop"
+            // "render_prop=render_prop" => "render_prop"
             // (this doesn't work for HTML element attributes)
             render_prop
         >
@@ -200,7 +200,7 @@ pub fn TakesChildren<F, IV>(
     /// Takes a function (type F) that returns anything that can be
     /// converted into a View (type IV)
     render_prop: F,
-    /// "children」 takes the 「Children" type
+    /// "children" takes the "Children" type
     /// this is an alias for "Box<dyn FnOnce() -> Fragment>"
     /// ... aren't you glad we named it "Children" instead?
     children: Children,
@@ -219,7 +219,7 @@ where
     }
 }
 
-/// Wraps each child in an "<li>」 and embeds them in a 「<ul>".
+/// Wraps each child in an "<li>" and embeds them in a "<ul>".
 #[component]
 pub fn WrapsChildren(children: ChildrenFragment) -> impl IntoView {
     // children() returns a "Fragment", which has a

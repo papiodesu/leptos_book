@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -163,7 +163,7 @@
                     <main>
                         <h1 id="hydration-bugs-and-how-to-avoid-them"><a class="header" href="#hydration-bugs-and-how-to-avoid-them">Hydration Bugs <em>(and how to avoid them)</em></a></h1>
 <h2 id="a-thought-experiment"><a class="header" href="#a-thought-experiment">A Thought Experiment</a></h2>
-<p>Let’s try an experiment to test your intuitions. Open up an app you’re server-rendering with "cargo-leptos」. (If you’ve just been using 「trunk」 so far to play with examples, go <a href="./21_cargo_leptos.html">clone a 「cargo-leptos" template</a> just for the sake of this exercise.)</p>
+<p>Let’s try an experiment to test your intuitions. Open up an app you’re server-rendering with "cargo-leptos". (If you’ve just been using "trunk" so far to play with examples, go <a href="./21_cargo_leptos.html">clone a "cargo-leptos" template</a> just for the sake of this exercise.)</p>
 <p>Put a log somewhere in your root component. (I usually call mine "<App/>", but anything will do.)</p>
 <pre><code class="language-rust">#[component]
 pub fn App() -&gt; impl IntoView {
@@ -210,7 +210,7 @@ pub fn App() -&gt; impl IntoView {
 <p>In other words, if this is being compiled to WASM, it has three items; otherwise it’s empty.</p>
 <p>When I load the page in the browser, I see nothing. If I open the console I see a panic:</p>
 <pre><code>ssr_modes.js:423 panicked at /.../tachys/src/html/element/mod.rs:352:14:
-called "Option::unwrap()」 on a 「None" value
+called "Option::unwrap()" on a "None" value
 </code></pre>
 <p>The WASM version of your app, running in the browser, is expecting to find an element (in fact, it’s expecting three elements!) But the HTML sent from the server has none.</p>
 <h4 id="solution"><a class="header" href="#solution">Solution</a></h4>
@@ -240,12 +240,12 @@ The framework expected a text node, but found this instead:  &lt;p&gt;&lt;/p&gt;
 The hydration mismatch may have occurred slightly earlier, but this is the first time the framework found a node of an unexpected type.
 </code></pre>
 <p>(In most browser devtools, you can right-click on that "<p></p>" to show where it appears in the DOM, which is handy.)</p>
-<p>If you look in the DOM inspector, you’ll see that it instead of a "<div>」 inside a 「<p>", it shows:</p>
+<p>If you look in the DOM inspector, you’ll see that it instead of a "<div>" inside a "<p>", it shows:</p>
 <pre><code class="language-html">&lt;p&gt;&lt;/p&gt;
 &lt;div&gt;First&lt;/div&gt;
 &lt;p&gt;&lt;/p&gt;
 </code></pre>
-<p>That’s because this is invalid HTML! A "<div>」 cannot go inside a 「<p>」. When the browser parses that 「<div>」, it actually closes the preceding 「<p>」, then opens the 「<div>」; then, when it sees the (now-unmatched) closing 「</p>」, it treats it as a new, empty 「<p>".</p>
+<p>That’s because this is invalid HTML! A "<div>" cannot go inside a "<p>". When the browser parses that "<div>", it actually closes the preceding "<p>", then opens the "<div>"; then, when it sees the (now-unmatched) closing "</p>", it treats it as a new, empty "<p>".</p>
 <p>As a result, our DOM tree no longer matches the expected view tree, and a hydration error ensues.</p>
 <p>Unfortunately, it is difficult to ensure the validity of HTML in the view at compile time using our current model, and without an effect on compile times across the board. For now, if you run into issues like this, consider running the HTML output through a validator. (In the case above, the W3C HTML Validator does in fact show an error!)</p>
 <div id="admonition-info" class="admonition admonish-info" role="note" aria-labelledby="admonition-info-title">
@@ -260,8 +260,8 @@ The hydration mismatch may have occurred slightly earlier, but this is the first
 <p>Leptos 0.1-0.6 used a method of hydration in which each HTML element was given a unique ID, which was then used to find it in the DOM by ID. Leptos 0.7 instead began walking over the DOM directly, hydrating each element as it came. This has much better performance characteristics (shorter, cleaner HTML output and faster hydration times) but is less resilient to the invalid or edge-case HTML examples above. Perhaps more importantly, this approach also fixes a number of <em>other</em> edge cases and bugs in hydration, making the framework more resilient on net.</p>
 </div>
 </div>
-<h4 id="-without-"><a class="header" href="#-without-">"<table>」 without 「<tbody>"</a></h4>
-<p>There’s one additional edge case I’m aware of, in which <em>valid</em> HTML produces a DOM tree that differs from the view tree, and that’s "<table>」. When (most) browsers parse an HTML 「<table>」, they insert a 「<tbody>" into the DOM, whether you included one or not.</p>
+<h4 id="-without-"><a class="header" href="#-without-">"<table>" without "<tbody>"</a></h4>
+<p>There’s one additional edge case I’m aware of, in which <em>valid</em> HTML produces a DOM tree that differs from the view tree, and that’s "<table>". When (most) browsers parse an HTML "<table>", they insert a "<tbody>" into the DOM, whether you included one or not.</p>
 <pre><code class="language-rust">#[component]
 pub fn App() -&gt; impl IntoView {
     let count = RwSignal::new(0);
@@ -298,7 +298,7 @@ pub fn App() -&gt; impl IntoView {
 <li>Compare the DOM at that point and above it, checking for mismatches with your view tree. Are there extra elements? Missing elements?</li>
 </ol>
 <h3 id="not-all-client-code-can-run-on-the-server"><a class="header" href="#not-all-client-code-can-run-on-the-server">Not all client code can run on the server</a></h3>
-<p>Imagine you happily import a dependency like "gloo-net」 that you’ve been used to using to make requests in the browser, and use it in a 「create_resource" in a server-rendered app.</p>
+<p>Imagine you happily import a dependency like "gloo-net" that you’ve been used to using to make requests in the browser, and use it in a "create_resource" in a server-rendered app.</p>
 <p>You’ll probably instantly see the dreaded message</p>
 <pre><code>panicked at 'cannot call wasm-bindgen imported functions on non-wasm targets'
 </code></pre>
@@ -331,7 +331,7 @@ pub fn App() -&gt; impl IntoView {
 <p>It’s fine! This will render appropriately on the server, ignoring the client-only code, and then access the storage and log a message on the browser.</p>
 <h3 id="not-all-server-code-can-run-on-the-client"><a class="header" href="#not-all-server-code-can-run-on-the-client">Not all server code can run on the client</a></h3>
 <p>WebAssembly running in the browser is a pretty limited environment. You don’t have access to a file-system or to many of the other things the standard library may be used to having. Not every crate can even be compiled to WASM, let alone run in a WASM environment.</p>
-<p>In particular, you’ll sometimes see errors about the crate "mio」 or missing things from 「core」. This is generally a sign that you are trying to compile something to WASM that can’t be compiled to WASM. If you’re adding server-only dependencies, you’ll want to mark them 「optional = true」 in your 「Cargo.toml」 and then enable them in the 「ssr」 feature definition. (Check out one of the template 「Cargo.toml" files to see more details.)</p>
+<p>In particular, you’ll sometimes see errors about the crate "mio" or missing things from "core". This is generally a sign that you are trying to compile something to WASM that can’t be compiled to WASM. If you’re adding server-only dependencies, you’ll want to mark them "optional = true" in your "Cargo.toml" and then enable them in the "ssr" feature definition. (Check out one of the template "Cargo.toml" files to see more details.)</p>
 <p>You can use "create_effect" to specify that something should only run on the client, and not in the server. Is there a way to specify that something should run only on the server, and not the client?</p>
 <p>In fact, there is. The next chapter will cover the topic of server functions in some detail. (In the meantime, you can check out their docs <a href="https://docs.rs/leptos/latest/leptos/attr.server.html">here</a>.)</p>
 
@@ -381,6 +381,22 @@ pub fn App() -&gt; impl IntoView {
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

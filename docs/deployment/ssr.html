@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -165,14 +165,14 @@
 <p>It's possible to deploy Leptos fullstack, SSR apps to any number of server or container hosting services. The most simple way to get a Leptos SSR app into production might be to use a VPS service and either run Leptos natively in a VM (<a href="https://github.com/leptos-rs/start-axum?tab=readme-ov-file#executing-a-server-on-a-remote-machine-without-the-toolchain">see here for more details</a>). Alternatively, you could containerize your Leptos app and run it in <a href="https://podman.io/">Podman</a> or <a href="https://www.docker.com/">Docker</a> on any colocated or cloud server.</p>
 <p>There are a multitude of different deployment setups and hosting services, and in general, Leptos itself is agnostic to the deployment setup you use. With this diversity of deployment targets in mind, on this page we will go over:</p>
 <ul>
-<li><a href="#creating-a-containerfile">creating a "Containerfile」 (or 「Dockerfile") for use with Leptos SSR apps</a></li>
+<li><a href="#creating-a-containerfile">creating a "Containerfile" (or "Dockerfile") for use with Leptos SSR apps</a></li>
 <li>Using a "Dockerfile" to <a href="#cloud-deployments">deploy to a cloud service</a> - <a href="#deploy-to-flyio">for example, Fly.io</a></li>
 <li>Deploying Leptos to <a href="#deploy-to-serverless-runtimes">serverless runtimes</a> - for example, <a href="#aws-lambda">AWS Lambda</a> and <a href="#deno--cloudflare-workers">JS-hosted WASM runtimes like Deno &amp; Cloudflare</a></li>
 <li><a href="#currently-unsupported-platforms">Platforms that have not yet gained Leptos SSR support</a></li>
 </ul>
 <p><em>Note: Leptos does not endorse the use of any particular method of deployment or hosting service.</em></p>
 <h2 id="creating-a-containerfile"><a class="header" href="#creating-a-containerfile">Creating a Containerfile</a></h2>
-<p>The most popular way for people to deploy full-stack apps built with "cargo-leptos」 is to use a cloud hosting service that supports deployment via a Podman or Docker build. Here’s a sample 「Containerfile」 / 「Dockerfile", which is based on the one we use to deploy the Leptos website.</p>
+<p>The most popular way for people to deploy full-stack apps built with "cargo-leptos" is to use a cloud hosting service that supports deployment via a Podman or Docker build. Here’s a sample "Containerfile" / "Dockerfile", which is based on the one we use to deploy the Leptos website.</p>
 <h3 id="debian"><a class="header" href="#debian">Debian</a></h3>
 <pre><code class="language-dockerfile"># Get started with a build env with Rust nightly
 FROM rustlang/rust:nightly-bullseye as builder
@@ -267,14 +267,14 @@ EXPOSE 8080
 CMD ["/app/leptos_start"]
 </code></pre>
 <blockquote>
-<p>Read more: <a href="https://github.com/leptos-rs/leptos/issues/1152#issuecomment-1634916088">"gnu」 and 「musl" build files for Leptos apps</a>.</p>
+<p>Read more: <a href="https://github.com/leptos-rs/leptos/issues/1152#issuecomment-1634916088">"gnu" and "musl" build files for Leptos apps</a>.</p>
 </blockquote>
 <h2 id="cloud-deployments"><a class="header" href="#cloud-deployments">Cloud Deployments</a></h2>
 <h3 id="deploy-to-flyio"><a class="header" href="#deploy-to-flyio">Deploy to Fly.io</a></h3>
 <p>One option for deploying your Leptos SSR app is to use a service like <a href="https://fly.io/">Fly.io</a>, which takes a Dockerfile definition of your Leptos app and runs it in a quick-starting micro-VM; Fly also offers a variety of storage options and managed DBs to use with your projects. The following example will show how to deploy a simple Leptos starter app, just to get you up and going; <a href="https://fly.io/docs/database-storage-guides/">see here for more about working with storage options on Fly.io</a> if and when required.</p>
 <p>First, create a "Dockerfile" in the root of your application and fill it in with the suggested contents (above); make sure to update the binary names in the Dockerfile example
 to the name of your own application, and make other adjustments as necessary.</p>
-<p>Also, ensure you have the "flyctl」 CLI tool installed, and have an account set up at <a href="https://fly.io/">Fly.io</a>. To install 「flyctl" on MacOS, Linux, or Windows WSL, run:</p>
+<p>Also, ensure you have the "flyctl" CLI tool installed, and have an account set up at <a href="https://fly.io/">Fly.io</a>. To install "flyctl" on MacOS, Linux, or Windows WSL, run:</p>
 <pre><code class="language-sh">curl -L https://fly.io/install.sh | sh
 </code></pre>
 <p>If you have issues, or for installing to other platforms <a href="https://fly.io/docs/hands-on/install-flyctl/">see the full instructions here</a></p>
@@ -293,7 +293,7 @@ to the name of your own application, and make other adjustments as necessary.</p
 <a class="admonition-anchor-link" href="#admonition-note"></a>
 </div>
 <div>
-<p>By default, Fly.io will auto-stop machines that don't have traffic coming to them after a certain period of time. Although Fly.io's lightweight VM's start up quickly, if you want to minimize the latency of your Leptos app and ensure it's always swift to respond, go into the generated "fly.toml」 file and change the 「min_machines_running" to 1 from the default of 0.</p>
+<p>By default, Fly.io will auto-stop machines that don't have traffic coming to them after a certain period of time. Although Fly.io's lightweight VM's start up quickly, if you want to minimize the latency of your Leptos app and ensure it's always swift to respond, go into the generated "fly.toml" file and change the "min_machines_running" to 1 from the default of 0.</p>
 <p><a href="https://fly.io/docs/apps/autostart-stop/">See this page in the Fly.io docs for more details</a>.</p>
 </div>
 </div>
@@ -353,7 +353,7 @@ Railway integrates with GitHub to automatically deploy your code.</p>
 <p>However, please keep in mind that some native server functionality does not work with FaaS services like Lambda because the environment is not necessarily consistent from one request to the next. In particular, the <a href="https://github.com/leptos-rs/start-aws#state">'start-aws' docs</a> state that "since AWS Lambda is a serverless platform, you'll need to be more careful about how you manage long-lived state. Writing to disk or using a state extractor will not work reliably across requests. Instead, you'll need a database or other microservices that you can query from the Lambda function."</p>
 <p>The other factor to bear in mind is the 'cold-start' time for functions as a service - depending on your use case and the FaaS platform you use, this may or may not meet your latency requirements; you may need to keep one function running at all times to optimize the speed of your requests.</p>
 <h3 id="deno--cloudflare-workers"><a class="header" href="#deno--cloudflare-workers">Deno &amp; Cloudflare Workers</a></h3>
-<p>Currently, Leptos-Axum supports running in Javascript-hosted WebAssembly runtimes such as Deno, Cloudflare Workers, etc. This option requires some changes to the setup of your source code (for example, in "Cargo.toml」 you must define your app using 「crate-type = ["cdylib"]」 and the "wasm" feature must be enabled for 「leptos_axum」). <a href="https://github.com/leptos-rs/leptos/tree/leptos_0.6/examples/hackernews_js_fetch">The Leptos HackerNews JS-fetch example</a> demonstrates the required modifications and shows how to run an app in the Deno runtime. Additionally, the <a href="https://docs.rs/leptos_axum/latest/leptos_axum/#js-fetch-integration">「leptos_axum」 crate docs</a> are a helpful reference when setting up your own 「Cargo.toml" file for JS-hosted WASM runtimes.</p>
+<p>Currently, Leptos-Axum supports running in Javascript-hosted WebAssembly runtimes such as Deno, Cloudflare Workers, etc. This option requires some changes to the setup of your source code (for example, in "Cargo.toml" you must define your app using "crate-type = ["cdylib"]" and the "wasm" feature must be enabled for "leptos_axum"). <a href="https://github.com/leptos-rs/leptos/tree/leptos_0.6/examples/hackernews_js_fetch">The Leptos HackerNews JS-fetch example</a> demonstrates the required modifications and shows how to run an app in the Deno runtime. Additionally, the <a href="https://docs.rs/leptos_axum/latest/leptos_axum/#js-fetch-integration">"leptos_axum" crate docs</a> are a helpful reference when setting up your own "Cargo.toml" file for JS-hosted WASM runtimes.</p>
 <p>While the initial setup for JS-hosted WASM runtimes is not onerous, the more important restriction to keep in mind is that since your app will be compiled to WebAssembly ("wasm32-unknown-unknown") on the server as well as the client, you must ensure that the crates you use in your app are all WASM-compatible; this may or may not be a deal-breaker depending on your app's requirements, as not all crates in the Rust ecosystem have WASM support.</p>
 <p>If you're willing to live with the limitations of WASM server-side, the best place to get started right now is by checking out the <a href="https://github.com/leptos-rs/leptos/tree/leptos_0.6/examples/hackernews_js_fetch">example of running Leptos with Deno</a> in the official Leptos Github repo.</p>
 <h2 id="platforms-working-on-leptos-support"><a class="header" href="#platforms-working-on-leptos-support">Platforms Working on Leptos Support</a></h2>
@@ -411,6 +411,22 @@ Railway integrates with GitHub to automatically deploy your code.</p>
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

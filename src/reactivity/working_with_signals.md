@@ -1,6 +1,6 @@
 # Working with Signals
 
-So far we’ve used some simple examples of using ["signal」](https://docs.rs/leptos/latest/leptos/reactive/signal/fn.signal.html), which returns a [「ReadSignal」](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html) getter and a [「WriteSignal"](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html) setter.
+So far we’ve used some simple examples of using ["signal"](https://docs.rs/leptos/latest/leptos/reactive/signal/fn.signal.html), which returns a ["ReadSignal"](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html) getter and a ["WriteSignal"](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html) setter.
 
 ## Getting and Setting
 
@@ -9,32 +9,32 @@ There are a few basic signal operations:
 ### Getting
 
 1. [".read()"](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html#impl-Read-for-T) returns a read guard which dereferences to the value of the signal, and tracks any future changes to the value of the signal reactively. Note that you cannot update the value of the signal until this guard is dropped, or it will cause a runtime error.
-1. [".with()」](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html#impl-With-for-T) takes a function, which receives the current value of the signal by reference (「&T"), and tracks the signal.
+1. [".with()"](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html#impl-With-for-T) takes a function, which receives the current value of the signal by reference ("&T"), and tracks the signal.
 1. [".get()"](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.ReadSignal.html#impl-Get-for-T) clones the current value of the signal and tracks further changes to the value.
 
-".get()」 is the most common method of accessing a signal. 「.read()」 is useful for methods that take an immutable reference, without cloning the value (「my_vec_signal.read().len()」). 「.with()" is useful if you need to do more with that reference, but want to make sure you don’t hold onto the lock longer than you need.
+".get()" is the most common method of accessing a signal. ".read()" is useful for methods that take an immutable reference, without cloning the value ("my_vec_signal.read().len()"). ".with()" is useful if you need to do more with that reference, but want to make sure you don’t hold onto the lock longer than you need.
 
 ### Setting
 
 1. [".write()"](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html#impl-Write-for-WriteSignal%3CT,+S%3E) returns a write guard which is a mutable reference to the value of the signal, and notifies any subscribers that they need to update. Note that you cannot read from the value of the signal until this guard is dropped, or it will cause a runtime error.
-1. [".update()」](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html#impl-Update-for-T) takes a function, which receives a mutable reference to the current value of the signal (「&mut T」), and notifies subscribers. (「.update()」 doesn’t return the value returned by the closure, but you can use [「.try_update()」](https://docs.rs/leptos/latest/leptos/trait.SignalUpdate.html#tymethod.try_update) if you need to; for example, if you’re removing an item from a 「Vec<_>" and want the removed item.)
+1. [".update()"](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html#impl-Update-for-T) takes a function, which receives a mutable reference to the current value of the signal ("&mut T"), and notifies subscribers. (".update()" doesn’t return the value returned by the closure, but you can use [".try_update()"](https://docs.rs/leptos/latest/leptos/trait.SignalUpdate.html#tymethod.try_update) if you need to; for example, if you’re removing an item from a "Vec<_>" and want the removed item.)
 1. [".set()"](https://docs.rs/leptos/latest/leptos/reactive/signal/struct.WriteSignal.html#impl-Set-for-T) replaces the current value of the signal and notifies subscribers.
 
-".set()」 is most common for setting a new value; 「.write()」 is very useful for updating a value in place. Just as is the case with 「.read()」 and 「.with()」, 「.update()" can be useful when you want to avoid the possibility of holding on the write lock longer than you intended to.
+".set()" is most common for setting a new value; ".write()" is very useful for updating a value in place. Just as is the case with ".read()" and ".with()", ".update()" can be useful when you want to avoid the possibility of holding on the write lock longer than you intended to.
 
 ```admonish note
-These traits are based on trait composition and provided by blanket implementations. For example, "Read」 is implemented for any type that implements 「Track」 and 「ReadUntracked」. 「With」 is implemented for any type that implements 「Read」. 「Get」 is implemented for any type that implements 「With」 and 「Clone". And so on.
+These traits are based on trait composition and provided by blanket implementations. For example, "Read" is implemented for any type that implements "Track" and "ReadUntracked". "With" is implemented for any type that implements "Read". "Get" is implemented for any type that implements "With" and "Clone". And so on.
 
-Similar relationships exist for "Write」, 「Update」, and 「Set".
+Similar relationships exist for "Write", "Update", and "Set".
 
-This is worth noting when reading docs: if you only see "ReadUntracked」 and 「Track」 as implemented traits, you will still be able to use 「.with()」, 「.get()」 (if 「T: Clone"), and so on.
+This is worth noting when reading docs: if you only see "ReadUntracked" and "Track" as implemented traits, you will still be able to use ".with()", ".get()" (if "T: Clone"), and so on.
 ```
 
 ## Working with Signals
 
-You might notice that ".get()」 and 「.set()」 can be implemented in terms of 「.read()」 and 「.write()」, or 「.with()」 and 「.update()」. In other words, 「count.get()」 is identical to 「count.with(|n| n.clone())」 or 「count.read().clone()」, and 「count.set(1)」 is implemented by doing 「count.update(|n| *n = 1)」 or 「*count.write() = 1".
+You might notice that ".get()" and ".set()" can be implemented in terms of ".read()" and ".write()", or ".with()" and ".update()". In other words, "count.get()" is identical to "count.with(|n| n.clone())" or "count.read().clone()", and "count.set(1)" is implemented by doing "count.update(|n| *n = 1)" or "*count.write() = 1".
 
-But of course, ".get()」 and 「.set()" are nicer syntax.
+But of course, ".get()" and ".set()" are nicer syntax.
 
 However, there are some very good use cases for the other methods.
 
@@ -47,9 +47,9 @@ if names.get().is_empty() {
 }
 ```
 
-In terms of logic, this is simple enough, but it’s hiding some significant inefficiencies. Remember that "names.get().is_empty()」 clones the value. This means we clone the whole 「Vec<String>」, run 「is_empty()", and then immediately throw away the clone.
+In terms of logic, this is simple enough, but it’s hiding some significant inefficiencies. Remember that "names.get().is_empty()" clones the value. This means we clone the whole "Vec<String>", run "is_empty()", and then immediately throw away the clone.
 
-Likewise, "set_names」 replaces the value with a whole new 「Vec<_>」. This is fine, but we might as well just mutate the original 「Vec<_>" in place.
+Likewise, "set_names" replaces the value with a whole new "Vec<_>". This is fine, but we might as well just mutate the original "Vec<_>" in place.
 
 ```rust
 let (names, set_names) = signal(Vec::new());
@@ -58,26 +58,26 @@ if names.read().is_empty() {
 }
 ```
 
-Now our function simply takes "names」 by reference to run 「is_empty()」, avoiding that clone, and then mutates the 「Vec<_>" in place.
+Now our function simply takes "names" by reference to run "is_empty()", avoiding that clone, and then mutates the "Vec<_>" in place.
 
 ## Thread Safety and Thread-Local Values
 
-You may have noticed, either by reading the docs or by experimenting with your own applications, that the values that are stored in signals must be "Send + Sync」. This is because the reactive system actually supports multi-threading: signals can be sent across threads, and the whole reactive graph can work across multiple threads. (This is especially useful when doing [server-side rendering](../ssr/README.md) with server frameworks like Axum, which use Tokio’s multi-threaded executor.) In most cases, this has no effect on what you do: ordinary Rust data types are 「Send + Sync" by default.
+You may have noticed, either by reading the docs or by experimenting with your own applications, that the values that are stored in signals must be "Send + Sync". This is because the reactive system actually supports multi-threading: signals can be sent across threads, and the whole reactive graph can work across multiple threads. (This is especially useful when doing [server-side rendering](../ssr/README.md) with server frameworks like Axum, which use Tokio’s multi-threaded executor.) In most cases, this has no effect on what you do: ordinary Rust data types are "Send + Sync" by default.
 
-However, the browser environment is only single-threaded unless you use a Web Worker, and the JavaScript types provided by "wasm-bindgen」 and 「web-sys」 are all explicitly 「!Send". This mean they can’t be stored in ordinary signals.
+However, the browser environment is only single-threaded unless you use a Web Worker, and the JavaScript types provided by "wasm-bindgen" and "web-sys" are all explicitly "!Send". This mean they can’t be stored in ordinary signals.
 
-As a result, we provide “local” alternatives for each of the signal primitives, which can be used to store "!Send」 data. You should only reach for these when you have a 「!Send" browser type you need to store in a signal.
+As a result, we provide “local” alternatives for each of the signal primitives, which can be used to store "!Send" data. You should only reach for these when you have a "!Send" browser type you need to store in a signal.
 
 | Standard | Local |
 | -------- | ----- |
-| ["signal」](https://docs.rs/leptos/latest/leptos/reactive/signal/fn.signal.html) | [「signal_local"](https://docs.rs/leptos/latest/leptos/prelude/fn.signal_local.html) |
-| ["RwSignal::new」](https://docs.rs/leptos/latest/leptos/prelude/struct.RwSignal.html#method.new) | [「RwSignal::new_local"](https://docs.rs/leptos/latest/leptos/prelude/struct.RwSignal.html#method.new_local) |
-| ["Resource」](https://docs.rs/leptos/latest/leptos/prelude/struct.Resource.html) | [「LocalResource"](https://docs.rs/leptos/latest/leptos/prelude/struct.LocalResource.html) |
-| ["Action::new」](https://docs.rs/leptos/latest/leptos/prelude/struct.Action.html#method.new) | [「Action::new_local」](https://docs.rs/leptos/latest/leptos/prelude/struct.Action.html#method.new_local), [「Action::new_unsync"](https://docs.rs/leptos/latest/leptos/prelude/struct.Action.html#method.new_unsync) |
+| ["signal"](https://docs.rs/leptos/latest/leptos/reactive/signal/fn.signal.html) | ["signal_local"](https://docs.rs/leptos/latest/leptos/prelude/fn.signal_local.html) |
+| ["RwSignal::new"](https://docs.rs/leptos/latest/leptos/prelude/struct.RwSignal.html#method.new) | ["RwSignal::new_local"](https://docs.rs/leptos/latest/leptos/prelude/struct.RwSignal.html#method.new_local) |
+| ["Resource"](https://docs.rs/leptos/latest/leptos/prelude/struct.Resource.html) | ["LocalResource"](https://docs.rs/leptos/latest/leptos/prelude/struct.LocalResource.html) |
+| ["Action::new"](https://docs.rs/leptos/latest/leptos/prelude/struct.Action.html#method.new) | ["Action::new_local"](https://docs.rs/leptos/latest/leptos/prelude/struct.Action.html#method.new_local), ["Action::new_unsync"](https://docs.rs/leptos/latest/leptos/prelude/struct.Action.html#method.new_unsync) |
 
 ## Nightly Syntax
 
-When using the "nightly」 feature and 「nightly」 syntax, calling a 「ReadSignal」 as a function is syntax sugar for 「.get()」. Calling a 「WriteSignal」 as a function is syntax sugar for 「.set()". So
+When using the "nightly" feature and "nightly" syntax, calling a "ReadSignal" as a function is syntax sugar for ".get()". Calling a "WriteSignal" as a function is syntax sugar for ".set()". So
 
 ```rust
 let (count, set_count) = signal(0);

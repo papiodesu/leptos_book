@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -193,9 +193,9 @@ do this using the "class:" syntax.</p>
 <p>"class:" attributes take</p>
 <ol>
 <li>the class name, following the colon ("red")</li>
-<li>a value, which can be a "bool」 or a function that returns a 「bool"</li>
+<li>a value, which can be a "bool" or a function that returns a "bool"</li>
 </ol>
-<p>When the value is "true」, the class is added. When the value is 「false", the class
+<p>When the value is "true", the class is added. When the value is "false", the class
 is removed. And if the value is a function that accesses a signal, the class will
 reactively update when the signal changes.</p>
 <p>Now every time I click the button, the text should toggle between red and black as
@@ -205,7 +205,7 @@ the number switches between even and odd.</p>
         *set_count.write() += 1;
     }
     // the class: syntax reactively updates a single class
-    // here, we'll set the "red」 class when 「count" is odd
+    // here, we'll set the "red" class when "count" is odd
     class:red=move || count.get() % 2 == 1
 &gt;
     "Click me"
@@ -219,7 +219,7 @@ the number switches between even and odd.</p>
 &lt;/style&gt;
 </code></pre>
 </blockquote>
-<p>Some CSS class names can’t be directly parsed by the "view」 macro, especially if they include a mix of dashes and numbers or other characters. In that case, you can use a tuple syntax: 「class=("name", value)" still directly updates a single class.</p>
+<p>Some CSS class names can’t be directly parsed by the "view" macro, especially if they include a mix of dashes and numbers or other characters. In that case, you can use a tuple syntax: "class=("name", value)" still directly updates a single class.</p>
 <pre><code class="language-rust">class=("button-20", move || count.get() % 2 == 1)</code></pre>
 <p>The tuple syntax also allows specifying multiple classes under a single condition using an array as the first tuple element.</p>
 <pre><code class="language-rust">class=(["button-20", "rounded"], move || count.get() % 2 == 1)</code></pre>
@@ -251,12 +251,12 @@ an attribute causes it to update its value reactively. Let’s add another eleme
 to our view:</p>
 <pre><code class="language-rust">&lt;progress
     max="50"
-    // signals are functions, so "value=count」 and 「value=move || count.get()"
+    // signals are functions, so "value=count" and "value=move || count.get()"
     // are interchangeable.
     value=count
 /&gt;</code></pre>
-<p>Now every time we set the count, not only will the "class」 of the 「<button>" be
-toggled, but the "value」 of the 「<progress>" bar will increase, which means that
+<p>Now every time we set the count, not only will the "class" of the "<button>" be
+toggled, but the "value" of the "<progress>" bar will increase, which means that
 our progress bar will move forward.</p>
 <h2 id="derived-signals"><a class="header" href="#derived-signals">Derived Signals</a></h2>
 <p>Let’s go one layer deeper, just for fun.</p>
@@ -285,13 +285,13 @@ using a <strong>derived signal</strong>: a closure that accesses a signal.</p>
 <p>Derived signals let you create reactive computed values that can be used in multiple
 places in your application with minimal overhead.</p>
 <p>Note: Using a derived signal like this means that the calculation runs once per
-signal change (when "count()」 changes) and once per place we access 「double_count";
+signal change (when "count()" changes) and once per place we access "double_count";
 in other words, twice. This is a very cheap calculation, so that’s fine.
 We’ll look at memos in a later chapter, which were designed to solve this problem
 for expensive calculations.</p>
 <blockquote>
 <h4 id="advanced-topic-injecting-raw-html"><a class="header" href="#advanced-topic-injecting-raw-html">Advanced Topic: Injecting Raw HTML</a></h4>
-<p>The "view」 macro provides support for an additional attribute, 「inner_html", which
+<p>The "view" macro provides support for an additional attribute, "inner_html", which
 can be used to directly set the HTML contents of any element, wiping out any other
 children you’ve given it. Note that this does <em>not</em> escape the HTML you provide. You
 should make sure that it only contains trusted input or that any HTML entities are
@@ -338,7 +338,7 @@ fn App() -&gt; impl IntoView {
                 *set_count.write() += 1;
             }
             // the class: syntax reactively updates a single class
-            // here, we'll set the "red」 class when 「count" is odd
+            // here, we'll set the "red" class when "count" is odd
             class:red=move || count.get() % 2 == 1
             class=("button-20", move || count.get() % 2 == 1)
         &gt;
@@ -354,7 +354,7 @@ fn App() -&gt; impl IntoView {
 
             // passing a function to an attribute
             // reactively sets that attribute
-            // signals are functions, so "value=count」 and 「value=move || count.get()"
+            // signals are functions, so "value=count" and "value=move || count.get()"
             // are interchangeable.
             value=count
         &gt;
@@ -427,6 +427,22 @@ fn main() {
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

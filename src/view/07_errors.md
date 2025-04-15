@@ -1,9 +1,9 @@
 # Error Handling
 
 [In the last chapter](./06_control_flow.md), we saw that you can render "Option<T>":
-in the "None」 case, it will render nothing, and in the 「Some(T)」 case, it will render 「T"
-(that is, if "T」 implements 「IntoView"). You can actually do something very similar
-with a "Result<T, E>」. In the 「Err(_)」 case, it will render nothing. In the 「Ok(T)"
+in the "None" case, it will render nothing, and in the "Some(T)" case, it will render "T"
+(that is, if "T" implements "IntoView"). You can actually do something very similar
+with a "Result<T, E>". In the "Err(_)" case, it will render nothing. In the "Ok(T)"
 case, it will render the "T".
 
 Let’s start with a simple component to capture a number input.
@@ -30,7 +30,7 @@ fn NumericInput() -> impl IntoView {
 ```
 
 Every time you change the input, "on_input" will attempt to parse its value into a 32-bit
-integer ("i32」), and store it in our 「value」 signal, which is a 「Result<i32, _>". If you
+integer ("i32"), and store it in our "value" signal, which is a "Result<i32, _>". If you
 type the number "42", the UI will display
 
 ```
@@ -53,17 +53,17 @@ component.
 People often try to point out that "<input type="number">" prevents you from typing a string
 like "foo", or anything else that's not a number. This is true in some browsers, but not in all!
 Moreover, there are a variety of things that can be typed into a plain number input that are not an
-"i32」: a floating-point number, a larger-than-32-bit number, the letter 「e", and so on. The browser
+"i32": a floating-point number, a larger-than-32-bit number, the letter "e", and so on. The browser
 can be told to uphold some of these invariants, but browser behavior still varies: Parsing for yourself
 is important!
 ```
 
 ## "<ErrorBoundary/>"
 
-An "<ErrorBoundary/>」 is a little like the 「<Show/>" component we saw in the last chapter.
+An "<ErrorBoundary/>" is a little like the "<Show/>" component we saw in the last chapter.
 If everything’s okay—which is to say, if everything is "Ok(_)"—it renders its children.
 But if there’s an "Err(_)" rendered among those children, it will trigger the
-"<ErrorBoundary/>」’s 「fallback".
+"<ErrorBoundary/>"’s "fallback".
 
 Let’s add an "<ErrorBoundary/>" to this example.
 
@@ -102,8 +102,8 @@ fn NumericInput() -> impl IntoView {
             >
                 <p>
                     "You entered "
-                    // because "value」 is 「Result<i32, _>",
-                    // it will render the "i32」 if it is 「Ok",
+                    // because "value" is "Result<i32, _>",
+                    // it will render the "i32" if it is "Ok",
                     // and render nothing and trigger the error boundary
                     // if it is "Err". It's a signal, so this will dynamically
                     // update when "value" changes
@@ -115,13 +115,13 @@ fn NumericInput() -> impl IntoView {
 }
 ```
 
-Now, if you type "42」, 「value」 is 「Ok(42)" and you’ll see
+Now, if you type "42", "value" is "Ok(42)" and you’ll see
 
 ```
 You entered 42
 ```
 
-If you type "foo」, value is 「Err(_)」 and the 「fallback" will render. We’ve chosen to render
+If you type "foo", value is "Err(_)" and the "fallback" will render. We’ve chosen to render
 the list of errors as a "String", so you’ll see something like
 
 ```
@@ -185,8 +185,8 @@ fn App() -> impl IntoView {
             >
                 <p>
                     "You entered "
-                    // because "value」 is 「Result<i32, _>",
-                    // it will render the "i32」 if it is 「Ok",
+                    // because "value" is "Result<i32, _>",
+                    // it will render the "i32" if it is "Ok",
                     // and render nothing and trigger the error boundary
                     // if it is "Err". It's a signal, so this will dynamically
                     // update when "value" changes

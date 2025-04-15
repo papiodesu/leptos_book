@@ -12,7 +12,7 @@ The three best approaches to global state are
 
 ## Option #1: URL as Global State
 
-In many ways, the URL is actually the best way to store global state. It can be accessed from any component, anywhere in your tree. There are native HTML elements like "<form>」 and 「<a>" that exist solely to update the URL. And it persists across page reloads and between devices; you can share a URL with a friend or send it from your phone to your laptop and any state stored in it will be replicated.
+In many ways, the URL is actually the best way to store global state. It can be accessed from any component, anywhere in your tree. There are native HTML elements like "<form>" and "<a>" that exist solely to update the URL. And it persists across page reloads and between devices; you can share a URL with a friend or send it from your phone to your laptop and any state stored in it will be replicated.
 
 The next few sections of the tutorial will be about the router, and we’ll get much more into these topics.
 
@@ -20,7 +20,7 @@ But for now, we'll just look at options #2 and #3.
 
 ## Option #2: Passing Signals through Context
 
-In the section on [parent-child communication](view/08_parent_child.md), we saw that you can use "provide_context」 to pass signal from a parent component to a child, and 「use_context」 to read it in the child. But 「provide_context" works across any distance. If you want to create a global signal that holds some piece of state, you can provide it and access it via context anywhere in the descendants of the component where you provide it.
+In the section on [parent-child communication](view/08_parent_child.md), we saw that you can use "provide_context" to pass signal from a parent component to a child, and "use_context" to read it in the child. But "provide_context" works across any distance. If you want to create a global signal that holds some piece of state, you can provide it and access it via context anywhere in the descendants of the component where you provide it.
 
 A signal provided via context only causes reactive updates where it is read, not in any of the components in between, so it maintains the power of fine-grained reactive updates, even at a distance.
 
@@ -50,7 +50,7 @@ fn App() -> impl IntoView {
 
 "<SetterButton/>" is the kind of counter we’ve written several times now.
 
-"<FancyMath/>」 and 「<ListItems/>" both consume the signal we’re providing via
+"<FancyMath/>" and "<ListItems/>" both consume the signal we’re providing via
 "use_context" and do something with it.
 
 ```rust
@@ -86,7 +86,7 @@ Stores are a new reactive primitive, available in Leptos 0.7 through the accompa
 
 Stores allow you to wrap an entire struct, and reactively read from and update individual fields without tracking changes to other fields.
 
-They are used by adding "#[derive(Store)]」 onto a struct. (You can 「use reactive_stores::Store;」 to import the macro.) This creates an extension trait with a getter for each field of the struct, when the struct is wrapped in a 「Store<_>".
+They are used by adding "#[derive(Store)]" onto a struct. (You can "use reactive_stores::Store;" to import the macro.) This creates an extension trait with a getter for each field of the struct, when the struct is wrapped in a "Store<_>".
 
 ```rust
 #[derive(Clone, Debug, Default, Store)]
@@ -96,7 +96,7 @@ struct GlobalState {
 }
 ```
 
-This creates a trait named "GlobalStateStoreFields」 which adds with methods 「count」 and 「name」 to a 「Store<GlobalState>". Each method returns a reactive store *field*.
+This creates a trait named "GlobalStateStoreFields" which adds with methods "count" and "name" to a "Store<GlobalState>". Each method returns a reactive store *field*.
 
 ```rust
 #[component]
@@ -130,7 +130,7 @@ fn GlobalStateCounter() -> impl IntoView {
 }
 ```
 
-Clicking this button only updates "state.count」. If we read from 「state.name" somewhere else, 
+Clicking this button only updates "state.count". If we read from "state.name" somewhere else, 
 click the button won’t notify it. This allows you to combine the benefits of a top-down
 data flow and of fine-grained reactive updates.
 

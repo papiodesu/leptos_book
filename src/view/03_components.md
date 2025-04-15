@@ -92,13 +92,13 @@ fn App() -> impl IntoView {
 
 Using a component in the view looks a lot like using an HTML element. You’ll
 notice that you can easily tell the difference between an element and a component
-because components always have "PascalCase」 names. You pass the 「progress" prop
+because components always have "PascalCase" names. You pass the "progress" prop
 in as if it were an HTML element attribute. Simple.
 
 ### Reactive and Static Props
 
 You’ll notice that throughout this example, "progress" takes a reactive
-"ReadSignal<i32>」, and not a plain 「i32". This is **very important**.
+"ReadSignal<i32>", and not a plain "i32". This is **very important**.
 
 Component props have no special meaning attached to them. A component is simply
 a function that runs once to set up the user interface. The only way to tell the
@@ -129,10 +129,10 @@ fn ProgressBar(
 }
 ```
 
-Now, we can use "<ProgressBar max=50 progress=count/>」, or we can omit 「max"
+Now, we can use "<ProgressBar max=50 progress=count/>", or we can omit "max"
 to use the default value (i.e., "<ProgressBar progress=count/>"). The default value
-on an "optional」 is its 「Default::default()」 value, which for a 「u16" is going to
-be "0」. In the case of a progress bar, a max value of 「0" is not very useful.
+on an "optional" is its "Default::default()" value, which for a "u16" is going to
+be "0". In the case of a progress bar, a max value of "0" is not very useful.
 
 So let’s give it a particular default value instead.
 
@@ -160,8 +160,8 @@ fn ProgressBar(
 ### Generic Props
 
 This is great. But we began with two counters, one driven by "count", and one by
-the derived signal "double_count」. Let’s recreate that by using 「double_count"
-as the "progress」 prop on another 「<ProgressBar/>".
+the derived signal "double_count". Let’s recreate that by using "double_count"
+as the "progress" prop on another "<ProgressBar/>".
 
 ```rust,compile_fail
 #[component]
@@ -181,8 +181,8 @@ fn App() -> impl IntoView {
 ```
 
 Hm... this won’t compile. It should be pretty easy to understand why: we’ve declared
-that the "progress」 prop takes 「ReadSignal<i32>」, and 「double_count" is not
-"ReadSignal<i32>」. As rust-analyzer will tell you, its type is 「|| -> i32", i.e.,
+that the "progress" prop takes "ReadSignal<i32>", and "double_count" is not
+"ReadSignal<i32>". As rust-analyzer will tell you, its type is "|| -> i32", i.e.,
 it’s a closure that returns an "i32".
 
 There are a couple ways to handle this. One would be to say: “Well, I know that
@@ -211,9 +211,9 @@ fn ProgressBar(
 }
 ```
 
-> Generic props can also be specified using a "where」 clause, or using inline generics like 「ProgressBar<F: Fn() -> i32 + 'static>".
+> Generic props can also be specified using a "where" clause, or using inline generics like "ProgressBar<F: Fn() -> i32 + 'static>".
 
-Generics need to be used somewhere in the component props. This is because props are built into a struct, so all generic types must be used somewhere in the struct. This is often easily accomplished using an optional "PhantomData」 prop. You can then specify a generic in the view using the syntax for expressing types: 「<Component<T>/>」 (not with the turbofish-style 「<Component::<T>/>").
+Generics need to be used somewhere in the component props. This is because props are built into a struct, so all generic types must be used somewhere in the struct. This is often easily accomplished using an optional "PhantomData" prop. You can then specify a generic in the view using the syntax for expressing types: "<Component<T>/>" (not with the turbofish-style "<Component::<T>/>").
 
 ```rust
 #[component]
@@ -234,7 +234,7 @@ pub fn App() -> impl IntoView {
 
 ### "into" Props
 
-If you’re on stable Rust, signals don’t directly implement "Fn()」. We could wrap the signal in a closure (「move || progress.get()")
+If you’re on stable Rust, signals don’t directly implement "Fn()". We could wrap the signal in a closure ("move || progress.get()")
 but that’s a bit messy.
 
 There’s another way we could implement this, and it would be to use "#[prop(into)]".
@@ -242,7 +242,7 @@ This attribute automatically calls ".into()" on the values you pass as props,
 which allows you to easily pass props with different values.
 
 In this case, it’s helpful to know about the
-["Signal」](https://docs.rs/leptos/latest/leptos/reactive/wrappers/read/struct.Signal.html) type. 「Signal"
+["Signal"](https://docs.rs/leptos/latest/leptos/reactive/wrappers/read/struct.Signal.html) type. "Signal"
 is an enumerated type that represents any kind of readable reactive signal, or a plain value.
 It can be useful when defining APIs for components you’ll want to reuse while passing
 different sorts of signals.
@@ -274,9 +274,9 @@ fn App() -> impl IntoView {
         <button on:click=move |_| *set_count.write() += 1>
             "Click me"
         </button>
-        // .into() converts "ReadSignal」 to 「Signal"
+        // .into() converts "ReadSignal" to "Signal"
         <ProgressBar progress=count/>
-        // use "Signal::derive()」 to wrap a derived signal with the 「Signal" type
+        // use "Signal::derive()" to wrap a derived signal with the "Signal" type
         <ProgressBar progress=Signal::derive(double_count)/>
     }
 }
@@ -314,7 +314,7 @@ Rust helpfully gives the error
 
 ```
 xx |         <ProgressBar/>
-   |          ^^^^^^^^^^^ cannot infer type of the type parameter "F」 declared on the function 「ProgressBar"
+   |          ^^^^^^^^^^^ cannot infer type of the type parameter "F" declared on the function "ProgressBar"
    |
 help: consider specifying the generic argument
    |
@@ -322,9 +322,9 @@ xx |         <ProgressBar::<F>/>
    |                     +++++
 ```
 
-You can specify generics on components with a "<ProgressBar<F>/>」 syntax (no turbofish in the 「view" macro). Specifying the correct type here is not possible; closures and functions in general are unnameable types. The compiler can display them with a shorthand, but you can’t specify them.
+You can specify generics on components with a "<ProgressBar<F>/>" syntax (no turbofish in the "view" macro). Specifying the correct type here is not possible; closures and functions in general are unnameable types. The compiler can display them with a shorthand, but you can’t specify them.
 
-However, you can get around this by providing a concrete type using "Box<dyn _>」 or 「&dyn _":
+However, you can get around this by providing a concrete type using "Box<dyn _>" or "&dyn _":
 
 ```rust
 #[component]
@@ -390,9 +390,9 @@ and see the power of the "#[component]" macro combined with rust-analyzer here.
 
 ## Spreading Attributes onto Components
 
-Sometimes you want users to be able to add additional attributes to a component. For example, you might want users to be able to add their own "class」 or 「id" attributes for styling or other purposes.
+Sometimes you want users to be able to add additional attributes to a component. For example, you might want users to be able to add their own "class" or "id" attributes for styling or other purposes.
 
-You _could_ do this by creating "class」 or 「id" props that you then apply to the appropriate element. But Leptos also supports “spreading” additional attributes onto components. Attributes added to a component will be applied to all top-level HTML elements returned from its view.
+You _could_ do this by creating "class" or "id" props that you then apply to the appropriate element. But Leptos also supports “spreading” additional attributes onto components. Attributes added to a component will be applied to all top-level HTML elements returned from its view.
 
 ```rust
 // you can create attribute lists by using the view macro with a spread {..} as the tag name
@@ -498,7 +498,7 @@ fn App() -> impl IntoView {
         <br/>
         // If you have this open in CodeSandbox or an editor with
         // rust-analyzer support, try hovering over "ProgressBar",
-        // "max」, or 「progress" to see the docs we defined above
+        // "max", or "progress" to see the docs we defined above
         <ProgressBar max=50 progress=count/>
         // Let's use the default max value on this one
         // the default is 100, so it should move half as fast

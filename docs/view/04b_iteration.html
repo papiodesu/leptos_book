@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -220,9 +220,9 @@ pub fn App() -&gt; impl IntoView {
     }
 }</code></pre>
 <blockquote>
-<p>Note the "let(child)」 syntax here. In the previous chapter we introduced 「<For/>"
+<p>Note the "let(child)" syntax here. In the previous chapter we introduced "<For/>"
 with a "children" prop. We can actually create this value directly in the children
-of the "<For/>」 component, without breaking out of the 「view」 macro: the 「let:child"
+of the "<For/>" component, without breaking out of the "view" macro: the "let:child"
 combined with "<p>{child.value}</p>" above is the equivalent of</p>
 <pre><code class="language-rust">children=|child| view! { &lt;p&gt;{child.value}&lt;/p&gt; }</code></pre>
 <p>For convenience, you can also choose to destructure the pattern of your data:</p>
@@ -241,7 +241,7 @@ Let’s try "{move || child.value}".</p>
 <p>Here’s the problem: as I said, each row is only rerendered when the key changes.
 We’ve updated the value for each row, but not the key for any of the rows, so
 nothing has rerendered. And if you look at the type of "child.value", it’s a plain
-"i32」, not a reactive 「ReadSignal<i32>" or something. This means that even if we
+"i32", not a reactive "ReadSignal<i32>" or something. This means that even if we
 wrap a closure around it, the value in this row will never update.</p>
 <p>We have three possible solutions:</p>
 <ol>
@@ -263,8 +263,8 @@ because the key didn’t change. So: why not just force the key to change?</p>
 value of a row changes, "<For/>" will treat it as if it’s an entirely new row, and
 replace the previous one.</p>
 <h3 id="pros"><a class="header" href="#pros">Pros</a></h3>
-<p>This is very easy. We can make it even easier by deriving "PartialEq」, 「Eq」, and 「Hash"
-on "DatabaseEntry」, in which case we could just 「key=|state| state.clone()".</p>
+<p>This is very easy. We can make it even easier by deriving "PartialEq", "Eq", and "Hash"
+on "DatabaseEntry", in which case we could just "key=|state| state.clone()".</p>
 <h3 id="cons"><a class="header" href="#cons">Cons</a></h3>
 <p><strong>This is the least efficient of the three options.</strong> Every time the value of a row
 changes, it throws out the previous "<p>" element and replaces it with an entirely new
@@ -327,13 +327,13 @@ pub fn App() -&gt; impl IntoView {
 see that unlike in the previous version, in this version only the individual text
 nodes are updated. Passing the signal directly into "{child.value}" works, as
 signals do keep their reactivity if you pass them into the view.</p>
-<p>Note that I changed the "set_data.update()」 to a 「data.read()」. 「.read()" is a
+<p>Note that I changed the "set_data.update()" to a "data.read()". ".read()" is a
 non-cloning way of accessing a signal’s value. In this case, we are only updating
 the inner values, not updating the list of values: because signals maintain their
 own state, we don’t actually need to update the "data" signal at all, so the immutable
 ".read()" is fine here.</p>
 <blockquote>
-<p>In fact, this version doesn’t update "data」, so the 「<For/>" is essentially a static
+<p>In fact, this version doesn’t update "data", so the "<For/>" is essentially a static
 list as in the last chapter, and this could just be a plain iterator. But the "<For/>"
 is useful if we want to add or remove rows in the future.</p>
 </blockquote>
@@ -368,8 +368,8 @@ will be updated to this:</p>
 <p>You’ll notice a few differences here:</p>
 <ul>
 <li>we convert the "data" signal into an enumerated iterator</li>
-<li>we use the "children」 prop explicitly, to make it easier to run some non-「view" code</li>
-<li>we define a "value」 memo and use that in the view. This 「value" field doesn’t actually
+<li>we use the "children" prop explicitly, to make it easier to run some non-"view" code</li>
+<li>we define a "value" memo and use that in the view. This "value" field doesn’t actually
 use the "child" being passed into each row. Instead, it uses the index and reaches back
 into the original "data" to get the value.</li>
 </ul>
@@ -381,9 +381,9 @@ wrap the data in signals.</p>
 <h3 id="cons-2"><a class="header" href="#cons-2">Cons</a></h3>
 <p>It’s a bit more complex to set up this memo-per-row inside the "<For/>" loop rather than
 using nested signals. For example, you’ll notice that we have to guard against the possibility
-that the "data[index]」 would panic by using 「data.get(index)", because this memo may be
+that the "data[index]" would panic by using "data.get(index)", because this memo may be
 triggered to re-run once just after the row is removed. (This is because the memo for each row
-and the whole "<For/>」 both depend on the same 「data" signal, and the order of execution for
+and the whole "<For/>" both depend on the same "data" signal, and the order of execution for
 multiple reactive values that depend on the same signal isn’t guaranteed.)</p>
 <p>Note also that while memos memoize their reactive changes, the same
 calculation does need to re-run to check the value every time, so nested reactive signals
@@ -393,11 +393,11 @@ will still be more efficient for pinpoint updates here.</p>
 <p>Some of this content is duplicated in the section on global state management with stores <a href="../15_global_state.html#option-3-create-a-global-state-store">here</a>. Both sections are intermediate/optional content, so I thought some duplication couldn’t hurt.</p>
 </blockquote>
 <p>Leptos 0.7 introduces a new reactive primitive called “stores.” Stores are designed to address
-the issues described in this chapter so far. They’re a bit experimental, so they require an additional dependency called "reactive_stores」 in your 「Cargo.toml".</p>
+the issues described in this chapter so far. They’re a bit experimental, so they require an additional dependency called "reactive_stores" in your "Cargo.toml".</p>
 <p>Stores give you fine-grained reactive access to the individual fields of a struct, and to individual items in collections like "Vec&lt;_&gt;", without needing to create nested signals or memos manually, as in the options given above.</p>
-<p>Stores are built on top of the "Store」 derive macro, which creates a getter for each field of a struct. Calling this getter gives reactive access to that particular field. Reading from it will track only that field and its parents/children, and updating it will only notify that field and its parents/children, but not siblings. In other words, mutating 「value」 will not notify 「key", and so on.</p>
+<p>Stores are built on top of the "Store" derive macro, which creates a getter for each field of a struct. Calling this getter gives reactive access to that particular field. Reading from it will track only that field and its parents/children, and updating it will only notify that field and its parents/children, but not siblings. In other words, mutating "value" will not notify "key", and so on.</p>
 <p>We can adapt the data types we used in the examples above.</p>
-<p>The top level of a store always needs to be a struct, so we’ll create a "Data」 wrapper with a single 「rows" field.</p>
+<p>The top level of a store always needs to be a struct, so we’ll create a "Data" wrapper with a single "rows" field.</p>
 <pre><code class="language-rust">#[derive(Store, Debug, Clone)]
 pub struct Data {
     #[store(key: String = |row| row.key.clone())]
@@ -409,7 +409,7 @@ struct DatabaseEntry {
     key: String,
     value: i32,
 }</code></pre>
-<p>Adding "#[store(key)]」 to the 「rows」 field allows us to have keyed access to the fields of the store, which will be useful in the 「<For/>」 component below. We can simply use 「key」, the same key that we’ll use in 「<For/>".</p>
+<p>Adding "#[store(key)]" to the "rows" field allows us to have keyed access to the fields of the store, which will be useful in the "<For/>" component below. We can simply use "key", the same key that we’ll use in "<For/>".</p>
 <p>The "<For/>" component is pretty straightforward:</p>
 <pre><code class="language-rust">&lt;For
     each=move || data.rows()
@@ -419,9 +419,9 @@ struct DatabaseEntry {
         view! { &lt;p&gt;{move || value.get()}&lt;/p&gt; }
     }
 /&gt;</code></pre>
-<p>Because "rows」 is a keyed field, it implements 「IntoIterator」, and we can simply use 「move || data.rows()」 as the 「each」 prop. This will react to any changes to the 「rows」 list, just as 「move || data.get()" did in our nested-signal version.</p>
-<p>The "key」 field calls 「.read()」 to get access to the current value of the row, then clones and returns the 「key" field.</p>
-<p>In "children」 prop, calling 「child.value()」 gives us reactive access to the 「value」 field for the row with this key. If rows are reordered, added, or removed, the keyed store field will keep in sync so that this 「value" is always associated with the correct key.</p>
+<p>Because "rows" is a keyed field, it implements "IntoIterator", and we can simply use "move || data.rows()" as the "each" prop. This will react to any changes to the "rows" list, just as "move || data.get()" did in our nested-signal version.</p>
+<p>The "key" field calls ".read()" to get access to the current value of the row, then clones and returns the "key" field.</p>
+<p>In "children" prop, calling "child.value()" gives us reactive access to the "value" field for the row with this key. If rows are reordered, added, or removed, the keyed store field will keep in sync so that this "value" is always associated with the correct key.</p>
 <p>In the update button handler, we’ll iterate over the entries in "rows", updating each one:</p>
 <pre><code class="language-rust">for row in data.rows().iter_unkeyed() {
     *row.value().write() *= 2;
@@ -528,6 +528,22 @@ pub fn App() -&gt; impl IntoView {
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

@@ -15,7 +15,7 @@ Leptos supports two different patterns for iterating over items:
 Sometimes you need to show an item repeatedly, but the list you’re drawing from
 does not often change. In this case, it’s important to know that you can insert
 any "Vec<IV> where IV: IntoView" into your view. In other words, if you can render
-"T」, you can render 「Vec<T>".
+"T", you can render "Vec<T>".
 
 ```rust
 let values = vec![0, 1, 2];
@@ -31,7 +31,7 @@ view! {
 }
 ```
 
-Leptos also provides a ".collect_view()」 helper function that allows you to collect any iterator of 「T: IntoView」 into 「Vec<View>".
+Leptos also provides a ".collect_view()" helper function that allows you to collect any iterator of "T: IntoView" into "Vec<View>".
 
 ```rust
 let values = vec![0, 1, 2];
@@ -98,9 +98,9 @@ Luckily, there’s an efficient way to do keyed list iteration, as well.
 The ["<For/>"](https://docs.rs/leptos/latest/leptos/control_flow/fn.For.html) component is a
 keyed dynamic list. It takes three props:
 
-- "each」: a reactive function that returns the items 「T" to be iterated over
-- "key」: a key function that takes 「&T" and returns a stable, unique key or ID
-- "children」: renders each 「T" into a view
+- "each": a reactive function that returns the items "T" to be iterated over
+- "key": a key function that takes "&T" and returns a stable, unique key or ID
+- "children": renders each "T" into a view
 
 "key" is, well, the key. You can add, remove, and move items within the list. As
 long as each item’s key is stable over time, the framework does not need to rerender
@@ -231,7 +231,7 @@ fn DynamicList(
         let sig = ArcRwSignal::new(next_counter_id + 1);
         // add this counter to the list of counters
         set_counters.update(move |counters| {
-            // since ".update()」 gives us 「&mut T"
+            // since ".update()" gives us "&mut T"
             // we can just use normal Vec methods like "push"
             counters.push((next_counter_id, sig))
         });
@@ -257,7 +257,7 @@ fn DynamicList(
                     // can only grow, because moving items around inside the list
                     // means their indices will change and they will all rerender
                     key=|counter| counter.0
-                    // "children」 receives each item from your 「each" iterator
+                    // "children" receives each item from your "each" iterator
                     // and returns a view
                     children=move |(id, count)| {
                         // we can convert our ArcRwSignal to a Copy-able RwSignal

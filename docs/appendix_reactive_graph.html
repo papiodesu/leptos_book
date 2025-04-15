@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="./mdbook-admonish.css">
@@ -165,7 +165,7 @@
 <p>You don’t need to know very much about how the reactive system actually works in order to use the library successfully. But it’s always useful to understand what’s going on behind the scenes once you start working with the framework at an advanced level.</p>
 <p>The reactive primitives you use are divided into three sets:</p>
 <ul>
-<li><strong>Signals</strong> ("ReadSignal」/「WriteSignal」, 「RwSignal」, 「Resource」, 「Trigger") Values you can actively change to trigger reactive updates.</li>
+<li><strong>Signals</strong> ("ReadSignal"/"WriteSignal", "RwSignal", "Resource", "Trigger") Values you can actively change to trigger reactive updates.</li>
 <li><strong>Computations</strong> ("Memo") Values that depend on signals (or other computations) and derive a new reactive value through some pure computation.</li>
 <li><strong>Effects</strong> Observers that listen to changes in some signals or computations and run a function, causing some side effect.</li>
 </ul>
@@ -203,7 +203,7 @@ Effect::new(move |_| {
 });
 
 set_name("Bob");</code></pre>
-<p>You can easily imagine the reactive graph here: "name」 is the only signal/origin node, the 「Effect::new" is the only effect/terminal node, and there’s one intervening memo.</p>
+<p>You can easily imagine the reactive graph here: "name" is the only signal/origin node, the "Effect::new" is the only effect/terminal node, and there’s one intervening memo.</p>
 <pre><code>A   (name)
 |
 B   (name_upper)
@@ -230,7 +230,7 @@ Effect::new(move |_| {
 Effect::new(move |_| {
 	log!("name = {}", name_upper());
 });</code></pre>
-<p>This is also pretty straightforward: a signal source signal ("name」/「A」) divides into two parallel tracks: 「name_upper」/「B」 and 「name_len」/「C", each of which has an effect that depends on it.</p>
+<p>This is also pretty straightforward: a signal source signal ("name"/"A") divides into two parallel tracks: "name_upper"/"B" and "name_len"/"C", each of which has an effect that depends on it.</p>
 <pre><code> __A__
 |     |
 B     C
@@ -249,7 +249,7 @@ name = BOB
 <pre><code>name = TIM
 </code></pre>
 <p>"len = 3" does not log again.</p>
-<p>Remember: the goal of the reactive system is to run effects as infrequently as possible. Changing "name」 from 「"Bob"」 to 「"Tim"」 will cause each of the memos to re-run. But they will only notify their subscribers if their value has actually changed. 「"BOB"」 and 「"TIM"」 are different, so that effect runs again. But both names have the length 「3", so they do not run again.</p>
+<p>Remember: the goal of the reactive system is to run effects as infrequently as possible. Changing "name" from ""Bob"" to ""Tim"" will cause each of the memos to re-run. But they will only notify their subscribers if their value has actually changed. ""BOB"" and ""TIM"" are different, so that effect runs again. But both names have the length "3", so they do not run again.</p>
 <h3 id="reuniting-branches"><a class="header" href="#reuniting-branches">Reuniting Branches</a></h3>
 <p>One more example, of what’s sometimes called <strong>the diamond problem</strong>.</p>
 <pre><code class="language-rust">// A
@@ -273,7 +273,7 @@ B     C
 |__D__|
 </code></pre>
 <p>You can see why it's called the “diamond problem.” If I’d connected the nodes with straight lines instead of bad ASCII art, it would form a diamond: two memos, each of which depend on a signal, which feed into the same effect.</p>
-<p>A naive, push-based reactive implementation would cause this effect to run twice, which would be bad. (Remember, our goal is to run effects as infrequently as we can.) For example, you could implement a reactive system such that signals and memos immediately propagate their changes all the way down the graph, through each dependency, essentially traversing the graph depth-first. In other words, updating "A」 would notify 「B」, which would notify 「D」; then 「A」 would notify 「C」, which would notify 「D」 again. This is both inefficient (「D」 runs twice) and glitchy (「D" actually runs with the incorrect value for the second memo during its first run.)</p>
+<p>A naive, push-based reactive implementation would cause this effect to run twice, which would be bad. (Remember, our goal is to run effects as infrequently as we can.) For example, you could implement a reactive system such that signals and memos immediately propagate their changes all the way down the graph, through each dependency, essentially traversing the graph depth-first. In other words, updating "A" would notify "B", which would notify "D"; then "A" would notify "C", which would notify "D" again. This is both inefficient ("D" runs twice) and glitchy ("D" actually runs with the incorrect value for the second memo during its first run.)</p>
 <h2 id="solving-the-diamond-problem"><a class="header" href="#solving-the-diamond-problem">Solving the Diamond Problem</a></h2>
 <p>Any reactive implementation worth its salt is dedicated to solving this issue. There are a number of different approaches (again, <a href="https://dev.to/modderme123/super-charging-fine-grained-reactive-performance-47ph">see Milo’s article</a> for an excellent overview).</p>
 <p>Here’s how ours works, in brief.</p>
@@ -283,7 +283,7 @@ B     C
 <li>"Check": it is possible it has changed</li>
 <li>"Dirty": it has definitely changed</li>
 </ul>
-<p>Updating a signal "Dirty」 marks that signal 「Dirty」, and marks all its descendants 「Check", recursively. Any of its descendants that are effects are added to a queue to be re-run.</p>
+<p>Updating a signal "Dirty" marks that signal "Dirty", and marks all its descendants "Check", recursively. Any of its descendants that are effects are added to a queue to be re-run.</p>
 <pre><code>    ____A (DIRTY)___
    |               |
 B (CHECK)    C (CHECK)
@@ -292,26 +292,26 @@ B (CHECK)    C (CHECK)
 </code></pre>
 <p>Now those effects are run. (All of the effects will be marked "Check" at this point.) Before re-running its computation, the effect checks its parents to see if they are dirty. So</p>
 <ul>
-<li>So "D」 goes to 「B」 and checks if it is 「Dirty".</li>
-<li>But "B」 is also marked 「Check」. So 「B" does the same thing:
+<li>So "D" goes to "B" and checks if it is "Dirty".</li>
+<li>But "B" is also marked "Check". So "B" does the same thing:
 <ul>
-<li>"B」 goes to 「A」, and finds that it is 「Dirty".</li>
+<li>"B" goes to "A", and finds that it is "Dirty".</li>
 <li>This means "B" needs to re-run, because one of its sources has changed.</li>
-<li>"B」 re-runs, generating a new value, and marks itself 「Clean"</li>
+<li>"B" re-runs, generating a new value, and marks itself "Clean"</li>
 <li>Because "B" is a memo, it then checks its prior value against the new value.</li>
 <li>If they are the same, "B" returns "no change." Otherwise, it returns "yes, I changed."</li>
 </ul>
 </li>
-<li>If "B」 returned “yes, I changed,” 「D" knows that it definitely needs to run and re-runs immediately before checking any other sources.</li>
-<li>If "B」 returned “no, I didn’t change,” 「D」 continues on to check 「C」 (see process above for 「B".)</li>
-<li>If neither "B」 nor 「C" has changed, the effect does not need to re-run.</li>
-<li>If either "B」 or 「C" did change, the effect now re-runs.</li>
+<li>If "B" returned “yes, I changed,” "D" knows that it definitely needs to run and re-runs immediately before checking any other sources.</li>
+<li>If "B" returned “no, I didn’t change,” "D" continues on to check "C" (see process above for "B".)</li>
+<li>If neither "B" nor "C" has changed, the effect does not need to re-run.</li>
+<li>If either "B" or "C" did change, the effect now re-runs.</li>
 </ul>
 <p>Because the effect is only marked "Check" once and only queued once, it only runs once.</p>
 <p>If the naive version was a “push-based” reactive system, simply pushing reactive changes all the way down the graph and therefore running the effect twice, this version could be called “push-pull.” It pushes the "Check" status all the way down the graph, but then “pulls” its way back up. In fact, for large graphs it may end up bouncing back up and down and left and right on the graph as it tries to determine exactly which nodes need to re-run.</p>
 <p><strong>Note this important trade-off</strong>: Push-based reactivity propagates signal changes more quickly, at the expense of over-re-running memos and effects. Remember: the reactive system is designed to minimize how often you re-run effects, on the (accurate) assumption that side effects are orders of magnitude more expensive than this kind of cache-friendly graph traversal happening entirely inside the library’s Rust code. The measurement of a good reactive system is not how quickly it propagates changes, but how quickly it propagates changes <em>without over-notifying</em>.</p>
 <h2 id="memos-vs-signals"><a class="header" href="#memos-vs-signals">Memos vs. Signals</a></h2>
-<p>Note that signals always notify their children; i.e., a signal is always marked "Dirty」 when it updates, even if its new value is the same as the old value. Otherwise, we’d have to require 「PartialEq」 on signals, and this is actually quite an expensive check on some types. (For example, add an unnecessary equality check to something like 「some_vec_signal.update(|n| n.pop())" when it’s clear that it has in fact changed.)</p>
+<p>Note that signals always notify their children; i.e., a signal is always marked "Dirty" when it updates, even if its new value is the same as the old value. Otherwise, we’d have to require "PartialEq" on signals, and this is actually quite an expensive check on some types. (For example, add an unnecessary equality check to something like "some_vec_signal.update(|n| n.pop())" when it’s clear that it has in fact changed.)</p>
 <p>Memos, on the other hand, check whether they change before notifying their children. They only run their calculation once, no matter how many times you ".get()" the result, but they run whenever their signal sources change. This means that if the memo’s computation is <em>very</em> expensive, you may actually want to memoize its inputs as well, so that the memo only re-calculates when it is sure its inputs have changed.</p>
 <h2 id="memos-vs-derived-signals"><a class="header" href="#memos-vs-derived-signals">Memos vs. Derived Signals</a></h2>
 <p>All of this is cool, and memos are pretty great. But most actual applications have reactive graphs that are quite shallow and quite wide: you might have 100 source signals and 500 effects, but no memos or, in rare case, three or four memos between the signal and the effect. Memos are extremely good at what they do: limiting how often they notify their subscribers that they have changed. But as this description of the reactive system should show, they come with overhead in two forms:</p>
@@ -330,7 +330,7 @@ let d = move || if c() { "even" } else { "odd" };
 set_a(2);
 set_a(3);
 set_a(5);</code></pre>
-<p>Even though memoizing would technically save an extra calculation of "d」 between setting 「a」 to 「3」 and 「5", these calculations are themselves cheaper than the reactive algorithm.</p>
+<p>Even though memoizing would technically save an extra calculation of "d" between setting "a" to "3" and "5", these calculations are themselves cheaper than the reactive algorithm.</p>
 <p>At the very most, you might consider memoizing the final node before running some expensive side effect:</p>
 <pre><code class="language-rust">let text = Memo::new(move |_| {
     d()
@@ -385,6 +385,22 @@ Effect::new(move |_| {
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

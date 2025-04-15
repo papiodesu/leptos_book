@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -175,7 +175,7 @@ tasks for a framework to handle well.</p>
 <p>Sometimes you need to show an item repeatedly, but the list you’re drawing from
 does not often change. In this case, it’s important to know that you can insert
 any "Vec<IV> where IV: IntoView" into your view. In other words, if you can render
-"T」, you can render 「Vec<T>".</p>
+"T", you can render "Vec<T>".</p>
 <pre><code class="language-rust">let values = vec![0, 1, 2];
 view! {
     // this will just render "012"
@@ -187,7 +187,7 @@ view! {
             .collect::&lt;Vec&lt;_&gt;&gt;()}
     &lt;/ul&gt;
 }</code></pre>
-<p>Leptos also provides a ".collect_view()」 helper function that allows you to collect any iterator of 「T: IntoView」 into 「Vec<View>".</p>
+<p>Leptos also provides a ".collect_view()" helper function that allows you to collect any iterator of "T: IntoView" into "Vec<View>".</p>
 <pre><code class="language-rust">let values = vec![0, 1, 2];
 view! {
     // this will just render "012"
@@ -240,9 +240,9 @@ vs. “unkeyed” distinction, and some practical examples, you can read
 <p>The <a href="https://docs.rs/leptos/latest/leptos/control_flow/fn.For.html">"<For/>"</a> component is a
 keyed dynamic list. It takes three props:</p>
 <ul>
-<li>"each」: a reactive function that returns the items 「T" to be iterated over</li>
-<li>"key」: a key function that takes 「&amp;T" and returns a stable, unique key or ID</li>
-<li>"children」: renders each 「T" into a view</li>
+<li>"each": a reactive function that returns the items "T" to be iterated over</li>
+<li>"key": a key function that takes "&amp;T" and returns a stable, unique key or ID</li>
+<li>"children": renders each "T" into a view</li>
 </ul>
 <p>"key" is, well, the key. You can add, remove, and move items within the list. As
 long as each item’s key is stable over time, the framework does not need to rerender
@@ -370,7 +370,7 @@ fn DynamicList(
         let sig = ArcRwSignal::new(next_counter_id + 1);
         // add this counter to the list of counters
         set_counters.update(move |counters| {
-            // since ".update()」 gives us 「&amp;mut T"
+            // since ".update()" gives us "&amp;mut T"
             // we can just use normal Vec methods like "push"
             counters.push((next_counter_id, sig))
         });
@@ -396,7 +396,7 @@ fn DynamicList(
                     // can only grow, because moving items around inside the list
                     // means their indices will change and they will all rerender
                     key=|counter| counter.0
-                    // "children」 receives each item from your 「each" iterator
+                    // "children" receives each item from your "each" iterator
                     // and returns a view
                     children=move |(id, count)| {
                         // we can convert our ArcRwSignal to a Copy-able RwSignal
@@ -481,6 +481,22 @@ fn main() {
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

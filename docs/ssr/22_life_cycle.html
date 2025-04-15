@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -173,13 +173,13 @@
 <h2 id="on-the-server"><a class="header" href="#on-the-server">On the Server</a></h2>
 <ul>
 <li>Your browser makes a "GET" request for that URL to your server. At this point, the browser knows almost nothing about the page that’s going to be rendered. (The question “How does the browser know where to ask for the page?” is an interesting one, but out of the scope of this tutorial!)</li>
-<li>The server receives that request, and checks whether it has a way to handle a "GET」 request at that path. This is what the 「.leptos_routes()」 methods in <a href="https://docs.rs/leptos_axum/latest/leptos_axum/trait.LeptosRoutes.html">「leptos_axum」</a> and <a href="https://docs.rs/leptos_actix/latest/leptos_actix/trait.LeptosRoutes.html">「leptos_actix」</a> are for. When the server starts up, these methods walk over the routing structure you provide in 「<Routes/>", generating a list of all possible routes your app can handle and telling the server’s router “for each of these routes, if you get a request... hand it off to Leptos.”</li>
+<li>The server receives that request, and checks whether it has a way to handle a "GET" request at that path. This is what the ".leptos_routes()" methods in <a href="https://docs.rs/leptos_axum/latest/leptos_axum/trait.LeptosRoutes.html">"leptos_axum"</a> and <a href="https://docs.rs/leptos_actix/latest/leptos_actix/trait.LeptosRoutes.html">"leptos_actix"</a> are for. When the server starts up, these methods walk over the routing structure you provide in "<Routes/>", generating a list of all possible routes your app can handle and telling the server’s router “for each of these routes, if you get a request... hand it off to Leptos.”</li>
 <li>The server sees that this route can be handled by Leptos. So it renders your root component (often called something like "<App/>"), providing it with the URL that’s being requested and some other data like the HTTP headers and request metadata.</li>
 <li>Your application runs once on the server, building up an HTML version of the component tree that will be rendered at that route. (There’s more to be said here about resources and "<Suspense/>" in the next chapter.)</li>
 <li>The server returns this HTML page, also injecting information on how to load the version of your app that has been compiled to WASM so that it can run in the browser.</li>
 </ul>
 <blockquote>
-<p>The HTML page that’s returned is essentially your app, “dehydrated” or “freeze-dried”: it is HTML without any of the reactivity or event listeners you’ve added. The browser will “rehydrate” this HTML page by adding the reactive system and attaching event listeners to that server-rendered HTML. Hence the two feature flags that apply to the two halves of this process: "ssr」 on the server for “server-side rendering”, and 「hydrate" in the browser for that process of rehydration.</p>
+<p>The HTML page that’s returned is essentially your app, “dehydrated” or “freeze-dried”: it is HTML without any of the reactivity or event listeners you’ve added. The browser will “rehydrate” this HTML page by adding the reactive system and attaching event listeners to that server-rendered HTML. Hence the two feature flags that apply to the two halves of this process: "ssr" on the server for “server-side rendering”, and "hydrate" in the browser for that process of rehydration.</p>
 </blockquote>
 <h2 id="in-the-browser"><a class="header" href="#in-the-browser">In the Browser</a></h2>
 <ul>
@@ -195,7 +195,7 @@
 <p>The next step is very important. Imagine that the user now clicks a link to navigate to another page in your application.</p>
 <p>The browser will <em>not</em> make another round trip to the server, reloading the full page as it would for navigating between plain HTML pages or an application that uses server rendering (for example with PHP) but without a client-side half.</p>
 <p>Instead, the WASM version of your app will load the new page, right there in the browser, without requesting another page from the server. Essentially, your app upgrades itself from a server-loaded “multi-page app” into a browser-rendered “single-page app.” This yields the best of both worlds: a fast initial load time due to the server-rendered HTML, and fast secondary navigations because of the client-side routing.</p>
-<p>Some of what will be described in the following chapters—like the interactions between server functions, resources, and "<Suspense/>」—may seem overly complicated. You might find yourself asking, “If my page is being rendered to HTML on the server, why can’t I just 「.await" this on the server? If I can just call library X in a server function, why can’t I call it in my component?” The reason is pretty simple: to enable the upgrade from server rendering to client rendering, everything in your application must be able to run either on the server or in the browser.</p>
+<p>Some of what will be described in the following chapters—like the interactions between server functions, resources, and "<Suspense/>"—may seem overly complicated. You might find yourself asking, “If my page is being rendered to HTML on the server, why can’t I just ".await" this on the server? If I can just call library X in a server function, why can’t I call it in my component?” The reason is pretty simple: to enable the upgrade from server rendering to client rendering, everything in your application must be able to run either on the server or in the browser.</p>
 <p>This is not the only way to create a website or web framework, of course. But it’s the most common way, and we happen to think it’s quite a good way, to create the smoothest possible experience for your users.</p>
 
                     </main>
@@ -244,6 +244,22 @@
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

@@ -43,9 +43,9 @@ class:red=move || count.get() % 2 == 1
 "class:" attributes take
 
 1. the class name, following the colon ("red")
-2. a value, which can be a "bool」 or a function that returns a 「bool"
+2. a value, which can be a "bool" or a function that returns a "bool"
 
-When the value is "true」, the class is added. When the value is 「false", the class
+When the value is "true", the class is added. When the value is "false", the class
 is removed. And if the value is a function that accesses a signal, the class will
 reactively update when the signal changes.
 
@@ -58,7 +58,7 @@ the number switches between even and odd.
         *set_count.write() += 1;
     }
     // the class: syntax reactively updates a single class
-    // here, we'll set the "red」 class when 「count" is odd
+    // here, we'll set the "red" class when "count" is odd
     class:red=move || count.get() % 2 == 1
 >
     "Click me"
@@ -75,7 +75,7 @@ the number switches between even and odd.
 > </style>
 > ```
 
-Some CSS class names can’t be directly parsed by the "view」 macro, especially if they include a mix of dashes and numbers or other characters. In that case, you can use a tuple syntax: 「class=("name", value)" still directly updates a single class.
+Some CSS class names can’t be directly parsed by the "view" macro, especially if they include a mix of dashes and numbers or other characters. In that case, you can use a tuple syntax: "class=("name", value)" still directly updates a single class.
 
 ```rust
 class=("button-20", move || count.get() % 2 == 1)
@@ -123,14 +123,14 @@ to our view:
 ```rust
 <progress
     max="50"
-    // signals are functions, so "value=count」 and 「value=move || count.get()"
+    // signals are functions, so "value=count" and "value=move || count.get()"
     // are interchangeable.
     value=count
 />
 ```
 
-Now every time we set the count, not only will the "class」 of the 「<button>" be
-toggled, but the "value」 of the 「<progress>" bar will increase, which means that
+Now every time we set the count, not only will the "class" of the "<button>" be
+toggled, but the "value" of the "<progress>" bar will increase, which means that
 our progress bar will move forward.
 
 ## Derived Signals
@@ -171,14 +171,14 @@ Derived signals let you create reactive computed values that can be used in mult
 places in your application with minimal overhead.
 
 Note: Using a derived signal like this means that the calculation runs once per
-signal change (when "count()」 changes) and once per place we access 「double_count";
+signal change (when "count()" changes) and once per place we access "double_count";
 in other words, twice. This is a very cheap calculation, so that’s fine.
 We’ll look at memos in a later chapter, which were designed to solve this problem
 for expensive calculations.
 
 > #### Advanced Topic: Injecting Raw HTML
 >
-> The "view」 macro provides support for an additional attribute, 「inner_html", which
+> The "view" macro provides support for an additional attribute, "inner_html", which
 > can be used to directly set the HTML contents of any element, wiping out any other
 > children you’ve given it. Note that this does _not_ escape the HTML you provide. You
 > should make sure that it only contains trusted input or that any HTML entities are
@@ -228,7 +228,7 @@ fn App() -> impl IntoView {
                 *set_count.write() += 1;
             }
             // the class: syntax reactively updates a single class
-            // here, we'll set the "red」 class when 「count" is odd
+            // here, we'll set the "red" class when "count" is odd
             class:red=move || count.get() % 2 == 1
             class=("button-20", move || count.get() % 2 == 1)
         >
@@ -244,7 +244,7 @@ fn App() -> impl IntoView {
 
             // passing a function to an attribute
             // reactively sets that attribute
-            // signals are functions, so "value=count」 and 「value=move || count.get()"
+            // signals are functions, so "value=count" and "value=move || count.get()"
             // are interchangeable.
             value=count
         >

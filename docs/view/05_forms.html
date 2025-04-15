@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -178,7 +178,7 @@ want "on:input", but we give you the freedom to choose.</li>
 <li>The "value" <em>attribute</em> only sets the initial value of the input, i.e., it
 only updates the input up to the point that you begin typing. The "value"
 <em>property</em> continues updating the input after that. You usually want to set
-"prop:value」 for this reason. (The same is true for 「checked」 and 「prop:checked"
+"prop:value" for this reason. (The same is true for "checked" and "prop:checked"
 on an "<input type="checkbox">".)</li>
 </ol>
 <pre><code class="language-rust">let (name, set_name) = signal("Controlled".to_string());
@@ -202,7 +202,7 @@ view! {
 <h4 id="why-do-you-need-propvalue"><a class="header" href="#why-do-you-need-propvalue">Why do you need "prop:value"?</a></h4>
 <p>Web browsers are the most ubiquitous and stable platform for rendering graphical user interfaces in existence. They have also maintained an incredible backwards compatibility over their three decades of existence. Inevitably, this means there are some quirks.</p>
 <p>One odd quirk is that there is a distinction between HTML attributes and DOM element properties, i.e., between something called an “attribute” which is parsed from HTML and can be set on a DOM element with ".setAttribute()", and something called a “property” which is a field of the JavaScript class representation of that parsed HTML element.</p>
-<p>In the case of an "<input value=...>」, setting the 「value」 <em>attribute</em> is defined as setting the initial value for the input, and setting 「value」 <em>property</em> sets its current value. It may be easier to understand this by opening 「about:blank" and running the following JavaScript in the browser console, line by line:</p>
+<p>In the case of an "<input value=...>", setting the "value" <em>attribute</em> is defined as setting the initial value for the input, and setting "value" <em>property</em> sets its current value. It may be easier to understand this by opening "about:blank" and running the following JavaScript in the browser console, line by line:</p>
 <pre><code class="language-js">// create an input and append it to the DOM
 const el = document.createElement("input");
 document.body.appendChild(el);
@@ -223,7 +223,7 @@ el.value = "But this works";
 <h3 id="simplifying-controlled-inputs-with-bind"><a class="header" href="#simplifying-controlled-inputs-with-bind">Simplifying Controlled Inputs with "bind:"</a></h3>
 <p>Adherence to Web standards and a clear division between “reading from a signal” and ”writing to a signal” are good, but creating
 controlled inputs in this way can sometimes seem like more boilerplate than is really necessary.</p>
-<p>Leptos also includes a special "bind:」 syntax for inputs that allows you to automatically bind signals to inputs. They do exactly the same thing as the “controlled input” pattern above: create an event listener that updates the signal, and a dynamic property that reads from the signal. You can use 「bind:value」 for text inputs, and 「bind:checked" for checkboxes.</p>
+<p>Leptos also includes a special "bind:" syntax for inputs that allows you to automatically bind signals to inputs. They do exactly the same thing as the “controlled input” pattern above: create an event listener that updates the signal, and a dynamic property that reads from the signal. You can use "bind:value" for text inputs, and "bind:checked" for checkboxes.</p>
 <pre><code class="language-rust">let (name, set_name) = signal("Controlled".to_string());
 let email = RwSignal::new("".to_string());
 let spam_me = RwSignal::new(true);
@@ -252,7 +252,7 @@ view! {
 Rather than continuously updating a signal to hold its value, we use a
 <a href="https://docs.rs/leptos/latest/leptos/tachys/reactive_graph/node_ref/struct.NodeRef.html">"NodeRef"</a> to access
 the input when we want to get its value.</p>
-<p>In this example, we only notify the framework when the "<form>」 fires a 「submit" event.
+<p>In this example, we only notify the framework when the "<form>" fires a "submit" event.
 Note the use of the <a href="https://docs.rs/leptos/latest/leptos/html/index.html">"leptos::html"</a> module, which provides a bunch of types for every HTML element.</p>
 <pre><code class="language-rust">let (name, set_name) = signal("Uncontrolled".to_string());
 
@@ -270,10 +270,10 @@ view! {
 }</code></pre>
 <p>The view should be pretty self-explanatory by now. Note two things:</p>
 <ol>
-<li>Unlike in the controlled input example, we use "value」 (not 「prop:value").
+<li>Unlike in the controlled input example, we use "value" (not "prop:value").
 This is because we’re just setting the initial value of the input, and letting
 the browser control its state. (We could use "prop:value" instead.)</li>
-<li>We use "node_ref=...」 to fill the 「NodeRef」. (Older examples sometimes use 「_ref".
+<li>We use "node_ref=..." to fill the "NodeRef". (Older examples sometimes use "_ref".
 They are the same thing, but "node_ref" has better rust-analyzer support.)</li>
 </ol>
 <p>"NodeRef" is a kind of reactive smart pointer: we can use it to access the
@@ -286,34 +286,34 @@ underlying DOM node. Its value will be set when the element is rendered.</p>
     let value = input_element
         .get()
         // event handlers can only fire after the view
-        // is mounted to the DOM, so the "NodeRef」 will be 「Some"
+        // is mounted to the DOM, so the "NodeRef" will be "Some"
         .expect("&lt;input&gt; should be mounted")
-        // "leptos::HtmlElement&lt;html::Input&gt;」 implements 「Deref"
+        // "leptos::HtmlElement&lt;html::Input&gt;" implements "Deref"
         // to a "web_sys::HtmlInputElement".
         // this means we can call"HtmlInputElement::value()"
         // to get the current value of the input
         .value();
     set_name.set(value);
 };</code></pre>
-<p>Our "on_submit」 handler will access the input’s value and use it to call 「set_name".
+<p>Our "on_submit" handler will access the input’s value and use it to call "set_name".
 To access the DOM node stored in the "NodeRef", we can simply call it as a function
-(or using ".get()」). This will return 「Option&lt;leptos::HtmlElement<a href="html::Input">html::Input</a>&gt;", but we
+(or using ".get()"). This will return "Option&lt;leptos::HtmlElement<a href="html::Input">html::Input</a>&gt;", but we
 know that the element has already been mounted (how else did you fire this event!), so
 it's safe to unwrap here.</p>
-<p>We can then call ".value()」 to get the value out of the input, because 「NodeRef"
+<p>We can then call ".value()" to get the value out of the input, because "NodeRef"
 gives us access to a correctly-typed HTML element.</p>
-<p>Take a look at <a href="../web_sys.html">"web_sys」 and 「HtmlElement」</a> to learn more about using a 「leptos::HtmlElement".
+<p>Take a look at <a href="../web_sys.html">"web_sys" and "HtmlElement"</a> to learn more about using a "leptos::HtmlElement".
 Also see the full CodeSandbox example at the end of this page.</p>
-<h2 id="special-cases--and-"><a class="header" href="#special-cases--and-">Special Cases: "<textarea>」 and 「<select>"</a></h2>
+<h2 id="special-cases--and-"><a class="header" href="#special-cases--and-">Special Cases: "<textarea>" and "<select>"</a></h2>
 <p>Two form elements tend to cause some confusion, in different ways.</p>
 <h3 id=""><a class="header" href="#">"<textarea>"</a></h3>
-<p>Unlike "<input>」, the 「<textarea>」 element does not support a 「value" attribute.
+<p>Unlike "<input>", the "<textarea>" element does not support a "value" attribute.
 Instead, it receives its value as a plain text node in its HTML children.</p>
 <p>In the current version of Leptos (in fact in Leptos 0.1-0.6), creating a dynamic child
 inserts a comment marker node. This can cause incorrect "<textarea>" rendering (and issues
 during hydration) if you try to use it to show dynamic content.</p>
 <p>Instead, you can pass a non-reactive initial value as a child, and use "prop:value" to
-set its current value. ("<textarea>」 doesn’t support the 「value" <strong>attribute</strong>, but <em>does</em>
+set its current value. ("<textarea>" doesn’t support the "value" <strong>attribute</strong>, but <em>does</em>
 support the "value" <strong>property</strong>...)</p>
 <pre><code class="language-rust">view! {
     &lt;textarea
@@ -325,7 +325,7 @@ support the "value" <strong>property</strong>...)</p>
     &lt;/textarea&gt;
 }</code></pre>
 <h3 id="-1"><a class="header" href="#-1">"<select>"</a></h3>
-<p>The "<select>」 element can likewise be controlled via a 「value」 property on the 「<select>" itself,
+<p>The "<select>" element can likewise be controlled via a "value" property on the "<select>" itself,
 which will select whichever "<option>" has that value.</p>
 <pre><code class="language-rust">let (value, set_value) = signal(0i32);
 view! {
@@ -434,9 +434,9 @@ fn UncontrolledComponent() -&gt; impl IntoView {
         // here, we'll extract the value from the input
         let value = input_element.get()
             // event handlers can only fire after the view
-            // is mounted to the DOM, so the "NodeRef」 will be 「Some"
+            // is mounted to the DOM, so the "NodeRef" will be "Some"
             .expect("&lt;input&gt; to exist")
-            // "NodeRef」 implements 「Deref" for the DOM element type
+            // "NodeRef" implements "Deref" for the DOM element type
             // this means we can call"HtmlInputElement::value()"
             // to get the current value of the input
             .value();
@@ -516,6 +516,22 @@ fn main() {
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

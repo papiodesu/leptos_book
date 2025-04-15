@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -190,7 +190,7 @@ view! {
     }}
 }</code></pre>
 <p>That’s not <em>so</em> bad, but it’s kind of annoying. What if we could invert the flow of control?</p>
-<p>The <a href="https://docs.rs/leptos/latest/leptos/suspense/fn.Suspense.html">"<Suspense/>」</a> component lets us do exactly that. You give it a 「fallback」 prop and children, one or more of which usually involves reading from a resource. Reading from a resource “under” a 「<Suspense/>」 (i.e., in one of its children) registers that resource with the 「<Suspense/>」. If it’s still waiting for resources to load, it shows the 「fallback". When they’ve all loaded, it shows the children.</p>
+<p>The <a href="https://docs.rs/leptos/latest/leptos/suspense/fn.Suspense.html">"<Suspense/>"</a> component lets us do exactly that. You give it a "fallback" prop and children, one or more of which usually involves reading from a resource. Reading from a resource “under” a "<Suspense/>" (i.e., in one of its children) registers that resource with the "<Suspense/>". If it’s still waiting for resources to load, it shows the "fallback". When they’ve all loaded, it shows the children.</p>
 <pre><code class="language-rust">let (count, set_count) = signal(0);
 let (count2, set_count2) = signal(0);
 let a = Resource::new(count, |count| async move { load_a(count).await });
@@ -216,7 +216,7 @@ view! {
 }</code></pre>
 <p>Every time one of the resources is reloading, the ""Loading..."" fallback will show again.</p>
 <p>This inversion of the flow of control makes it easier to add or remove individual resources, as you don’t need to handle the matching yourself. It also unlocks some massive performance improvements during server-side rendering, which we’ll talk about during a later chapter.</p>
-<p>Using "<Suspense/>」 also gives us access to a useful way to directly 「.await」 resources, allowing us to remove a level of nesting, above. The 「Suspend」 type lets us create a renderable 「Future" which can be used in the view:</p>
+<p>Using "<Suspense/>" also gives us access to a useful way to directly ".await" resources, allowing us to remove a level of nesting, above. The "Suspend" type lets us create a renderable "Future" which can be used in the view:</p>
 <pre><code class="language-rust">view! {
     &lt;h1&gt;"My Data"&lt;/h1&gt;
     &lt;Suspense
@@ -237,7 +237,7 @@ view! {
 }</code></pre>
 <p>"Suspend" allows us to avoid null-checking each resource, and removes some additional complexity from the code.</p>
 <h2 id="-1"><a class="header" href="#-1">"<Await/>"</a></h2>
-<p>If you’re simply trying to wait for some "Future」 to resolve before rendering, you may find the 「<Await/>」 component helpful in reducing boilerplate. 「<Await/>」 essentially combines a 「OnceResource」 with a 「<Suspense/>" with no fallback.</p>
+<p>If you’re simply trying to wait for some "Future" to resolve before rendering, you may find the "<Await/>" component helpful in reducing boilerplate. "<Await/>" essentially combines a "OnceResource" with a "<Suspense/>" with no fallback.</p>
 <p>In other words:</p>
 <ol>
 <li>It only polls the "Future" once, and does not respond to any reactive changes.</li>
@@ -250,7 +250,7 @@ view! {
 }
 view! {
     &lt;Await
-        // "future」 provides the 「Future" to be resolved
+        // "future" provides the "Future" to be resolved
         future=fetch_monkeys(3)
         // the data is bound to whatever variable name you provide
         let:data
@@ -381,6 +381,22 @@ fn main() {
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

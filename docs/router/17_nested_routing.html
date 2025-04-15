@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -169,7 +169,7 @@
   &lt;Route path=path!("/users/:id") view=UserProfile/&gt;
   &lt;Route path=path!("/*any") view=|| view! { &lt;h1&gt;"Not Found"&lt;/h1&gt; }/&gt;
 &lt;/Routes&gt;</code></pre>
-<p>There’s a certain amount of duplication here: "/users」 and 「/users/:id". This is fine for a small app, but you can probably already tell it won’t scale well. Wouldn’t it be nice if we could nest these routes?</p>
+<p>There’s a certain amount of duplication here: "/users" and "/users/:id". This is fine for a small app, but you can probably already tell it won’t scale well. Wouldn’t it be nice if we could nest these routes?</p>
 <p>Well... you can!</p>
 <pre><code class="language-rust">&lt;Routes fallback=|| "Not found."&gt;
   &lt;Route path=path!("/") view=Home/&gt;
@@ -178,7 +178,7 @@
   &lt;/ParentRoute&gt;
   &lt;Route path=path!("/*any") view=|| view! { &lt;h1&gt;"Not Found"&lt;/h1&gt; }/&gt;
 &lt;/Routes&gt;</code></pre>
-<p>You can nest a "<Route/>」 inside a 「<ParentRoute/>". Seems straightforward.</p>
+<p>You can nest a "<Route/>" inside a "<ParentRoute/>". Seems straightforward.</p>
 <p>But wait. We’ve just subtly changed what our application does.</p>
 <p>The next section is one of the most important in this entire routing section of the guide. Read it carefully, and feel free to ask questions if there’s anything you don’t understand.</p>
 <h1 id="nested-routes-as-layout"><a class="header" href="#nested-routes-as-layout">Nested Routes as Layout</a></h1>
@@ -191,8 +191,8 @@
 &lt;/Routes&gt;</code></pre>
 <p>This means:</p>
 <ul>
-<li>If I go to "/users」, I get the 「<Users/>" component.</li>
-<li>If I go to "/users/3」, I get the 「<UserProfile/>」 component (with the parameter 「id」 set to 「3"; more on that later)</li>
+<li>If I go to "/users", I get the "<Users/>" component.</li>
+<li>If I go to "/users/3", I get the "<UserProfile/>" component (with the parameter "id" set to "3"; more on that later)</li>
 </ul>
 <p>Let’s say I use nested routes instead:</p>
 <pre><code class="language-rust">&lt;Routes fallback=|| "Not found."&gt;
@@ -202,7 +202,7 @@
 &lt;/Routes&gt;</code></pre>
 <p>This means:</p>
 <ul>
-<li>If I go to "/users/3」, the path matches two 「<Route/>」s: 「<Users/>」 and 「<UserProfile/>".</li>
+<li>If I go to "/users/3", the path matches two "<Route/>"s: "<Users/>" and "<UserProfile/>".</li>
 <li>If I go to "/users", the path is not matched.</li>
 </ul>
 <p>I actually need to add a fallback route</p>
@@ -214,8 +214,8 @@
 &lt;/Routes&gt;</code></pre>
 <p>Now:</p>
 <ul>
-<li>If I go to "/users/3」, the path matches 「<Users/>」 and 「<UserProfile/>".</li>
-<li>If I go to "/users」, the path matches 「<Users/>」 and 「<NoUser/>".</li>
+<li>If I go to "/users/3", the path matches "<Users/>" and "<UserProfile/>".</li>
+<li>If I go to "/users", the path matches "<Users/>" and "<NoUser/>".</li>
 </ul>
 <p>When I use nested routes, in other words, each <strong>path</strong> can match multiple <strong>routes</strong>: each URL can render the views provided by multiple "<Route/>" components, at the same time, on the same page.</p>
 <p>This may be counter-intuitive, but it’s very powerful, for reasons you’ll hopefully see in a few minutes.</p>
@@ -249,7 +249,7 @@
 </blockquote>
 <h2 id=""><a class="header" href="#">"<Outlet/>"</a></h2>
 <p>Parent routes do not automatically render their nested routes. After all, they are just components; they don’t know exactly where they should render their children, and “just stick it at the end of the parent component” is not a great answer.</p>
-<p>Instead, you tell a parent component where to render any nested components with an "<Outlet/>」 component. The 「<Outlet/>" simply renders one of two things:</p>
+<p>Instead, you tell a parent component where to render any nested components with an "<Outlet/>" component. The "<Outlet/>" simply renders one of two things:</p>
 <ul>
 <li>if there is no nested route that has been matched, it shows nothing</li>
 <li>if there is a nested route that has been matched, it shows its "view"</li>
@@ -302,13 +302,13 @@ fn ContactInfoRoutes() -&gt; impl MatchNestedRoutes + Clone {
     }
     .into_inner()
 }</code></pre>
-<p>This second component is a "#[component(transparent)]」, meaning it just returns its data, not a view; likewise, it uses 「.into_inner()」 to remove some debug info added by the 「view」 macro and just return the route definitions created by 「<ParentRoute/>".</p>
+<p>This second component is a "#[component(transparent)]", meaning it just returns its data, not a view; likewise, it uses ".into_inner()" to remove some debug info added by the "view" macro and just return the route definitions created by "<ParentRoute/>".</p>
 <h2 id="nested-routing-and-performance"><a class="header" href="#nested-routing-and-performance">Nested Routing and Performance</a></h2>
 <p>All of this is nice, conceptually, but again—what’s the big deal?</p>
 <p>Performance.</p>
 <p>In a fine-grained reactive library like Leptos, it’s always important to do the least amount of rendering work you can. Because we’re working with real DOM nodes and not diffing a virtual DOM, we want to “rerender” components as infrequently as possible. Nested routing makes this extremely easy.</p>
-<p>Imagine my contact list example. If I navigate from Greg to Alice to Bob and back to Greg, the contact information needs to change on each navigation. But the "<ContactList/>」 should never be rerendered. Not only does this save on rendering performance, it also maintains state in the UI. For example, if I have a search bar at the top of 「<ContactList/>", navigating from Greg to Alice to Bob won’t clear the search.</p>
-<p>In fact, in this case, we don’t even need to rerender the "<Contact/>」 component when moving between contacts. The router will just reactively update the 「:id" parameter as we navigate, allowing us to make fine-grained updates. As we navigate between contacts, we’ll update single text nodes to change the contact’s name, address, and so on, without doing <em>any</em> additional rerendering.</p>
+<p>Imagine my contact list example. If I navigate from Greg to Alice to Bob and back to Greg, the contact information needs to change on each navigation. But the "<ContactList/>" should never be rerendered. Not only does this save on rendering performance, it also maintains state in the UI. For example, if I have a search bar at the top of "<ContactList/>", navigating from Greg to Alice to Bob won’t clear the search.</p>
+<p>In fact, in this case, we don’t even need to rerender the "<Contact/>" component when moving between contacts. The router will just reactively update the ":id" parameter as we navigate, allowing us to make fine-grained updates. As we navigate between contacts, we’ll update single text nodes to change the contact’s name, address, and so on, without doing <em>any</em> additional rerendering.</p>
 <blockquote>
 <p>This sandbox includes a couple features (like nested routing) discussed in this section and the previous one, and a couple we’ll cover in the rest of this chapter. The router is such an integrated system that it makes sense to provide a single example, so don’t be surprised if there’s anything you don’t understand.</p>
 </blockquote>
@@ -487,6 +487,22 @@ fn main() {
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>

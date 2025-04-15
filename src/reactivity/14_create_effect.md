@@ -59,7 +59,7 @@ Effect::new(move |_| {
 });
 ```
 
-If "use_last」 is 「true」, effect should rerun whenever 「first」, 「last」, or 「use_last」 changes. But if I toggle 「use_last」 to 「false」, a change in 「last」 will never cause the full name to change. In fact, 「last」 will be removed from the dependency list until 「use_last」 toggles again. This saves us from sending multiple unnecessary requests to the API if I change 「last」 multiple times while 「use_last」 is still 「false".
+If "use_last" is "true", effect should rerun whenever "first", "last", or "use_last" changes. But if I toggle "use_last" to "false", a change in "last" will never cause the full name to change. In fact, "last" will be removed from the dependency list until "use_last" toggles again. This saves us from sending multiple unnecessary requests to the API if I change "last" multiple times while "use_last" is still "false".
 
 ## To create an effect, or not to create an effect?
 
@@ -124,9 +124,9 @@ Every time "count" is updated, this effect will rerun. This is what allows react
 
 ## Explicit Tracking with "Effect::watch()"
 
-In addition to "Effect::new()」, Leptos provides an [「Effect::watch()"](https://docs.rs/leptos/latest/leptos/reactive/effect/struct.Effect.html#method.watch) function, which can be used to separate tracking and responding to changes by explicitly passing in a set of values to track.
+In addition to "Effect::new()", Leptos provides an ["Effect::watch()"](https://docs.rs/leptos/latest/leptos/reactive/effect/struct.Effect.html#method.watch) function, which can be used to separate tracking and responding to changes by explicitly passing in a set of values to track.
 
-"watch」 takes three arguments. The 「deps」 argument is reactively tracked while 「callback」 and 「immediate」 are not. Whenever 「deps」 is changed, 「callback」 is run. If 「immediate」 is false, the callback will run only after the first change is detected of any signal that is accessed in deps. 「watch」 returns an 「Effect」, which can be called with 「.stop()" to stop tracking the dependencies.
+"watch" takes three arguments. The "deps" argument is reactively tracked while "callback" and "immediate" are not. Whenever "deps" is changed, "callback" is run. If "immediate" is false, the callback will run only after the first change is detected of any signal that is accessed in deps. "watch" returns an "Effect", which can be called with ".stop()" to stop tracking the dependencies.
 
 ```rust
 let (num, set_num) = signal(0);

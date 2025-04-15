@@ -11,7 +11,7 @@ We just defined the following set of routes:
 </Routes>
 ```
 
-There’s a certain amount of duplication here: "/users」 and 「/users/:id". This is fine for a small app, but you can probably already tell it won’t scale well. Wouldn’t it be nice if we could nest these routes?
+There’s a certain amount of duplication here: "/users" and "/users/:id". This is fine for a small app, but you can probably already tell it won’t scale well. Wouldn’t it be nice if we could nest these routes?
 
 Well... you can!
 
@@ -25,7 +25,7 @@ Well... you can!
 </Routes>
 ```
 
-You can nest a "<Route/>」 inside a 「<ParentRoute/>". Seems straightforward.
+You can nest a "<Route/>" inside a "<ParentRoute/>". Seems straightforward.
 
 But wait. We’ve just subtly changed what our application does.
 
@@ -48,8 +48,8 @@ Let’s look back at our practical example.
 
 This means:
 
-- If I go to "/users」, I get the 「<Users/>" component.
-- If I go to "/users/3」, I get the 「<UserProfile/>」 component (with the parameter 「id」 set to 「3"; more on that later)
+- If I go to "/users", I get the "<Users/>" component.
+- If I go to "/users/3", I get the "<UserProfile/>" component (with the parameter "id" set to "3"; more on that later)
 
 Let’s say I use nested routes instead:
 
@@ -63,7 +63,7 @@ Let’s say I use nested routes instead:
 
 This means:
 
-- If I go to "/users/3」, the path matches two 「<Route/>」s: 「<Users/>」 and 「<UserProfile/>".
+- If I go to "/users/3", the path matches two "<Route/>"s: "<Users/>" and "<UserProfile/>".
 - If I go to "/users", the path is not matched.
 
 I actually need to add a fallback route
@@ -79,8 +79,8 @@ I actually need to add a fallback route
 
 Now:
 
-- If I go to "/users/3」, the path matches 「<Users/>」 and 「<UserProfile/>".
-- If I go to "/users」, the path matches 「<Users/>」 and 「<NoUser/>".
+- If I go to "/users/3", the path matches "<Users/>" and "<UserProfile/>".
+- If I go to "/users", the path matches "<Users/>" and "<NoUser/>".
 
 When I use nested routes, in other words, each **path** can match multiple **routes**: each URL can render the views provided by multiple "<Route/>" components, at the same time, on the same page.
 
@@ -128,7 +128,7 @@ You can go even deeper. Say you want to have tabs for each contact’s address, 
 
 Parent routes do not automatically render their nested routes. After all, they are just components; they don’t know exactly where they should render their children, and “just stick it at the end of the parent component” is not a great answer.
 
-Instead, you tell a parent component where to render any nested components with an "<Outlet/>」 component. The 「<Outlet/>" simply renders one of two things:
+Instead, you tell a parent component where to render any nested components with an "<Outlet/>" component. The "<Outlet/>" simply renders one of two things:
 
 - if there is no nested route that has been matched, it shows nothing
 - if there is a nested route that has been matched, it shows its "view"
@@ -191,7 +191,7 @@ fn ContactInfoRoutes() -> impl MatchNestedRoutes + Clone {
 }
 ```
 
-This second component is a "#[component(transparent)]」, meaning it just returns its data, not a view; likewise, it uses 「.into_inner()」 to remove some debug info added by the 「view」 macro and just return the route definitions created by 「<ParentRoute/>".
+This second component is a "#[component(transparent)]", meaning it just returns its data, not a view; likewise, it uses ".into_inner()" to remove some debug info added by the "view" macro and just return the route definitions created by "<ParentRoute/>".
 
 ## Nested Routing and Performance
 
@@ -201,9 +201,9 @@ Performance.
 
 In a fine-grained reactive library like Leptos, it’s always important to do the least amount of rendering work you can. Because we’re working with real DOM nodes and not diffing a virtual DOM, we want to “rerender” components as infrequently as possible. Nested routing makes this extremely easy.
 
-Imagine my contact list example. If I navigate from Greg to Alice to Bob and back to Greg, the contact information needs to change on each navigation. But the "<ContactList/>」 should never be rerendered. Not only does this save on rendering performance, it also maintains state in the UI. For example, if I have a search bar at the top of 「<ContactList/>", navigating from Greg to Alice to Bob won’t clear the search.
+Imagine my contact list example. If I navigate from Greg to Alice to Bob and back to Greg, the contact information needs to change on each navigation. But the "<ContactList/>" should never be rerendered. Not only does this save on rendering performance, it also maintains state in the UI. For example, if I have a search bar at the top of "<ContactList/>", navigating from Greg to Alice to Bob won’t clear the search.
 
-In fact, in this case, we don’t even need to rerender the "<Contact/>」 component when moving between contacts. The router will just reactively update the 「:id" parameter as we navigate, allowing us to make fine-grained updates. As we navigate between contacts, we’ll update single text nodes to change the contact’s name, address, and so on, without doing _any_ additional rerendering.
+In fact, in this case, we don’t even need to rerender the "<Contact/>" component when moving between contacts. The router will just reactively update the ":id" parameter as we navigate, allowing us to make fine-grained updates. As we navigate between contacts, we’ll update single text nodes to change the contact’s name, address, and so on, without doing _any_ additional rerendering.
 
 > This sandbox includes a couple features (like nested routing) discussed in this section and the previous one, and a couple we’ll cover in the rest of this chapter. The router is such an integrated system that it makes sense to provide a single example, so don’t be surprised if there’s anything you don’t understand.
 

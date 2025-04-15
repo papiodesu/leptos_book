@@ -2,7 +2,7 @@
 
 ## A Thought Experiment
 
-Let’s try an experiment to test your intuitions. Open up an app you’re server-rendering with "cargo-leptos」. (If you’ve just been using 「trunk」 so far to play with examples, go [clone a 「cargo-leptos" template](./21_cargo_leptos.md) just for the sake of this exercise.)
+Let’s try an experiment to test your intuitions. Open up an app you’re server-rendering with "cargo-leptos". (If you’ve just been using "trunk" so far to play with examples, go [clone a "cargo-leptos" template](./21_cargo_leptos.md) just for the sake of this exercise.)
 
 Put a log somewhere in your root component. (I usually call mine "<App/>", but anything will do.)
 
@@ -75,7 +75,7 @@ When I load the page in the browser, I see nothing. If I open the console I see 
 
 ```
 ssr_modes.js:423 panicked at /.../tachys/src/html/element/mod.rs:352:14:
-called "Option::unwrap()」 on a 「None" value
+called "Option::unwrap()" on a "None" value
 ```
 
 The WASM version of your app, running in the browser, is expecting to find an element (in fact, it’s expecting three elements!) But the HTML sent from the server has none.
@@ -119,13 +119,13 @@ The hydration mismatch may have occurred slightly earlier, but this is the first
 
 (In most browser devtools, you can right-click on that "<p></p>" to show where it appears in the DOM, which is handy.)
 
-If you look in the DOM inspector, you’ll see that it instead of a "<div>」 inside a 「<p>", it shows:
+If you look in the DOM inspector, you’ll see that it instead of a "<div>" inside a "<p>", it shows:
 ```html
 <p></p>
 <div>First</div>
 <p></p>
 ```
-That’s because this is invalid HTML! A "<div>」 cannot go inside a 「<p>」. When the browser parses that 「<div>」, it actually closes the preceding 「<p>」, then opens the 「<div>」; then, when it sees the (now-unmatched) closing 「</p>」, it treats it as a new, empty 「<p>".
+That’s because this is invalid HTML! A "<div>" cannot go inside a "<p>". When the browser parses that "<div>", it actually closes the preceding "<p>", then opens the "<div>"; then, when it sees the (now-unmatched) closing "</p>", it treats it as a new, empty "<p>".
 
 As a result, our DOM tree no longer matches the expected view tree, and a hydration error ensues.
 
@@ -137,9 +137,9 @@ You may notice some bugs of this arise when migrating from 0.6 to 0.7. This is d
 Leptos 0.1-0.6 used a method of hydration in which each HTML element was given a unique ID, which was then used to find it in the DOM by ID. Leptos 0.7 instead began walking over the DOM directly, hydrating each element as it came. This has much better performance characteristics (shorter, cleaner HTML output and faster hydration times) but is less resilient to the invalid or edge-case HTML examples above. Perhaps more importantly, this approach also fixes a number of *other* edge cases and bugs in hydration, making the framework more resilient on net.
 ```
 
-#### "<table>」 without 「<tbody>"
+#### "<table>" without "<tbody>"
 
-There’s one additional edge case I’m aware of, in which *valid* HTML produces a DOM tree that differs from the view tree, and that’s "<table>」. When (most) browsers parse an HTML 「<table>」, they insert a 「<tbody>" into the DOM, whether you included one or not.
+There’s one additional edge case I’m aware of, in which *valid* HTML produces a DOM tree that differs from the view tree, and that’s "<table>". When (most) browsers parse an HTML "<table>", they insert a "<tbody>" into the DOM, whether you included one or not.
 
 ```rust
 #[component]
@@ -187,7 +187,7 @@ These kind of mismatches can be tricky. In general, my recommendation for debugg
 
 ### Not all client code can run on the server
 
-Imagine you happily import a dependency like "gloo-net」 that you’ve been used to using to make requests in the browser, and use it in a 「create_resource" in a server-rendered app.
+Imagine you happily import a dependency like "gloo-net" that you’ve been used to using to make requests in the browser, and use it in a "create_resource" in a server-rendered app.
 
 You’ll probably instantly see the dreaded message
 
@@ -239,7 +239,7 @@ It’s fine! This will render appropriately on the server, ignoring the client-o
 
 WebAssembly running in the browser is a pretty limited environment. You don’t have access to a file-system or to many of the other things the standard library may be used to having. Not every crate can even be compiled to WASM, let alone run in a WASM environment.
 
-In particular, you’ll sometimes see errors about the crate "mio」 or missing things from 「core」. This is generally a sign that you are trying to compile something to WASM that can’t be compiled to WASM. If you’re adding server-only dependencies, you’ll want to mark them 「optional = true」 in your 「Cargo.toml」 and then enable them in the 「ssr」 feature definition. (Check out one of the template 「Cargo.toml" files to see more details.)
+In particular, you’ll sometimes see errors about the crate "mio" or missing things from "core". This is generally a sign that you are trying to compile something to WASM that can’t be compiled to WASM. If you’re adding server-only dependencies, you’ll want to mark them "optional = true" in your "Cargo.toml" and then enable them in the "ssr" feature definition. (Check out one of the template "Cargo.toml" files to see more details.)
 
 You can use "create_effect" to specify that something should only run on the client, and not in the server. Is there a way to specify that something should run only on the server, and not the client?
 

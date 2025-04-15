@@ -1,7 +1,7 @@
 # Control Flow
 
 In most applications, you sometimes need to make a decision: Should I render this
-part of the view, or not? Should I render "<ButtonA/>」 or 「<WidgetB/>"? This is
+part of the view, or not? Should I render "<ButtonA/>" or "<WidgetB/>"? This is
 **control flow**.
 
 ## A Few Tips
@@ -10,11 +10,11 @@ When thinking about how to do this with Leptos, it’s important to remember a f
 things:
 
 1. Rust is an expression-oriented language: control-flow expressions like
-   "if x() { y } else { z }」 and 「match x() { ... }" return their values. This
+   "if x() { y } else { z }" and "match x() { ... }" return their values. This
    makes them very useful for declarative user interfaces.
-2. For any "T」 that implements 「IntoView"—in other words, for any type that Leptos
-   knows how to render—"Option<T>」 and 「Result<T, impl Error>" _also_ implement
-   "IntoView」. And just as 「Fn() -> T」 renders a reactive 「T」, 「Fn() -> Option<T>"
+2. For any "T" that implements "IntoView"—in other words, for any type that Leptos
+   knows how to render—"Option<T>" and "Result<T, impl Error>" _also_ implement
+   "IntoView". And just as "Fn() -> T" renders a reactive "T", "Fn() -> Option<T>"
    and "Fn() -> Result<T, impl Error>" are reactive.
 3. Rust has lots of handy helpers like [Option::map](https://doc.rust-lang.org/std/option/enum.Option.html#method.map),
    [Option::and_then](https://doc.rust-lang.org/std/option/enum.Option.html#method.and_then),
@@ -23,7 +23,7 @@ things:
    [Result::ok](https://doc.rust-lang.org/std/result/enum.Result.html#method.ok), and
    [bool::then](https://doc.rust-lang.org/std/primitive.bool.html#method.then) that
    allow you to convert, in a declarative way, between a few different standard types,
-   all of which can be rendered. Spending time in the "Option」 and 「Result" docs in particular
+   all of which can be rendered. Spending time in the "Option" and "Result" docs in particular
    is one of the best ways to level up your Rust game.
 4. And always remember: to be reactive, values must be functions. You’ll see me constantly
    wrap things in a "move ||" closure, below. This is to ensure that they actually rerun
@@ -61,8 +61,8 @@ view! {
 }
 ```
 
-An "if」 expression returns its value, and a 「&str」 implements 「IntoView", so a
-"Fn() -> &str」 implements 「IntoView", so this... just works!
+An "if" expression returns its value, and a "&str" implements "IntoView", so a
+"Fn() -> &str" implements "IntoView", so this... just works!
 
 ### "Option<T>"
 
@@ -92,7 +92,7 @@ view! {
 ```
 
 You could even inline this if you’d like, although personally I sometimes like the
-better "cargo fmt」 and 「rust-analyzer」 support I get by pulling things out of the 「view".
+better "cargo fmt" and "rust-analyzer" support I get by pulling things out of the "view".
 
 ### "match" statements
 
@@ -166,7 +166,7 @@ As a user clicks a button, you’d see something like this:
 ... ad infinitum
 ```
 
-Every time "value」 changes, it reruns the 「if" statement. This makes sense, with
+Every time "value" changes, it reruns the "if" statement. This makes sense, with
 how reactivity works. But it has a downside. For a simple text node, rerunning
 the "if" statement and rerendering isn’t a big deal. But imagine it were
 like this:
@@ -179,15 +179,15 @@ let message = move || if value.get() > 5 {
 };
 ```
 
-This rerenders "<Small/>」 five times, then 「<Big/>" infinitely. If they’re
+This rerenders "<Small/>" five times, then "<Big/>" infinitely. If they’re
 loading resources, creating signals, or even just creating DOM nodes, this is
 unnecessary work.
 
 ### "<Show/>"
 
 The ["<Show/>"](https://docs.rs/leptos/latest/leptos/control_flow/fn.Show.html) component is
-the answer. You pass it a "when」 condition function, a 「fallback" to be shown if
-the "when」 function returns 「false」, and children to be rendered if 「when」 is 「true".
+the answer. You pass it a "when" condition function, a "fallback" to be shown if
+the "when" function returns "false", and children to be rendered if "when" is "true".
 
 ```rust
 let (value, set_value) = signal(0);
@@ -202,9 +202,9 @@ view! {
 }
 ```
 
-"<Show/>」 memoizes the 「when」 condition, so it only renders its 「<Small/>" once,
+"<Show/>" memoizes the "when" condition, so it only renders its "<Small/>" once,
 continuing to show the same component until "value" is greater than five;
-then it renders "<Big/>」 once, continuing to show it indefinitely or until 「value"
+then it renders "<Big/>" once, continuing to show it indefinitely or until "value"
 goes below five and then renders "<Small/>" again.
 
 This is a helpful tool to avoid rerendering when using dynamic "if" expressions.
@@ -244,8 +244,8 @@ But it can be a little annoying in conditional logic like this, because you can�
 return different types from different branches of a condition in Rust. There are two ways
 to get yourself out of this situation:
 
-1. Use the enum "Either」 (and 「EitherOf3」, 「EitherOf4", etc.) to convert the different types to the same type.
-2. Use ".into_any()」 to convert multiple types into one typed-erased 「AnyView".
+1. Use the enum "Either" (and "EitherOf3", "EitherOf4", etc.) to convert the different types to the same type.
+2. Use ".into_any()" to convert multiple types into one typed-erased "AnyView".
 
 Here’s the same example, with the conversion added:
 
@@ -310,7 +310,7 @@ fn App() -> impl IntoView {
         <hr/>
 
         <h2><code>"Option<T>"</code></h2>
-        // For any "T」 that implements 「IntoView",
+        // For any "T" that implements "IntoView",
         // so does "Option<T>"
 
         <p>{odd_text}</p>
@@ -336,7 +336,7 @@ fn App() -> impl IntoView {
         //    This is smart for an element that's going to
         //    toggled often, because it doesn't destroy
         //    it in between states
-        //    (you can find the "hidden」 class in 「index.html")
+        //    (you can find the "hidden" class in "index.html")
         <p class:hidden=is_odd>"Appears if even."</p>
 
         // c. The <Show/> component
@@ -350,7 +350,7 @@ fn App() -> impl IntoView {
             <p>"Oddment"</p>
         </Show>
 
-        // d. Because "bool::then()」 converts a 「bool" to
+        // d. Because "bool::then()" converts a "bool" to
         //    "Option", you can use it to create a show/hide toggled
         {move || is_odd().then(|| view! { <p>"Oddity!"</p> })}
 

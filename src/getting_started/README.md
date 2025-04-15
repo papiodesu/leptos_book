@@ -42,7 +42,7 @@ And then create a basic Rust project
 cargo init leptos-tutorial
 ```
 
-"cd」 into your new 「leptos-tutorial」 project and add 「leptos" as a dependency
+"cd" into your new "leptos-tutorial" project and add "leptos" as a dependency
 
 ```bash
 cargo add leptos --features=csr
@@ -54,7 +54,7 @@ Make sure you've added the "wasm32-unknown-unknown" target so that Rust can comp
 rustup target add wasm32-unknown-unknown
 ```
 
-Create a simple "index.html」 in the root of the 「leptos-tutorial" directory
+Create a simple "index.html" in the root of the "leptos-tutorial" directory
 
 ```html
 <!DOCTYPE html>
@@ -84,7 +84,7 @@ leptos_tutorial
 ├── index.html
 ```
 
-Now run "trunk serve --open」 from the root of the 「leptos-tutorial" directory.
+Now run "trunk serve --open" from the root of the "leptos-tutorial" directory.
 Trunk should automatically compile your app and open it in your default browser.
 If you make edits to "main.rs", Trunk will recompile your source code and
 live-reload the page.
@@ -92,7 +92,7 @@ live-reload the page.
 Welcome to the world of UI development with Rust and WebAssembly (WASM), powered by Leptos and Trunk!
 
 ```admonish note
-If you are using Windows, note that "trunk serve --open」 may not work. If you have issues with 「--open",
+If you are using Windows, note that "trunk serve --open" may not work. If you have issues with "--open",
 simply use "trunk serve" and open a browser tab manually.
 ```
 

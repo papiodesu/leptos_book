@@ -4,7 +4,7 @@ You don’t need to know very much about how the reactive system actually works 
 
 The reactive primitives you use are divided into three sets:
 
-- **Signals** ("ReadSignal」/「WriteSignal」, 「RwSignal」, 「Resource」, 「Trigger") Values you can actively change to trigger reactive updates.
+- **Signals** ("ReadSignal"/"WriteSignal", "RwSignal", "Resource", "Trigger") Values you can actively change to trigger reactive updates.
 - **Computations** ("Memo") Values that depend on signals (or other computations) and derive a new reactive value through some pure computation.
 - **Effects** Observers that listen to changes in some signals or computations and run a function, causing some side effect.
 
@@ -54,7 +54,7 @@ set_name("Bob");
 ```
 
 
-You can easily imagine the reactive graph here: "name」 is the only signal/origin node, the 「Effect::new" is the only effect/terminal node, and there’s one intervening memo.
+You can easily imagine the reactive graph here: "name" is the only signal/origin node, the "Effect::new" is the only effect/terminal node, and there’s one intervening memo.
 
 ```
 A   (name)
@@ -89,7 +89,7 @@ Effect::new(move |_| {
 });
 ```
 
-This is also pretty straightforward: a signal source signal ("name」/「A」) divides into two parallel tracks: 「name_upper」/「B」 and 「name_len」/「C", each of which has an effect that depends on it.
+This is also pretty straightforward: a signal source signal ("name"/"A") divides into two parallel tracks: "name_upper"/"B" and "name_len"/"C", each of which has an effect that depends on it.
 
 ```
  __A__
@@ -126,7 +126,7 @@ name = TIM
 
 "len = 3" does not log again.
 
-Remember: the goal of the reactive system is to run effects as infrequently as possible. Changing "name」 from 「"Bob"」 to 「"Tim"」 will cause each of the memos to re-run. But they will only notify their subscribers if their value has actually changed. 「"BOB"」 and 「"TIM"」 are different, so that effect runs again. But both names have the length 「3", so they do not run again.
+Remember: the goal of the reactive system is to run effects as infrequently as possible. Changing "name" from ""Bob"" to ""Tim"" will cause each of the memos to re-run. But they will only notify their subscribers if their value has actually changed. ""BOB"" and ""TIM"" are different, so that effect runs again. But both names have the length "3", so they do not run again.
 
 ### Reuniting Branches
 
@@ -160,7 +160,7 @@ B     C
 
 You can see why it's called the “diamond problem.” If I’d connected the nodes with straight lines instead of bad ASCII art, it would form a diamond: two memos, each of which depend on a signal, which feed into the same effect.
 
-A naive, push-based reactive implementation would cause this effect to run twice, which would be bad. (Remember, our goal is to run effects as infrequently as we can.) For example, you could implement a reactive system such that signals and memos immediately propagate their changes all the way down the graph, through each dependency, essentially traversing the graph depth-first. In other words, updating "A」 would notify 「B」, which would notify 「D」; then 「A」 would notify 「C」, which would notify 「D」 again. This is both inefficient (「D」 runs twice) and glitchy (「D" actually runs with the incorrect value for the second memo during its first run.)
+A naive, push-based reactive implementation would cause this effect to run twice, which would be bad. (Remember, our goal is to run effects as infrequently as we can.) For example, you could implement a reactive system such that signals and memos immediately propagate their changes all the way down the graph, through each dependency, essentially traversing the graph depth-first. In other words, updating "A" would notify "B", which would notify "D"; then "A" would notify "C", which would notify "D" again. This is both inefficient ("D" runs twice) and glitchy ("D" actually runs with the incorrect value for the second memo during its first run.)
 
 ## Solving the Diamond Problem
 
@@ -174,7 +174,7 @@ A reactive node is always in one of three states:
 - "Check": it is possible it has changed
 - "Dirty": it has definitely changed
 
-Updating a signal "Dirty」 marks that signal 「Dirty」, and marks all its descendants 「Check", recursively. Any of its descendants that are effects are added to a queue to be re-run.
+Updating a signal "Dirty" marks that signal "Dirty", and marks all its descendants "Check", recursively. Any of its descendants that are effects are added to a queue to be re-run.
 
 ```
     ____A (DIRTY)___
@@ -186,17 +186,17 @@ B (CHECK)    C (CHECK)
 
 Now those effects are run. (All of the effects will be marked "Check" at this point.) Before re-running its computation, the effect checks its parents to see if they are dirty. So
 
-- So "D」 goes to 「B」 and checks if it is 「Dirty".
-- But "B」 is also marked 「Check」. So 「B" does the same thing:
-  - "B」 goes to 「A」, and finds that it is 「Dirty".
+- So "D" goes to "B" and checks if it is "Dirty".
+- But "B" is also marked "Check". So "B" does the same thing:
+  - "B" goes to "A", and finds that it is "Dirty".
   - This means "B" needs to re-run, because one of its sources has changed.
-  - "B」 re-runs, generating a new value, and marks itself 「Clean"
+  - "B" re-runs, generating a new value, and marks itself "Clean"
   - Because "B" is a memo, it then checks its prior value against the new value.
   - If they are the same, "B" returns "no change." Otherwise, it returns "yes, I changed."
-- If "B」 returned “yes, I changed,” 「D" knows that it definitely needs to run and re-runs immediately before checking any other sources.
-- If "B」 returned “no, I didn’t change,” 「D」 continues on to check 「C」 (see process above for 「B".)
-- If neither "B」 nor 「C" has changed, the effect does not need to re-run.
-- If either "B」 or 「C" did change, the effect now re-runs.
+- If "B" returned “yes, I changed,” "D" knows that it definitely needs to run and re-runs immediately before checking any other sources.
+- If "B" returned “no, I didn’t change,” "D" continues on to check "C" (see process above for "B".)
+- If neither "B" nor "C" has changed, the effect does not need to re-run.
+- If either "B" or "C" did change, the effect now re-runs.
 
 Because the effect is only marked "Check" once and only queued once, it only runs once.
 
@@ -206,7 +206,7 @@ If the naive version was a “push-based” reactive system, simply pushing reac
 
 ## Memos vs. Signals
 
-Note that signals always notify their children; i.e., a signal is always marked "Dirty」 when it updates, even if its new value is the same as the old value. Otherwise, we’d have to require 「PartialEq」 on signals, and this is actually quite an expensive check on some types. (For example, add an unnecessary equality check to something like 「some_vec_signal.update(|n| n.pop())" when it’s clear that it has in fact changed.)
+Note that signals always notify their children; i.e., a signal is always marked "Dirty" when it updates, even if its new value is the same as the old value. Otherwise, we’d have to require "PartialEq" on signals, and this is actually quite an expensive check on some types. (For example, add an unnecessary equality check to something like "some_vec_signal.update(|n| n.pop())" when it’s clear that it has in fact changed.)
 
 Memos, on the other hand, check whether they change before notifying their children. They only run their calculation once, no matter how many times you ".get()" the result, but they run whenever their signal sources change. This means that if the memo’s computation is _very_ expensive, you may actually want to memoize its inputs as well, so that the memo only re-calculates when it is sure its inputs have changed.
 
@@ -232,7 +232,7 @@ set_a(3);
 set_a(5);
 ```
 
-Even though memoizing would technically save an extra calculation of "d」 between setting 「a」 to 「3」 and 「5", these calculations are themselves cheaper than the reactive algorithm.
+Even though memoizing would technically save an extra calculation of "d" between setting "a" to "3" and "5", these calculations are themselves cheaper than the reactive algorithm.
 
 At the very most, you might consider memoizing the final node before running some expensive side effect:
 

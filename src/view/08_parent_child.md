@@ -7,7 +7,7 @@ components tend to be relatively self-contained.
 Sometimes, though, you’ll want to communicate between a parent component and its
 child. For example, imagine you’ve defined a "<FancyButton/>" component that adds
 some styling, logging, or something else to a "<button/>". You want to use a
-"<FancyButton/>」 in your 「<App/>" component. But how can you communicate between
+"<FancyButton/>" in your "<App/>" component. But how can you communicate between
 the two?
 
 It’s easy to communicate state from a parent component to a child component. We
@@ -50,7 +50,7 @@ pub fn ButtonA(setter: WriteSignal<bool>) -> impl IntoView {
 
 This pattern is simple, but you should be careful with it: passing around a "WriteSignal"
 can make it hard to reason about your code. In this example, it’s pretty clear when you
-read "<App/>」 that you are handing off the ability to mutate 「toggled", but it’s not at
+read "<App/>" that you are handing off the ability to mutate "toggled", but it’s not at
 all clear when or how it will change. In this small, local example it’s easy to understand,
 but if you find yourself passing around "WriteSignal"s like this throughout your code,
 you should really consider whether this is making it too easy to write spaghetti code.
@@ -79,17 +79,17 @@ pub fn ButtonB(on_click: impl FnMut(MouseEvent) + 'static) -> impl IntoView {
 }
 ```
 
-You’ll notice that whereas "<ButtonA/>」 was given a 「WriteSignal" and decided how to mutate it,
-"<ButtonB/>」 simply fires an event: the mutation happens back in 「<App/>". This has the advantage
+You’ll notice that whereas "<ButtonA/>" was given a "WriteSignal" and decided how to mutate it,
+"<ButtonB/>" simply fires an event: the mutation happens back in "<App/>". This has the advantage
 of keeping local state local, preventing the problem of spaghetti mutation. But it also means
-the logic to mutate that signal needs to exist up in "<App/>」, not down in 「<ButtonB/>". These
+the logic to mutate that signal needs to exist up in "<App/>", not down in "<ButtonB/>". These
 are real trade-offs, not a simple right-or-wrong choice.
 
 ## 3. Use an Event Listener
 
 You can actually write Option 2 in a slightly different way. If the callback maps directly onto
 a native DOM event, you can add an "on:" listener directly to the place you use the component
-in your "view」 macro in 「<App/>".
+in your "view" macro in "<App/>".
 
 ```rust
 #[component]
@@ -111,9 +111,9 @@ pub fn ButtonC() -> impl IntoView {
 }
 ```
 
-This lets you write way less code in "<ButtonC/>」 than you did for 「<ButtonB/>",
+This lets you write way less code in "<ButtonC/>" than you did for "<ButtonB/>",
 and still gives a correctly-typed event to the listener. This works by adding an
-"on:」 event listener to each element that 「<ButtonC/>" returns: in this case, just
+"on:" event listener to each element that "<ButtonC/>" returns: in this case, just
 the one "<button>".
 
 Of course, this only works for actual DOM events that you’re passing directly through
@@ -164,7 +164,7 @@ pub fn ButtonD() -> impl IntoView {
 
 ```
 
-Now "<ButtonD/>」 is no longer a direct child of 「<App/>", so you can’t simply
+Now "<ButtonD/>" is no longer a direct child of "<App/>", so you can’t simply
 pass your "WriteSignal" to its props. You could do what’s sometimes called
 “prop drilling,” adding a prop to each layer between the two:
 
@@ -205,10 +205,10 @@ pub fn ButtonD(set_toggled: WriteSignal<bool>) -> impl IntoView {
 }
 ```
 
-This is a mess. "<Layout/>」 and 「<Content/>」 don’t need 「set_toggled"; they just
+This is a mess. "<Layout/>" and "<Content/>" don’t need "set_toggled"; they just
 pass it through to "<ButtonD/>". But I need to declare the prop in triplicate.
 This is not only annoying but hard to maintain: imagine we add a “half-toggled”
-option and the type of "set_toggled」 needs to change to an 「enum". We have to change
+option and the type of "set_toggled" needs to change to an "enum". We have to change
 it in three places!
 
 Isn’t there some way to skip levels?
@@ -258,7 +258,7 @@ pub fn ButtonD() -> impl IntoView {
 
 ```
 
-The same caveats apply to this as to "<ButtonA/>」: passing a 「WriteSignal"
+The same caveats apply to this as to "<ButtonA/>": passing a "WriteSignal"
 around should be done with caution, as it allows you to mutate state from
 arbitrary parts of your code. But when done carefully, this can be one of
 the most effective techniques for global state management in Leptos: simply
@@ -267,15 +267,15 @@ you need it lower down.
 
 Note that there are no performance downsides to this approach. Because you
 are passing a fine-grained reactive signal, _nothing happens_ in the intervening
-components ("<Layout/>」 and 「<Content/>") when you update it. You are communicating
-directly between "<ButtonD/>」 and 「<App/>". In fact—and this is the power of
+components ("<Layout/>" and "<Content/>") when you update it. You are communicating
+directly between "<ButtonD/>" and "<App/>". In fact—and this is the power of
 fine-grained reactivity—you are communicating directly between a button click
-in "<ButtonD/>」 and a single text node in 「<App/>". It’s as if the components
+in "<ButtonD/>" and a single text node in "<App/>". It’s as if the components
 themselves don’t exist at all. And, well... at runtime, they don’t. It’s just
 signals and effects, all the way down.
 
 Note that this approach makes an important tradeoff: You don't have type-safety
-anymore between "provide_context」 and 「use_context". Receiving the right context
+anymore between "provide_context" and "use_context". Receiving the right context
 in the child component is a runtime check (see "use_context.expect(...)"). The
 compiler won't guide you during a refactoring, as it does with the earlier approaches. 
 

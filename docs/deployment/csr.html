@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href=".././mdbook-admonish.css">
@@ -165,7 +165,7 @@
 <p>If you’ve been building an app that only uses client-side rendering, working with Trunk as a dev server and build tool, the process is quite easy.</p>
 <pre><code class="language-bash">trunk build --release
 </code></pre>
-<p>"trunk build」 will create a number of build artifacts in a 「dist/」 directory. Publishing 「dist" somewhere online should be all you need to deploy your app. This should work very similarly to deploying any JavaScript application.</p>
+<p>"trunk build" will create a number of build artifacts in a "dist/" directory. Publishing "dist" somewhere online should be all you need to deploy your app. This should work very similarly to deploying any JavaScript application.</p>
 <p>We've created several example repositories which show how to set up and deploy a Leptos CSR app to various hosting services.</p>
 <p><em>Note: Leptos does not endorse the use of any particular hosting service - feel free to use any service that supports static site deploys.</em></p>
 <p>Examples:</p>
@@ -294,20 +294,20 @@ jobs:
 <p>Retrieve your <a href="https://vercel.com/guides/how-do-i-use-a-vercel-api-access-token">Vercel Access Token</a> by going to "Account Settings" &gt; "Tokens" and creating a new token - save the token to use in sub-step 5, below.</p>
 </li>
 <li>
-<p>Install the <a href="https://vercel.com/cli">Vercel CLI</a> using the "npm i -g vercel」 command, then run 「vercel login" to login to your acccount.</p>
+<p>Install the <a href="https://vercel.com/cli">Vercel CLI</a> using the "npm i -g vercel" command, then run "vercel login" to login to your acccount.</p>
 </li>
 <li>
-<p>Inside your folder, run "vercel link」 to create a new Vercel project; in the CLI, you will be asked to 'Link to an existing project?' - answer yes, then enter the name you created in step 1. A new 「.vercel" folder will be created for you.</p>
+<p>Inside your folder, run "vercel link" to create a new Vercel project; in the CLI, you will be asked to 'Link to an existing project?' - answer yes, then enter the name you created in step 1. A new ".vercel" folder will be created for you.</p>
 </li>
 <li>
-<p>Inside the generated ".vercel」 folder, open the the 「project.json" file and save the "projectId" and "orgId" for the next step.</p>
+<p>Inside the generated ".vercel" folder, open the the "project.json" file and save the "projectId" and "orgId" for the next step.</p>
 </li>
 <li>
 <p>Inside GitHub, go the repo's "Settings" &gt; "Secrets and Variables" &gt; "Actions" and add the following as <a href="https://docs.github.com/en/actions/security-guides/encrypted-secrets">Repository secrets</a>:</p>
 <ul>
 <li>save your Vercel Access Token (from sub-step 1) as the "VERCEL_TOKEN" secret</li>
-<li>from the ".vercel/project.json」 add "projectID" as 「VERCEL_PROJECT_ID"</li>
-<li>from the ".vercel/project.json」 add "orgId" as 「VERCEL_ORG_ID"</li>
+<li>from the ".vercel/project.json" add "projectID" as "VERCEL_PROJECT_ID"</li>
+<li>from the ".vercel/project.json" add "orgId" as "VERCEL_ORG_ID"</li>
 </ul>
 </li>
 </ol>
@@ -760,6 +760,22 @@ Spin-Preview:
             }
         </script>
 
+        <!-- Google Analytics Tag -->
+        <script>
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'G-NC405ZPNF1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
 
 
         <script>
